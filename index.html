@@ -21,7 +21,6 @@
             background: var(--bg-body);
             color: var(--text-primary);
             padding-top: 72px;
-            /* espaço para navbar fixa */
         }
 
         /* ===== VARIÁVEIS ===== */
@@ -32,12 +31,15 @@
             --bg-input: #f8faff;
             --text-primary: #2c3e50;
             --text-secondary: #4a5f73;
+            --text-soft: #6a7f93;
             --border-soft: #d4e0ed;
             --shadow-soft: 0 8px 32px rgba(0, 20, 40, 0.08);
             --accent: #6c8eb2;
             --accent-hover: #5a7a9e;
             --glow: #a0c0dd66;
             --whatsapp: #25d366;
+            --gradient-start: #e8f0fa;
+            --gradient-end: #d4e4f5;
         }
 
         [data-theme="dark"] {
@@ -47,11 +49,14 @@
             --bg-input: #2a3749;
             --text-primary: #e8edf2;
             --text-secondary: #b0c4db;
+            --text-soft: #8aa0b8;
             --border-soft: #3a4a62;
             --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
             --accent: #8aafd4;
             --accent-hover: #a8c8e8;
             --glow: #6c8eb266;
+            --gradient-start: #1e2a3a;
+            --gradient-end: #16202e;
         }
 
         /* ===== NAVBAR ===== */
@@ -114,7 +119,6 @@
             align-items: center;
         }
 
-        /* ===== BOTÕES NAV ===== */
         .btn-icon {
             background: transparent;
             border: none;
@@ -134,9 +138,58 @@
         .btn-tts {
             font-size: 1.2rem;
         }
-
         .btn-theme {
             font-size: 1.3rem;
+        }
+        .btn-translate {
+            font-size: 1.2rem;
+        }
+
+        /* ===== DROPDOWN TRADUÇÃO ===== */
+        .translate-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .translate-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            min-width: 140px;
+            padding: 8px 0;
+            z-index: 1001;
+        }
+
+        .translate-dropdown-content.show {
+            display: block;
+        }
+
+        .translate-dropdown-content button {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+        }
+
+        .translate-dropdown-content button:hover {
+            background: var(--border-soft);
+            color: var(--accent);
+        }
+
+        .translate-dropdown-content .flag {
+            margin-right: 10px;
         }
 
         /* ===== WHATSAPP FLOATING ===== */
@@ -165,10 +218,10 @@
             box-shadow: 0 8px 32px rgba(37, 211, 102, 0.6);
         }
 
-        /* ===== MAIN CONTAINER ===== */
+        /* ===== CONTAINER ===== */
         .container {
             flex: 1;
-            max-width: 520px;
+            max-width: 580px;
             margin: 20px auto 40px;
             padding: 0 20px;
             width: 100%;
@@ -183,24 +236,105 @@
             box-shadow: var(--shadow-soft);
         }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
+        /* ===== TEXTO INSPIRADOR ===== */
+        .hero-text {
             text-align: center;
+            padding: 20px 0 12px 0;
+        }
+
+        .hero-text h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .hero-text .subtitle {
+            color: var(--text-soft);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .benefits-box {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 28px;
+            padding: 24px 22px;
+            margin: 20px 0 28px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .benefits-box h3 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .benefit-item {
+            background: var(--bg-card);
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid var(--border-soft);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .benefit-item .emoji {
+            font-size: 1.3rem;
+        }
+
+        .benefit-item.pro {
+            border-left: 3px solid #4caf84;
+        }
+
+        .benefit-item.con {
+            border-left: 3px solid #e89a9a;
+        }
+
+        .benefit-item strong {
             color: var(--text-primary);
         }
 
-        .sub {
+        @media (max-width: 500px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-text h1 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* ===== CALCULADORA ===== */
+        .calc-title {
+            font-size: 1.5rem;
+            font-weight: 600;
             text-align: center;
-            color: var(--text-secondary);
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .calc-sub {
+            text-align: center;
+            color: var(--text-soft);
             font-weight: 300;
-            letter-spacing: 2px;
             font-size: 0.9rem;
-            margin-top: -4px;
+            margin-bottom: 20px;
         }
 
         .input-group {
-            margin-top: 24px;
+            margin-top: 18px;
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -211,6 +345,7 @@
             font-weight: 500;
             display: flex;
             justify-content: space-between;
+            font-size: 0.95rem;
         }
 
         .input-group input[type="range"] {
@@ -244,7 +379,7 @@
         .double-input {
             display: flex;
             gap: 12px;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .double-input .input-group {
@@ -256,7 +391,7 @@
             margin-top: 28px;
             width: 100%;
             padding: 16px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             background: var(--accent);
             color: #fff;
@@ -299,7 +434,7 @@
         #resultado .msg {
             margin-top: 12px;
             font-size: 1rem;
-            opacity: 0.8;
+            opacity: 0.85;
             border-top: 1px solid var(--border-soft);
             padding-top: 12px;
             color: var(--text-secondary);
@@ -390,6 +525,13 @@
                 bottom: 20px;
                 right: 20px;
             }
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            .translate-dropdown-content {
+                right: -20px;
+                min-width: 120px;
+            }
         }
     </style>
 </head>
@@ -399,26 +541,82 @@
     <nav class="navbar" id="navbar">
         <div class="nav-logo">🌸 IMC</div>
         <ul class="nav-links">
-            <li><a href="#">Início</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#login">Login</a></li>
         </ul>
         <div class="nav-actions">
+            <!-- TRADUÇÃO -->
+            <div class="translate-dropdown">
+                <button class="btn-icon btn-translate" id="translateBtn" title="Traduzir página">🌐</button>
+                <div class="translate-dropdown-content" id="translateDropdown">
+                    <button data-lang="pt"><span class="flag">🇧🇷</span> Português</button>
+                    <button data-lang="en"><span class="flag">🇺🇸</span> English</button>
+                    <button data-lang="es"><span class="flag">🇪🇸</span> Español</button>
+                    <button data-lang="fr"><span class="flag">🇫🇷</span> Français</button>
+                    <button data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
+                </div>
+            </div>
+            <!-- LEITURA -->
             <button class="btn-icon btn-tts" id="ttsBtn" title="Ler resultado">🔊</button>
+            <!-- TEMA -->
             <button class="btn-icon btn-theme" id="themeBtn" title="Alternar tema">🌙</button>
         </div>
     </nav>
 
     <!-- ===== WHATSAPP ===== -->
-    <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20saber%20meu%20IMC!" target="_blank" class="whatsapp-float" title="Fale conosco no WhatsApp">
+    <a href="https://wa.me/258833470997?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20meu%20IMC%20e%20saúde!" 
+       target="_blank" 
+       class="whatsapp-float" 
+       title="Fale conosco no WhatsApp">
         💬
     </a>
 
     <!-- ===== CONTEÚDO ===== -->
-    <div class="container">
+    <div class="container" id="inicio">
         <div class="card">
-            <h1>🌿 IMC Suave</h1>
-            <div class="sub">calcule com calma 🌊</div>
+            <!-- TEXTO INSPIRADOR -->
+            <div class="hero-text">
+                <h1>🌿 Equilíbrio é a chave</h1>
+                <div class="subtitle">Entenda os benefícios e desafios de manter um peso saudável</div>
+            </div>
+
+            <div class="benefits-box">
+                <h3>💫 O que o peso ideal pode fazer por você</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item pro">
+                        <span class="emoji">❤️</span>
+                        <span><strong>Corpo mais leve</strong><br />Menos sobrecarga nas articulações</span>
+                    </div>
+                    <div class="benefit-item pro">
+                        <span class="emoji">🧠</span>
+                        <span><strong>Mente clara</strong><br />Melhor humor e autoestima</span>
+                    </div>
+                    <div class="benefit-item pro">
+                        <span class="emoji">💤</span>
+                        <span><strong>Sono reparador</strong><br />Menos apneia e cansaço</span>
+                    </div>
+                    <div class="benefit-item pro">
+                        <span class="emoji">🛡️</span>
+                        <span><strong>Imunidade forte</strong><br />Corpo mais resistente</span>
+                    </div>
+                    <div class="benefit-item con">
+                        <span class="emoji">⚠️</span>
+                        <span><strong>Desafio da constância</strong><br />Exige disciplina diária</span>
+                    </div>
+                    <div class="benefit-item con">
+                        <span class="emoji">🧘</span>
+                        <span><strong>Equilíbrio emocional</strong><br />Nem sempre é fácil manter</span>
+                    </div>
+                </div>
+                <p style="margin-top: 16px; font-size: 0.9rem; color: var(--text-soft); text-align: center; border-top: 1px solid var(--border-soft); padding-top: 14px;">
+                    🌱 Lembre-se: a saúde vai além do número na balança. O importante é se sentir bem consigo mesmo!
+                </p>
+            </div>
+
+            <!-- CALCULADORA -->
+            <div class="calc-title">📊 Calculadora IMC</div>
+            <div class="calc-sub">descubra seu índice com carinho</div>
 
             <div class="double-input">
                 <div class="input-group">
@@ -446,8 +644,10 @@
     </div>
 
     <!-- ===== RODAPÉ ===== -->
-    <footer>
+    <footer id="sobre">
         <strong>Rodrigues Siquisse</strong> &nbsp;·&nbsp; <span id="footerDate"></span>
+        <br />
+        <span style="font-size: 0.8rem; opacity: 0.6;">💙 Cuidar de si é um ato de amor</span>
     </footer>
 
     <script>
@@ -466,18 +666,21 @@
         const historicoDisplay = document.getElementById('historicoDisplay');
         const ttsBtn = document.getElementById('ttsBtn');
         const themeBtn = document.getElementById('themeBtn');
+        const translateBtn = document.getElementById('translateBtn');
+        const translateDropdown = document.getElementById('translateDropdown');
         const footerDate = document.getElementById('footerDate');
 
         let historico = [];
         let lastIMC = null;
         let lastClassif = '';
+        let lastMsg = '';
 
         // ===== DATA RODAPÉ =====
         const agora = new Date();
         const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         footerDate.textContent = `${agora.getFullYear()} · ${meses[agora.getMonth()]} ${agora.getDate()}`;
 
-        // ===== SINCRONIZA SLIDERS + INPUTS =====
+        // ===== SINCRONIZA =====
         function sincronizar() {
             const a = parseFloat(alturaSlider.value);
             const p = parseFloat(pesoSlider.value);
@@ -536,6 +739,7 @@
 
             lastIMC = imcFormatado;
             lastClassif = `${info.emoji} ${info.class}`;
+            lastMsg = info.msg;
 
             imcDisplay.textContent = `${info.emoji} ${imcFormatado}`;
             classifDisplay.textContent = info.class;
@@ -563,7 +767,7 @@
                 alert('Calcule seu IMC primeiro! 😊');
                 return;
             }
-            const texto = `Seu IMC é ${lastIMC}. Classificação: ${lastClassif}. ${msgDisplay.textContent}`;
+            const texto = `Seu IMC é ${lastIMC}. Classificação: ${lastClassif}. ${lastMsg}`;
             const utterance = new SpeechSynthesisUtterance(texto);
             utterance.lang = 'pt-BR';
             utterance.rate = 0.9;
@@ -571,7 +775,69 @@
             speechSynthesis.speak(utterance);
         });
 
-        // ===== TEMA ESCURO/CLARO =====
+        // ===== TRADUÇÃO =====
+        let currentLang = 'pt';
+
+        function traduzirPagina(lang) {
+            if (lang === 'pt') {
+                // Voltar ao original - recarregar a página
+                location.reload();
+                return;
+            }
+
+            // Usar Google Translate para traduzir a página
+            const script = document.createElement('script');
+            script.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+            document.head.appendChild(script);
+
+            window.googleTranslateElementInit = function() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'pt',
+                    includedLanguages: lang,
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                    autoDisplay: false
+                }, 'google_translate_element');
+                
+                // Forçar a tradução
+                const select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = lang;
+                    select.dispatchEvent(new Event('change'));
+                }
+            };
+
+            // Esconder o elemento de tradução do Google
+            const style = document.createElement('style');
+            style.textContent = `
+                .goog-te-banner-frame { display: none !important; }
+                #goog-gt-tt { display: none !important; }
+                .goog-te-gadget { display: none !important; }
+                .goog-tooltip { display: none !important; }
+                body { top: 0px !important; }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // ===== DROPDOWN TRADUÇÃO =====
+        translateBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            translateDropdown.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.translate-dropdown-content button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                translateDropdown.classList.remove('show');
+                traduzirPagina(lang);
+            });
+        });
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', () => {
+            translateDropdown.classList.remove('show');
+        });
+
+        // ===== TEMA =====
         let darkMode = false;
         themeBtn.addEventListener('click', () => {
             darkMode = !darkMode;
@@ -594,5 +860,8 @@
         // ===== INICIAL =====
         sincronizar();
     </script>
+
+    <!-- Elemento oculto para o Google Translate -->
+    <div id="google_translate_element" style="display:none;"></div>
 </body>
 </html>
