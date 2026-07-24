@@ -3,15 +3,27 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🌸 IMC Suave</title>
+    <title>📊 IMC Pro · Modern</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            transition: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -21,62 +33,118 @@
             background: var(--bg-body);
             color: var(--text-primary);
             padding-top: 72px;
+            font-weight: 400;
+            line-height: 1.6;
         }
 
-        /* ===== VARIÁVEIS ===== */
+        /* ============================================================
+           CORES
+           ============================================================ */
         :root {
-            --bg-body: #f0f4fa;
-            --bg-nav: #ffffffcc;
-            --bg-card: #ffffffdd;
-            --bg-input: #f8faff;
-            --text-primary: #2c3e50;
-            --text-secondary: #4a5f73;
-            --text-soft: #6a7f93;
-            --border-soft: #d4e0ed;
-            --shadow-soft: 0 8px 32px rgba(0, 20, 40, 0.08);
-            --accent: #6c8eb2;
-            --accent-hover: #5a7a9e;
-            --glow: #a0c0dd66;
-            --whatsapp: #25d366;
-            --gradient-start: #e8f0fa;
-            --gradient-end: #d4e4f5;
+            --bg-body: #f0f4f8;
+            --bg-glass: rgba(255, 255, 255, 0.6);
+            --bg-glass-hover: rgba(255, 255, 255, 0.8);
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --bg-input: rgba(255, 255, 255, 0.5);
+            --text-primary: #1a1a2e;
+            --text-secondary: #2d2d44;
+            --text-soft: #5a5a7a;
+            --border-glass: rgba(255, 255, 255, 0.3);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-neon: 0 0 30px rgba(79, 172, 254, 0.15);
+            --accent-1: #4facfe;
+            --accent-2: #00f2fe;
+            --accent-3: #a855f7;
+            --gradient-primary: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #a855f7 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(168, 85, 247, 0.1));
+            --glow-neon: 0 0 30px rgba(79, 172, 254, 0.2);
+            --footer-bg: rgba(26, 26, 46, 0.95);
+            --footer-text: #e8edf2;
+            --footer-accent: #4facfe;
         }
 
         [data-theme="dark"] {
-            --bg-body: #1a2330;
-            --bg-nav: #1e2a3acc;
-            --bg-card: #232f3fdd;
-            --bg-input: #2a3749;
+            --bg-body: #0d0d1a;
+            --bg-glass: rgba(20, 20, 40, 0.6);
+            --bg-glass-hover: rgba(30, 30, 50, 0.8);
+            --bg-card: rgba(20, 20, 40, 0.7);
+            --bg-input: rgba(30, 30, 50, 0.5);
             --text-primary: #e8edf2;
             --text-secondary: #b0c4db;
             --text-soft: #8aa0b8;
-            --border-soft: #3a4a62;
-            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --accent: #8aafd4;
-            --accent-hover: #a8c8e8;
-            --glow: #6c8eb266;
-            --gradient-start: #1e2a3a;
-            --gradient-end: #16202e;
+            --border-glass: rgba(79, 172, 254, 0.2);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-neon: 0 0 40px rgba(79, 172, 254, 0.1);
+            --glow-neon: 0 0 30px rgba(79, 172, 254, 0.15);
+            --footer-bg: rgba(10, 10, 20, 0.95);
+            --footer-text: #e8edf2;
+            --footer-accent: #4facfe;
         }
 
-        /* ===== NAVBAR ===== */
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-3));
+            border-radius: 20px;
+        }
+
+        /* ============================================================
+           BARRA DE PROGRESSO
+           ============================================================ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s ease;
+            box-shadow: var(--glow-neon);
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            height: 12px;
+            width: 12px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            filter: blur(4px);
+            opacity: 0.6;
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            background: var(--bg-nav);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-soft);
-            box-shadow: var(--shadow-soft);
-            padding: 0 24px;
-            height: 64px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 0 32px;
+            height: 68px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease,
+                background 0.4s ease;
+            box-shadow: var(--shadow-glass);
         }
 
         .navbar.hidden {
@@ -85,15 +153,18 @@
         }
 
         .nav-logo {
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: var(--accent);
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             letter-spacing: -0.5px;
         }
 
         .nav-links {
             display: flex;
-            gap: 28px;
+            gap: 32px;
             list-style: none;
             align-items: center;
         }
@@ -101,51 +172,80 @@
         .nav-links a {
             text-decoration: none;
             color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-weight: 600;
+            font-size: 0.85rem;
             padding: 6px 2px;
             border-bottom: 2px solid transparent;
-            transition: 0.25s;
+            transition: 0.3s;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .nav-links a:hover {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
+            color: var(--accent-1);
         }
 
         .nav-actions {
             display: flex;
-            gap: 12px;
+            gap: 6px;
             align-items: center;
         }
 
         .btn-icon {
-            background: transparent;
-            border: none;
-            font-size: 1.4rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            font-size: 1.1rem;
             cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 40px;
-            transition: 0.2s;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: 0.3s;
             color: var(--text-secondary);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .btn-icon:hover {
-            background: var(--border-soft);
-            transform: scale(1.05);
+            background: var(--bg-glass-hover);
+            color: var(--accent-1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-neon);
+            border-color: var(--accent-1);
         }
 
-        .btn-tts {
-            font-size: 1.2rem;
-        }
-        .btn-theme {
-            font-size: 1.3rem;
-        }
-        .btn-translate {
-            font-size: 1.2rem;
+        .reading-time {
+            font-size: 0.75rem;
+            color: var(--text-soft);
+            padding: 4px 14px;
+            background: var(--bg-glass);
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
         }
 
-        /* ===== DROPDOWN TRADUÇÃO ===== */
+        /* ============================================================
+           DROPDOWN
+           ============================================================ */
         .translate-dropdown {
             position: relative;
             display: inline-block;
@@ -155,186 +255,202 @@
             display: none;
             position: absolute;
             right: 0;
-            top: 40px;
-            background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-soft);
+            top: 48px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--border-glass);
             border-radius: 16px;
-            box-shadow: var(--shadow-soft);
-            min-width: 140px;
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
+            min-width: 170px;
             padding: 8px 0;
             z-index: 1001;
+            overflow: hidden;
         }
 
         .translate-dropdown-content.show {
             display: block;
+            animation: dropdownFade 0.3s ease;
+        }
+
+        @keyframes dropdownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .translate-dropdown-content button {
             display: block;
             width: 100%;
-            padding: 10px 20px;
+            padding: 10px 24px;
             background: transparent;
             border: none;
             color: var(--text-primary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             text-align: left;
             transition: 0.2s;
+            font-weight: 500;
         }
 
         .translate-dropdown-content button:hover {
-            background: var(--border-soft);
-            color: var(--accent);
+            background: var(--gradient-glass);
+            color: var(--accent-1);
         }
 
         .translate-dropdown-content .flag {
-            margin-right: 10px;
+            margin-right: 12px;
         }
 
-        /* ===== WHATSAPP FLOATING ===== */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            z-index: 999;
-            background: var(--whatsapp);
-            color: #fff;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.4rem;
-            text-decoration: none;
-            box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
-            transition: 0.3s;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1) rotate(-6deg);
-            box-shadow: 0 8px 32px rgba(37, 211, 102, 0.6);
-        }
-
-        /* ===== CONTAINER ===== */
+        /* ============================================================
+           CONTAINER
+           ============================================================ */
         .container {
             flex: 1;
-            max-width: 580px;
-            margin: 20px auto 40px;
+            max-width: 720px;
+            margin: 20px auto 50px;
             padding: 0 20px;
             width: 100%;
         }
 
         .card {
             background: var(--bg-card);
-            backdrop-filter: blur(8px);
-            border-radius: 40px;
-            padding: 36px 28px;
-            border: 1px solid var(--border-soft);
-            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 28px;
+            padding: 40px 36px;
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
         }
 
-        /* ===== TEXTO INSPIRADOR ===== */
+        /* ============================================================
+           HERO
+           ============================================================ */
         .hero-text {
             text-align: center;
-            padding: 20px 0 12px 0;
+            padding: 8px 0 4px 0;
         }
 
         .hero-text h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            font-size: 2.4rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+            letter-spacing: -1px;
         }
 
         .hero-text .subtitle {
             color: var(--text-soft);
-            font-size: 1rem;
-            font-weight: 300;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 2px;
         }
 
-        .benefits-box {
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            border-radius: 28px;
-            padding: 24px 22px;
-            margin: 20px 0 28px 0;
-            border-left: 4px solid var(--accent);
+        .hero-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--gradient-primary);
+            margin: 16px auto 20px;
+            border-radius: 4px;
         }
 
-        .benefits-box h3 {
+        /* ============================================================
+           BENEFÍCIOS
+           ============================================================ */
+        .benefits-section {
+            margin: 16px 0 28px 0;
+        }
+
+        .benefits-title {
             color: var(--text-primary);
-            font-size: 1.1rem;
-            margin-bottom: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+        .benefits-title .icon {
+            font-size: 1.4rem;
         }
 
-        .benefit-item {
-            background: var(--bg-card);
-            padding: 12px 14px;
-            border-radius: 16px;
-            border: 1px solid var(--border-soft);
-            font-size: 0.9rem;
+        .benefits-text p {
             color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 14px;
+            text-align: justify;
         }
 
-        .benefit-item .emoji {
-            font-size: 1.3rem;
+        .benefits-text p:last-child {
+            margin-bottom: 0;
         }
 
-        .benefit-item.pro {
-            border-left: 3px solid #4caf84;
-        }
-
-        .benefit-item.con {
-            border-left: 3px solid #e89a9a;
-        }
-
-        .benefit-item strong {
-            color: var(--text-primary);
-        }
-
-        @media (max-width: 500px) {
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-            .hero-text h1 {
-                font-size: 1.6rem;
-            }
-        }
-
-        /* ===== CALCULADORA ===== */
-        .calc-title {
-            font-size: 1.5rem;
+        .benefits-text .highlight {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: 600;
+        }
+
+        .benefits-image-wrapper {
+            margin: 20px 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--border-glass);
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
+            transition: 0.4s;
+        }
+
+        .benefits-image-wrapper:hover {
+            transform: scale(1.01);
+            box-shadow: var(--shadow-glass), 0 0 40px rgba(79, 172, 254, 0.15);
+        }
+
+        .benefits-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: 0.4s;
+        }
+
+        .benefits-image-wrapper:hover img {
+            transform: scale(1.02);
+        }
+
+        /* ============================================================
+           CALCULADORA
+           ============================================================ */
+        .calc-title {
+            font-size: 1.8rem;
+            font-weight: 800;
             text-align: center;
-            color: var(--text-primary);
-            margin-bottom: 4px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2px;
         }
 
         .calc-sub {
             text-align: center;
             color: var(--text-soft);
-            font-weight: 300;
+            font-weight: 400;
             font-size: 0.9rem;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
         }
 
         .input-group {
-            margin-top: 18px;
+            margin-top: 16px;
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -342,44 +458,70 @@
 
         .input-group label {
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             justify-content: space-between;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+        }
+
+        .input-group label span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
         .input-group input[type="range"] {
             width: 100%;
-            accent-color: var(--accent);
-            background: var(--border-soft);
-            height: 6px;
+            accent-color: var(--accent-1);
+            background: var(--bg-glass);
+            height: 4px;
             border-radius: 20px;
             margin-top: 4px;
             cursor: pointer;
+            border: 1px solid var(--border-glass);
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            cursor: pointer;
+            box-shadow: var(--glow-neon);
+            transition: 0.3s;
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
         }
 
         .input-group input[type="number"] {
             background: var(--bg-input);
-            border: 2px solid var(--border-soft);
-            border-radius: 60px;
-            padding: 12px 18px;
-            font-size: 1rem;
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 14px 18px;
+            font-size: 1.05rem;
             color: var(--text-primary);
             outline: none;
             transition: 0.3s;
-            font-weight: 500;
+            font-weight: 600;
             width: 100%;
         }
 
         .input-group input[type="number"]:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px var(--glow);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), var(--glow-neon);
+            background: var(--bg-glass-hover);
         }
 
         .double-input {
             display: flex;
-            gap: 12px;
-            margin-top: 6px;
+            gap: 16px;
+            margin-top: 4px;
         }
 
         .double-input .input-group {
@@ -390,43 +532,67 @@
         .btn-calcular {
             margin-top: 28px;
             width: 100%;
-            padding: 16px;
-            font-size: 1.2rem;
+            padding: 18px;
+            font-size: 1.15rem;
             font-weight: 700;
-            background: var(--accent);
+            background: var(--gradient-primary);
             color: #fff;
             border: none;
-            border-radius: 60px;
+            border-radius: 16px;
             cursor: pointer;
-            transition: 0.25s;
-            box-shadow: 0 4px 16px var(--glow);
+            transition: 0.4s;
+            box-shadow: var(--shadow-neon), var(--glow-neon);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-calcular::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.6s;
+        }
+
+        .btn-calcular:hover::before {
+            left: 100%;
         }
 
         .btn-calcular:hover {
-            background: var(--accent-hover);
-            transform: scale(1.01);
-            box-shadow: 0 6px 24px var(--glow);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 40px rgba(79, 172, 254, 0.4), var(--glow-neon);
         }
 
-        /* ===== RESULTADO ===== */
+        /* ============================================================
+           RESULTADO
+           ============================================================ */
         #resultado {
             margin-top: 28px;
-            background: var(--bg-input);
-            border-radius: 32px;
-            padding: 24px 20px;
-            border-left: 6px solid var(--accent);
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 24px 24px;
+            border: 1px solid var(--border-glass);
             min-height: 100px;
         }
 
         #resultado .imc {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--text-primary);
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         #resultado .classif {
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-secondary);
             margin-top: 2px;
         }
@@ -434,10 +600,11 @@
         #resultado .msg {
             margin-top: 12px;
             font-size: 1rem;
-            opacity: 0.85;
-            border-top: 1px solid var(--border-soft);
+            opacity: 0.8;
+            border-top: 2px solid var(--border-glass);
             padding-top: 12px;
             color: var(--text-secondary);
+            font-style: italic;
         }
 
         .historico {
@@ -446,213 +613,1176 @@
             font-size: 0.85rem;
             max-height: 100px;
             overflow-y: auto;
-            border-top: 1px solid var(--border-soft);
+            border-top: 2px solid var(--border-glass);
             padding-top: 14px;
         }
 
         .historico span {
             display: inline-block;
-            background: var(--bg-input);
+            background: var(--bg-glass);
+            backdrop-filter: blur(8px);
             padding: 4px 16px;
-            border-radius: 40px;
-            margin: 4px 6px 4px 0;
-            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            margin: 4px 8px 4px 0;
+            border: 1px solid var(--border-glass);
             font-size: 0.8rem;
+            font-weight: 500;
         }
 
-        /* ===== RODAPÉ ===== */
+        /* ============================================================
+           BOTÃO VOLTAR AO TOPO
+           ============================================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            left: 28px;
+            z-index: 998;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: var(--shadow-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .back-to-top:hover {
+            background: var(--bg-glass-hover);
+            color: var(--accent-1);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-neon), var(--glow-neon);
+        }
+
+        /* ============================================================
+           ASSISTENTE IA - CHAT
+           ============================================================ */
+        .chat-toggle {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: #fff;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-neon), var(--glow-neon);
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulseChat 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseChat {
+            0%,
+            100% {
+                box-shadow: var(--shadow-neon), var(--glow-neon);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(79, 172, 254, 0.4), var(--glow-neon);
+            }
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1) rotate(-6deg);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 28px;
+            z-index: 998;
+            width: 380px;
+            max-width: calc(100vw - 56px);
+            height: 500px;
+            max-height: 70vh;
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: chatOpen 0.4s ease;
+        }
+
+        .chat-window.open {
+            display: flex;
+        }
+
+        @keyframes chatOpen {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .chat-header {
+            padding: 16px 20px;
+            background: var(--gradient-primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .chat-header .close-chat {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .chat-header .close-chat:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 16px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 10px 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            animation: msgFade 0.3s ease;
+        }
+
+        @keyframes msgFade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-message.bot {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.user {
+            background: var(--gradient-primary);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .chat-message .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-soft);
+            animation: typing 1.4s ease-in-out infinite;
+        }
+
+        .chat-message .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .chat-message .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+
+        .chat-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+            background: var(--bg-glass);
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15);
+        }
+
+        .chat-input-area button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .chat-input-area button:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-suggestions {
+            padding: 8px 16px 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            flex-shrink: 0;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .chat-suggestions button {
+            padding: 4px 14px;
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .chat-suggestions button:hover {
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            box-shadow: var(--shadow-neon);
+        }
+
+        /* ============================================================
+           RODAPÉ
+           ============================================================ */
         footer {
             margin-top: auto;
-            background: var(--bg-nav);
+            background: var(--footer-bg);
             backdrop-filter: blur(12px);
-            border-top: 1px solid var(--border-soft);
-            padding: 20px 24px;
+            border-top: 2px solid rgba(79, 172, 254, 0.15);
+            padding: 32px 24px;
             text-align: center;
-            color: var(--text-secondary);
+            color: var(--footer-text);
             font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        footer strong {
-            color: var(--accent);
-            font-weight: 600;
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            animation: shimmerFooter 4s ease-in-out infinite;
+            background-size: 200% 100%;
         }
 
-        /* ===== SCROLL ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-body);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 20px;
+        @keyframes shimmerFooter {
+            0%,
+            100% {
+                background-position: -200% 0;
+            }
+            50% {
+                background-position: 200% 0;
+            }
         }
 
-        /* ===== RESPONSIVE ===== */
+        footer .footer-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        footer .footer-divider {
+            display: inline-block;
+            margin: 0 14px;
+            color: var(--footer-text);
+            opacity: 0.3;
+        }
+
+        footer .footer-date {
+            color: var(--footer-text);
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        footer .footer-clock {
+            display: block;
+            margin-top: 6px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--footer-accent);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 2px;
+        }
+
+        footer .footer-msg {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        footer .footer-love {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            opacity: 0.3;
+            letter-spacing: 2px;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 600px) {
             .navbar {
                 padding: 0 16px;
-                height: 58px;
+                height: 60px;
             }
             .nav-links {
                 gap: 14px;
             }
             .nav-links a {
-                font-size: 0.8rem;
+                font-size: 0.7rem;
+                letter-spacing: 0.5px;
             }
             .nav-logo {
                 font-size: 1.1rem;
             }
             .btn-icon {
-                font-size: 1.1rem;
-                padding: 4px 6px;
+                font-size: 0.95rem;
+                padding: 6px 10px;
             }
             .container {
                 padding: 0 12px;
             }
             .card {
                 padding: 24px 16px;
+                border-radius: 20px;
             }
             .double-input {
                 flex-direction: column;
                 gap: 8px;
             }
-            .whatsapp-float {
+            .hero-text h1 {
+                font-size: 1.8rem;
+            }
+            .calc-title {
+                font-size: 1.4rem;
+            }
+            #resultado .imc {
+                font-size: 2.4rem;
+            }
+            #resultado .classif {
+                font-size: 1.2rem;
+            }
+            .chat-window {
+                width: calc(100vw - 32px);
+                right: 16px;
+                bottom: 90px;
+                height: 400px;
+            }
+            .chat-toggle {
                 width: 52px;
                 height: 52px;
-                font-size: 2rem;
+                font-size: 1.5rem;
                 bottom: 20px;
                 right: 20px;
             }
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-            .translate-dropdown-content {
-                right: -20px;
-                min-width: 120px;
+            .back-to-top {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+                bottom: 20px;
+                left: 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+    <!-- ============================================================
+    BARRA DE PROGRESSO
+    ============================================================ -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
     <nav class="navbar" id="navbar">
-        <div class="nav-logo">🌸 IMC</div>
+        <div class="nav-logo" id="navLogo">📊 IMC<span style="-webkit-text-fill-color: transparent;">Pro</span></div>
         <ul class="nav-links">
-            <li><a href="#inicio">Início</a></li>
-            <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#login">Login</a></li>
+            <li><a id="navInicio">Início</a></li>
+            <li><a id="navSobre">Sobre</a></li>
+            <li><a id="navLogin">Login</a></li>
         </ul>
         <div class="nav-actions">
-            <!-- TRADUÇÃO -->
+            <span class="reading-time" id="readingTime">⏱️ <span id="timeDisplay">3</span> min</span>
             <div class="translate-dropdown">
-                <button class="btn-icon btn-translate" id="translateBtn" title="Traduzir página">🌐</button>
+                <button class="btn-icon btn-translate" id="translateBtn">🌐</button>
                 <div class="translate-dropdown-content" id="translateDropdown">
-                    <button data-lang="pt"><span class="flag">🇧🇷</span> Português</button>
+                    <button data-lang="pt"><span class="flag">🇵🇹</span> Português</button>
                     <button data-lang="en"><span class="flag">🇺🇸</span> English</button>
                     <button data-lang="es"><span class="flag">🇪🇸</span> Español</button>
                     <button data-lang="fr"><span class="flag">🇫🇷</span> Français</button>
                     <button data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
+                    <button data-lang="de"><span class="flag">🇩🇪</span> Deutsch</button>
+                    <button data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
                 </div>
             </div>
-            <!-- LEITURA -->
-            <button class="btn-icon btn-tts" id="ttsBtn" title="Ler resultado">🔊</button>
-            <!-- TEMA -->
-            <button class="btn-icon btn-theme" id="themeBtn" title="Alternar tema">🌙</button>
+            <button class="btn-icon btn-theme" id="themeBtn">🌙</button>
         </div>
     </nav>
 
-    <!-- ===== WHATSAPP ===== -->
-    <a href="https://wa.me/258833470997?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20meu%20IMC%20e%20saúde!" 
-       target="_blank" 
-       class="whatsapp-float" 
-       title="Fale conosco no WhatsApp">
-        💬
-    </a>
-
-    <!-- ===== CONTEÚDO ===== -->
+    <!-- ============================================================
+    CONTEÚDO
+    ============================================================ -->
     <div class="container" id="inicio">
         <div class="card">
-            <!-- TEXTO INSPIRADOR -->
+
+            <!-- HERO -->
             <div class="hero-text">
-                <h1>🌿 Equilíbrio é a chave</h1>
-                <div class="subtitle">Entenda os benefícios e desafios de manter um peso saudável</div>
+                <h1 id="heroTitle">📊 IMC <span style="-webkit-text-fill-color: transparent;">Profissional</span></h1>
+                <div class="subtitle" id="heroSub">Avalie sua saúde com precisão e estilo</div>
+                <div class="hero-divider"></div>
             </div>
 
-            <div class="benefits-box">
-                <h3>💫 O que o peso ideal pode fazer por você</h3>
-                <div class="benefits-grid">
-                    <div class="benefit-item pro">
-                        <span class="emoji">❤️</span>
-                        <span><strong>Corpo mais leve</strong><br />Menos sobrecarga nas articulações</span>
-                    </div>
-                    <div class="benefit-item pro">
-                        <span class="emoji">🧠</span>
-                        <span><strong>Mente clara</strong><br />Melhor humor e autoestima</span>
-                    </div>
-                    <div class="benefit-item pro">
-                        <span class="emoji">💤</span>
-                        <span><strong>Sono reparador</strong><br />Menos apneia e cansaço</span>
-                    </div>
-                    <div class="benefit-item pro">
-                        <span class="emoji">🛡️</span>
-                        <span><strong>Imunidade forte</strong><br />Corpo mais resistente</span>
-                    </div>
-                    <div class="benefit-item con">
-                        <span class="emoji">⚠️</span>
-                        <span><strong>Desafio da constância</strong><br />Exige disciplina diária</span>
-                    </div>
-                    <div class="benefit-item con">
-                        <span class="emoji">🧘</span>
-                        <span><strong>Equilíbrio emocional</strong><br />Nem sempre é fácil manter</span>
-                    </div>
+            <!-- BENEFÍCIOS -->
+            <div class="benefits-section">
+                <div class="benefits-title">
+                    <span class="icon">💡</span>
+                    <span id="benefitsTitle">Benefícios do Peso Adequado</span>
                 </div>
-                <p style="margin-top: 16px; font-size: 0.9rem; color: var(--text-soft); text-align: center; border-top: 1px solid var(--border-soft); padding-top: 14px;">
-                    🌱 Lembre-se: a saúde vai além do número na balança. O importante é se sentir bem consigo mesmo!
-                </p>
+                <div class="benefits-text">
+                    <p id="p1">
+                        <span style="font-size:1.1rem;">✨</span> Manter um peso saudável é essencial para uma melhor qualidade de vida.
+                        Quando o <span class="highlight">Índice de Massa Corporal (IMC)</span> está adequado,
+                        seu corpo funciona melhor e o risco de doenças diminui.
+                    </p>
+
+                    <div class="benefits-image-wrapper">
+                        <img src="https://github.com/RodrigueJoaossiquisse/IMC/raw/main/Gemini_Generated_Image_n7tmqfn7tmqfn7tm.jpg"
+                        alt="Saúde e bem-estar"
+                        loading="lazy"
+                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22400%22%3E%3Crect fill=%22%232d2d44%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22%23ffffff%22 font-family=%22system-ui%22 font-size=%2230%22%3E🌸 Saúde%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <p id="p2">
+                        <span style="font-size:1.1rem;">🎯</span> Pequenas mudanças no estilo de vida trazem <span class="highlight">grandes benefícios</span>:
+                        mais disposição, saúde mental em dia, prevenção de doenças e muito mais.
+                        Cuide de você com carinho!
+                    </p>
+                </div>
             </div>
 
             <!-- CALCULADORA -->
-            <div class="calc-title">📊 Calculadora IMC</div>
-            <div class="calc-sub">descubra seu índice com carinho</div>
+            <div class="calc-title" id="calcTitle">📊 Calculadora IMC</div>
+            <div class="calc-sub" id="calcSub">Descubra seu índice de forma rápida e precisa</div>
 
             <div class="double-input">
                 <div class="input-group">
-                    <label>📏 Altura (m) <span id="alturaValor">1.75</span></label>
+                    <label id="labelAltura">📏 Altura (m) <span id="alturaValor">1.75</span></label>
                     <input type="range" id="alturaSlider" min="1.00" max="2.50" step="0.01" value="1.75" />
                     <input type="number" id="alturaInput" step="0.01" value="1.75" />
                 </div>
                 <div class="input-group">
-                    <label>⚖️ Peso (kg) <span id="pesoValor">70</span></label>
+                    <label id="labelPeso">⚖️ Peso (kg) <span id="pesoValor">70</span></label>
                     <input type="range" id="pesoSlider" min="20" max="200" step="1" value="70" />
                     <input type="number" id="pesoInput" step="1" value="70" />
                 </div>
             </div>
 
-            <button class="btn-calcular" id="calcularBtn">✨ Calcular</button>
+            <button class="btn-calcular" id="calcularBtn">📊 Calcular IMC</button>
 
             <div id="resultado">
                 <div class="imc" id="imcDisplay">--</div>
                 <div class="classif" id="classifDisplay">Aguardando...</div>
-                <div class="msg" id="msgDisplay">💭 preencha os dados e clique</div>
+                <div class="msg" id="msgDisplay">💭 Preencha os dados e clique em calcular</div>
             </div>
 
-            <div class="historico" id="historicoDisplay">📋 histórico:</div>
+            <div class="historico" id="historicoDisplay">📋 Histórico:</div>
         </div>
     </div>
 
-    <!-- ===== RODAPÉ ===== -->
+    <!-- ============================================================
+    BOTÃO VOLTAR AO TOPO
+    ============================================================ -->
+    <button class="back-to-top" id="backToTop" title="Voltar ao topo">⬆</button>
+
+    <!-- ============================================================
+    ASSISTENTE IA - CHAT
+    ============================================================ -->
+    <button class="chat-toggle" id="chatToggle" title="Assistente IA">🤖</button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span id="chatTitle">🤖 Assistente IMC</span>
+            <button class="close-chat" id="closeChat">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot" id="chatGreeting">
+                👋 Olá! Sou seu assistente de saúde. Pergunte sobre IMC, alimentação, exercícios e bem-estar!
+            </div>
+        </div>
+        <div class="chat-suggestions" id="chatSuggestions">
+            <button data-question="O que é IMC?">📊 O que é IMC?</button>
+            <button data-question="Como calcular meu IMC?">🧮 Como calcular?</button>
+            <button data-question="Qual o IMC ideal?">🎯 IMC ideal</button>
+            <button data-question="O que fazer se estou acima do peso?">⚠️ Sobrepeso</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Digite sua pergunta..." />
+            <button id="chatSend">Enviar</button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    RODAPÉ - COM RELÓGIO
+    ============================================================ -->
     <footer id="sobre">
-        <strong>Rodrigues Siquisse</strong> &nbsp;·&nbsp; <span id="footerDate"></span>
-        <br />
-        <span style="font-size: 0.8rem; opacity: 0.6;">💙 Cuidar de si é um ato de amor</span>
+        <div>
+            <span class="footer-name">Rodrigues Siquisse</span>
+            <span class="footer-divider">◆</span>
+            <span class="footer-date" id="footerDate"></span>
+        </div>
+        <div class="footer-clock" id="footerClock">⏰ 00:00:00</div>
+        <div class="footer-msg" id="footerMsg">◆ Compromisso com sua saúde ◆</div>
+        <div class="footer-love" id="footerLove">📊 IMC Profissional · Todos os direitos reservados</div>
     </footer>
 
     <script>
-        // ===== ELEMENTOS =====
+        // ============================================================
+        // DICIONÁRIO COMPLETO - TODOS OS IDIOMAS
+        // ============================================================
+        const translations = {
+            pt: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Início',
+                navSobre: 'Sobre',
+                navLogin: 'Login',
+                heroTitle: '📊 IMC Profissional',
+                heroSub: 'Avalie sua saúde com precisão e estilo',
+                benefitsTitle: '💡 Benefícios do Peso Adequado',
+                p1: '✨ Manter um peso saudável é essencial para uma melhor qualidade de vida. Quando o Índice de Massa Corporal (IMC) está adequado, seu corpo funciona melhor e o risco de doenças diminui.',
+                p2: '🎯 Pequenas mudanças no estilo de vida trazem grandes benefícios: mais disposição, saúde mental em dia, prevenção de doenças e muito mais. Cuide de você com carinho!',
+                calcTitle: '📊 Calculadora IMC',
+                calcSub: 'Descubra seu índice de forma rápida e precisa',
+                labelAltura: '📏 Altura (m)',
+                labelPeso: '⚖️ Peso (kg)',
+                btnCalcular: '📊 Calcular IMC',
+                imcPlaceholder: '--',
+                classifPlaceholder: 'Aguardando...',
+                msgPlaceholder: '💭 Preencha os dados e clique em calcular',
+                historico: '📋 Histórico:',
+                footerMsg: '◆ Compromisso com sua saúde ◆',
+                footerLove: '📊 IMC Profissional · Todos os direitos reservados',
+                chatTitle: '🤖 Assistente IMC',
+                chatGreeting: '👋 Olá! Sou seu assistente de saúde. Pergunte sobre IMC, alimentação, exercícios e bem-estar!',
+                chatPlaceholder: 'Digite sua pergunta...',
+                chatSend: 'Enviar',
+                // Sugestões do chat
+                sug1: '📊 O que é IMC?',
+                sug2: '🧮 Como calcular meu IMC?',
+                sug3: '🎯 Qual o IMC ideal?',
+                sug4: '⚠️ O que fazer se estou acima do peso?',
+                // Classificações
+                c1: 'Magreza Grave',
+                c1msg: 'Procure orientação médica imediatamente',
+                c2: 'Magreza Moderada',
+                c2msg: 'Consulte um nutricionista',
+                c3: 'Magreza Leve',
+                c3msg: 'Avalie sua alimentação com um profissional',
+                c4: 'Peso Normal',
+                c4msg: 'Parabéns! Mantenha hábitos saudáveis',
+                c5: 'Sobrepeso',
+                c5msg: 'Considere aumentar a atividade física',
+                c6: 'Obesidade Grau I',
+                c6msg: 'Busque acompanhamento médico e nutricional',
+                c7: 'Obesidade Grau II',
+                c7msg: 'Acompanhamento profissional é essencial',
+                c8: 'Obesidade Grau III',
+                c8msg: 'Procure ajuda médica especializada',
+                error: 'Dados inválidos',
+                errorMsg: 'Insira valores válidos',
+                // Saudações
+                saudacao_oi: 'Olá! Como posso ajudar você hoje? 😊',
+                saudacao_ola: 'Olá! Como posso ajudar você hoje? 😊',
+                saudacao_tchau: 'Até logo! Cuide-se! 😊',
+                saudacao_bomdia: 'Bom dia! 🌞 Como posso ajudar?',
+                saudacao_boatarde: 'Boa tarde! 🌤️ Como posso ajudar?',
+                saudacao_boanoite: 'Boa noite! 🌙 Como posso ajudar?',
+                saudacao_comoesta: 'Estou bem, obrigado por perguntar! 😊 E você?',
+                saudacao_tudobem: 'Tudo bem sim! Como posso ajudar você hoje? 😊',
+                saudacao_obrigado: 'Por nada! 😊 Estou aqui para ajudar!',
+                saudacao_valeu: 'Disponha! 😊',
+                // Perguntas e respostas
+                q1: 'O que é IMC?',
+                a1: 'IMC significa Índice de Massa Corporal. É uma medida usada para avaliar se uma pessoa está com peso adequado, abaixo ou acima do ideal. É calculado dividindo o peso pela altura ao quadrado.',
+                q2: 'Como calcular meu IMC?',
+                a2: 'Para calcular seu IMC, divida seu peso (em kg) pela sua altura (em metros) elevada ao quadrado. Exemplo: 70kg ÷ (1,75m × 1,75m) = 22,86.',
+                q3: 'Qual o IMC ideal?',
+                a3: 'O IMC ideal está entre 18,5 e 24,9. Abaixo de 18,5 é considerado baixo peso. Entre 25 e 29,9 é sobrepeso. Acima de 30 é obesidade.',
+                q4: 'O que fazer se estou acima do peso?',
+                a4: 'Recomenda-se: 1) Consultar um médico 2) Adotar uma alimentação equilibrada 3) Praticar exercícios 4) Dormir bem 5) Evitar processados.',
+                q5: 'Quais os benefícios do peso saudável?',
+                a5: 'Maior disposição, coração saudável, melhor sono, autoestima elevada, menos doenças crônicas, mais energia e melhor saúde mental.',
+                q6: 'Como perder peso de forma saudável?',
+                a6: '1) Déficit calórico moderado 2) Alimentação rica em proteínas e fibras 3) Exercícios 4) Beber água 5) Dormir 7-8 horas 6) Evitar açúcar.',
+                q7: 'Qual a importância da alimentação?',
+                a7: 'A alimentação fornece energia, nutrientes e vitaminas. Previne doenças, fortalece a imunidade, melhora o humor e a qualidade de vida.',
+                q8: 'O que é obesidade?',
+                a8: 'Obesidade é o acúmulo excessivo de gordura corporal, com IMC ≥ 30. É fator de risco para diabetes, hipertensão e problemas cardíacos.',
+                q9: 'Como manter o peso ideal?',
+                a9: '1) Alimentação equilibrada 2) Exercícios 3) Controle de porções 4) Hidratação 5) Sono de qualidade 6) Gestão do estresse.',
+                q10: 'Quais exercícios fazer?',
+                a10: 'Caminhada, corrida, natação, ciclismo, musculação, yoga, pilates, dança e esportes. Escolha algo que goste e faça regularmente.'
+            },
+            en: {
+                navLogo: '📊 BMIPro',
+                navInicio: 'Home',
+                navSobre: 'About',
+                navLogin: 'Login',
+                heroTitle: '📊 BMI Professional',
+                heroSub: 'Evaluate your health with precision and style',
+                benefitsTitle: '💡 Benefits of Adequate Weight',
+                p1: '✨ Maintaining a healthy weight is essential for a better quality of life. When the Body Mass Index (BMI) is adequate, your body works better and the risk of diseases decreases.',
+                p2: '🎯 Small lifestyle changes bring great benefits: more energy, mental health, disease prevention and much more. Take care of yourself with love!',
+                calcTitle: '📊 BMI Calculator',
+                calcSub: 'Discover your index quickly and accurately',
+                labelAltura: '📏 Height (m)',
+                labelPeso: '⚖️ Weight (kg)',
+                btnCalcular: '📊 Calculate BMI',
+                imcPlaceholder: '--',
+                classifPlaceholder: 'Waiting...',
+                msgPlaceholder: '💭 Fill in the data and click calculate',
+                historico: '📋 History:',
+                footerMsg: '◆ Commitment to your health ◆',
+                footerLove: '📊 BMI Professional · All rights reserved',
+                chatTitle: '🤖 BMI Assistant',
+                chatGreeting: '👋 Hello! I\'m your health assistant. Ask about BMI, nutrition, exercise and wellness!',
+                chatPlaceholder: 'Type your question...',
+                chatSend: 'Send',
+                sug1: '📊 What is BMI?',
+                sug2: '🧮 How to calculate my BMI?',
+                sug3: '🎯 What is the ideal BMI?',
+                sug4: '⚠️ What if I am overweight?',
+                c1: 'Severe Thinness',
+                c1msg: 'Seek medical guidance immediately',
+                c2: 'Moderate Thinness',
+                c2msg: 'Consult a nutritionist',
+                c3: 'Mild Thinness',
+                c3msg: 'Evaluate your diet with a professional',
+                c4: 'Normal Weight',
+                c4msg: 'Congratulations! Keep healthy habits',
+                c5: 'Overweight',
+                c5msg: 'Consider increasing physical activity',
+                c6: 'Obesity Grade I',
+                c6msg: 'Seek medical and nutritional follow-up',
+                c7: 'Obesity Grade II',
+                c7msg: 'Professional follow-up is essential',
+                c8: 'Obesity Grade III',
+                c8msg: 'Seek specialized medical help',
+                error: 'Invalid data',
+                errorMsg: 'Enter valid values',
+                saudacao_oi: 'Hello! How can I help you today? 😊',
+                saudacao_ola: 'Hello! How can I help you today? 😊',
+                saudacao_tchau: 'Goodbye! Take care! 😊',
+                saudacao_bomdia: 'Good morning! 🌞 How can I help?',
+                saudacao_boatarde: 'Good afternoon! 🌤️ How can I help?',
+                saudacao_boanoite: 'Good evening! 🌙 How can I help?',
+                saudacao_comoesta: 'I\'m fine, thanks for asking! 😊 And you?',
+                saudacao_tudobem: 'All good! How can I help you today? 😊',
+                saudacao_obrigado: 'You\'re welcome! 😊 I\'m here to help!',
+                saudacao_valeu: 'You\'re welcome! 😊',
+                q1: 'What is BMI?',
+                a1: 'BMI stands for Body Mass Index. It is a measure used to assess if a person is at an adequate weight, below or above ideal. It is calculated by dividing weight by height squared.',
+                q2: 'How to calculate my BMI?',
+                a2: 'To calculate your BMI, divide your weight (in kg) by your height (in meters) squared. Example: 70kg ÷ (1.75m × 1.75m) = 22.86.',
+                q3: 'What is the ideal BMI?',
+                a3: 'The ideal BMI is between 18.5 and 24.9. Below 18.5 is underweight. Between 25 and 29.9 is overweight. Above 30 is obesity.',
+                q4: 'What to do if I am overweight?',
+                a4: 'Recommendations: 1) See a doctor 2) Eat a balanced diet 3) Exercise 4) Sleep well 5) Avoid processed foods.',
+                q5: 'What are the benefits of a healthy weight?',
+                a5: 'More energy, healthy heart, better sleep, high self-esteem, fewer chronic diseases, more energy and better mental health.',
+                q6: 'How to lose weight healthily?',
+                a6: '1) Moderate calorie deficit 2) High protein and fiber diet 3) Exercise 4) Drink water 5) Sleep 7-8 hours 6) Avoid sugar.',
+                q7: 'Why is nutrition important?',
+                a7: 'Nutrition provides energy, nutrients and vitamins. Prevents diseases, strengthens immunity, improves mood and quality of life.',
+                q8: 'What is obesity?',
+                a8: 'Obesity is excessive body fat accumulation, with BMI ≥ 30. It is a risk factor for diabetes, hypertension and heart problems.',
+                q9: 'How to maintain ideal weight?',
+                a9: '1) Balanced diet 2) Exercise 3) Portion control 4) Hydration 5) Quality sleep 6) Stress management.',
+                q10: 'What exercises to do?',
+                a10: 'Walking, running, swimming, cycling, weight training, yoga, pilates, dance and sports. Choose something you enjoy and do it regularly.'
+            },
+            es: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Inicio',
+                navSobre: 'Sobre',
+                navLogin: 'Iniciar sesión',
+                heroTitle: '📊 IMC Profesional',
+                heroSub: 'Evalúa tu salud con precisión y estilo',
+                benefitsTitle: '💡 Beneficios del Peso Adecuado',
+                p1: '✨ Mantener un peso saludable es esencial para una mejor calidad de vida. Cuando el Índice de Masa Corporal (IMC) es adecuado, tu cuerpo funciona mejor y el riesgo de enfermedades disminuye.',
+                p2: '🎯 Pequeños cambios en el estilo de vida traen grandes beneficios: más energía, salud mental, prevención de enfermedades y mucho más. ¡Cuídate con cariño!',
+                calcTitle: '📊 Calculadora IMC',
+                calcSub: 'Descubre tu índice de forma rápida y precisa',
+                labelAltura: '📏 Altura (m)',
+                labelPeso: '⚖️ Peso (kg)',
+                btnCalcular: '📊 Calcular IMC',
+                imcPlaceholder: '--',
+                classifPlaceholder: 'Esperando...',
+                msgPlaceholder: '💭 Completa los datos y haz clic en calcular',
+                historico: '📋 Historial:',
+                footerMsg: '◆ Compromiso con tu salud ◆',
+                footerLove: '📊 IMC Profesional · Todos los derechos reservados',
+                chatTitle: '🤖 Asistente IMC',
+                chatGreeting: '👋 ¡Hola! Soy tu asistente de salud. ¡Pregunta sobre IMC, alimentación, ejercicio y bienestar!',
+                chatPlaceholder: 'Escribe tu pregunta...',
+                chatSend: 'Enviar',
+                sug1: '📊 ¿Qué es el IMC?',
+                sug2: '🧮 ¿Cómo calcular mi IMC?',
+                sug3: '🎯 ¿Cuál es el IMC ideal?',
+                sug4: '⚠️ ¿Qué hacer si tengo sobrepeso?',
+                c1: 'Delgadez Severa',
+                c1msg: 'Busca orientación médica inmediatamente',
+                c2: 'Delgadez Moderada',
+                c2msg: 'Consulta a un nutricionista',
+                c3: 'Delgadez Leve',
+                c3msg: 'Evalúa tu alimentación con un profesional',
+                c4: 'Peso Normal',
+                c4msg: '¡Felicidades! Mantén hábitos saludables',
+                c5: 'Sobrepeso',
+                c5msg: 'Considera aumentar la actividad física',
+                c6: 'Obesidad Grado I',
+                c6msg: 'Busca seguimiento médico y nutricional',
+                c7: 'Obesidad Grado II',
+                c7msg: 'El seguimiento profesional es esencial',
+                c8: 'Obesidad Grado III',
+                c8msg: 'Busca ayuda médica especializada',
+                error: 'Datos inválidos',
+                errorMsg: 'Ingresa valores válidos',
+                saudacao_oi: '¡Hola! ¿Cómo puedo ayudarte hoy? 😊',
+                saudacao_ola: '¡Hola! ¿Cómo puedo ayudarte hoy? 😊',
+                saudacao_tchau: '¡Hasta luego! ¡Cuídate! 😊',
+                saudacao_bomdia: '¡Buenos días! 🌞 ¿Cómo puedo ayudar?',
+                saudacao_boatarde: '¡Buenas tardes! 🌤️ ¿Cómo puedo ayudar?',
+                saudacao_boanoite: '¡Buenas noches! 🌙 ¿Cómo puedo ayudar?',
+                saudacao_comoesta: '¡Estoy bien, gracias por preguntar! 😊 ¿Y tú?',
+                saudacao_tudobem: '¡Todo bien! ¿Cómo puedo ayudarte hoy? 😊',
+                saudacao_obrigado: '¡De nada! 😊 ¡Estoy aquí para ayudar!',
+                saudacao_valeu: '¡De nada! 😊',
+                q1: '¿Qué es el IMC?',
+                a1: 'IMC significa Índice de Masa Corporal. Es una medida para evaluar si una persona tiene un peso adecuado, por debajo o por encima del ideal. Se calcula dividiendo el peso por la altura al cuadrado.',
+                q2: '¿Cómo calcular mi IMC?',
+                a2: 'Para calcular tu IMC, divide tu peso (en kg) por tu altura (en metros) al cuadrado. Ejemplo: 70kg ÷ (1,75m × 1,75m) = 22,86.',
+                q3: '¿Cuál es el IMC ideal?',
+                a3: 'El IMC ideal está entre 18,5 y 24,9. Por debajo de 18,5 es bajo peso. Entre 25 y 29,9 es sobrepeso. Por encima de 30 es obesidad.',
+                q4: '¿Qué hacer si tengo sobrepeso?',
+                a4: 'Recomendaciones: 1) Consultar a un médico 2) Dieta equilibrada 3) Ejercicio 4) Dormir bien 5) Evitar procesados.',
+                q5: '¿Cuáles son los beneficios del peso saludable?',
+                a5: 'Más energía, corazón sano, mejor sueño, alta autoestima, menos enfermedades crónicas y mejor salud mental.',
+                q6: '¿Cómo perder peso de forma saludable?',
+                a6: '1) Déficit calórico moderado 2) Dieta rica en proteínas y fibra 3) Ejercicio 4) Beber agua 5) Dormir 7-8 horas 6) Evitar azúcar.',
+                q7: '¿Por qué es importante la alimentación?',
+                a7: 'La alimentación proporciona energía, nutrientes y vitaminas. Previene enfermedades, fortalece la inmunidad y mejora el estado de ánimo.',
+                q8: '¿Qué es la obesidad?',
+                a8: 'La obesidad es acumulación excesiva de grasa corporal, con IMC ≥ 30. Es factor de riesgo para diabetes, hipertensión y problemas cardíacos.',
+                q9: '¿Cómo mantener el peso ideal?',
+                a9: '1) Dieta equilibrada 2) Ejercicio 3) Control de porciones 4) Hidratación 5) Sueño de calidad 6) Gestión del estrés.',
+                q10: '¿Qué ejercicios hacer?',
+                a10: 'Caminar, correr, nadar, ciclismo, musculación, yoga, pilates, baile y deportes. Elige algo que te guste y hazlo regularmente.'
+            },
+            fr: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Accueil',
+                navSobre: 'À propos',
+                navLogin: 'Connexion',
+                heroTitle: '📊 IMC Professionnel',
+                heroSub: 'Évaluez votre santé avec précision et style',
+                benefitsTitle: '💡 Bienfaits du Poids Adéquat',
+                p1: '✨ Maintenir un poids santé est essentiel pour une meilleure qualité de vie. Lorsque l\'Indice de Masse Corporelle (IMC) est adéquat, votre corps fonctionne mieux et le risque de maladies diminue.',
+                p2: '🎯 De petits changements dans le mode de vie apportent de grands bienfaits: plus d\'énergie, santé mentale, prévention des maladies et bien plus encore. Prenez soin de vous avec tendresse!',
+                calcTitle: '📊 Calculateur IMC',
+                calcSub: 'Découvrez votre indice rapidement et précisément',
+                labelAltura: '📏 Taille (m)',
+                labelPeso: '⚖️ Poids (kg)',
+                btnCalcular: '📊 Calculer IMC',
+                imcPlaceholder: '--',
+                classifPlaceholder: 'En attente...',
+                msgPlaceholder: '💭 Remplissez les données et cliquez sur calculer',
+                historico: '📋 Historique:',
+                footerMsg: '◆ Engagement pour votre santé ◆',
+                footerLove: '📊 IMC Professionnel · Tous droits réservés',
+                chatTitle: '🤖 Assistant IMC',
+                chatGreeting: '👋 Bonjour! Je suis votre assistant santé. Demandez sur l\'IMC, l\'alimentation, l\'exercice et le bien-être!',
+                chatPlaceholder: 'Tapez votre question...',
+                chatSend: 'Envoyer',
+                sug1: '📊 Qu\'est-ce que l\'IMC?',
+                sug2: '🧮 Comment calculer mon IMC?',
+                sug3: '🎯 Quel est l\'IMC idéal?',
+                sug4: '⚠️ Que faire si je suis en surpoids?',
+                c1: 'Maigreur Sévère',
+                c1msg: 'Consultez un médecin immédiatement',
+                c2: 'Maigreur Modérée',
+                c2msg: 'Consultez un nutritionniste',
+                c3: 'Maigreur Légère',
+                c3msg: 'Évaluez votre alimentation avec un professionnel',
+                c4: 'Poids Normal',
+                c4msg: 'Félicitations! Gardez de bonnes habitudes',
+                c5: 'Surpoids',
+                c5msg: 'Envisagez d\'augmenter l\'activité physique',
+                c6: 'Obésité Grade I',
+                c6msg: 'Suivi médical et nutritionnel recommandé',
+                c7: 'Obésité Grade II',
+                c7msg: 'Un suivi professionnel est essentiel',
+                c8: 'Obésité Grade III',
+                c8msg: 'Consultez un médecin spécialisé',
+                error: 'Données invalides',
+                errorMsg: 'Entrez des valeurs valides',
+                saudacao_oi: 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                saudacao_ola: 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                saudacao_tchau: 'Au revoir! Prenez soin de vous! 😊',
+                saudacao_bomdia: 'Bonjour! 🌞 Comment puis-je aider?',
+                saudacao_boatarde: 'Bon après-midi! 🌤️ Comment puis-je aider?',
+                saudacao_boanoite: 'Bonsoir! 🌙 Comment puis-je aider?',
+                saudacao_comoesta: 'Je vais bien, merci de demander! 😊 Et vous?',
+                saudacao_tudobem: 'Tout va bien! Comment puis-je vous aider aujourd\'hui? 😊',
+                saudacao_obrigado: 'De rien! 😊 Je suis là pour aider!',
+                saudacao_valeu: 'De rien! 😊',
+                q1: 'Qu\'est-ce que l\'IMC?',
+                a1: 'L\'IMC signifie Indice de Masse Corporelle. C\'est une mesure pour évaluer si une personne a un poids adéquat, en dessous ou au-dessus de l\'idéal. Il se calcule en divisant le poids par la taille au carré.',
+                q2: 'Comment calculer mon IMC?',
+                a2: 'Pour calculer votre IMC, divisez votre poids (en kg) par votre taille (en mètres) au carré. Exemple: 70kg ÷ (1,75m × 1,75m) = 22,86.',
+                q3: 'Quel est l\'IMC idéal?',
+                a3: 'L\'IMC idéal se situe entre 18,5 et 24,9. En dessous de 18,5 est un poids insuffisant. Entre 25 et 29,9 est un surpoids. Au-dessus de 30 est une obésité.',
+                q4: 'Que faire si je suis en surpoids?',
+                a4: 'Recommandations: 1) Consulter un médecin 2) Alimentation équilibrée 3) Exercice 4) Bien dormir 5) Éviter les aliments transformés.',
+                q5: 'Quels sont les bienfaits d\'un poids santé?',
+                a5: 'Plus d\'énergie, cœur sain, meilleur sommeil, haute estime de soi, moins de maladies chroniques et meilleure santé mentale.',
+                q6: 'Comment perdre du poids sainement?',
+                a6: '1) Déficit calorique modéré 2) Alimentation riche en protéines et fibres 3) Exercice 4) Boire de l\'eau 5) Dormir 7-8 heures 6) Éviter le sucre.',
+                q7: 'Pourquoi l\'alimentation est-elle importante?',
+                a7: 'L\'alimentation fournit de l\'énergie, des nutriments et des vitamines. Prévient les maladies, renforce l\'immunité et améliore l\'humeur.',
+                q8: 'Qu\'est-ce que l\'obésité?',
+                a8: 'L\'obésité est une accumulation excessive de graisse corporelle, avec un IMC ≥ 30. C\'est un facteur de risque pour le diabète, l\'hypertension et les problèmes cardiaques.',
+                q9: 'Comment maintenir le poids idéal?',
+                a9: '1) Alimentation équilibrée 2) Exercice 3) Contrôle des portions 4) Hydratation 5) Sommeil de qualité 6) Gestion du stress.',
+                q10: 'Quels exercices faire?',
+                a10: 'Marche, course, natation, cyclisme, musculation, yoga, pilates, danse et sports. Choisissez ce que vous aimez et faites-le régulièrement.'
+            },
+            it: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Home',
+                navSobre: 'Chi siamo',
+                navLogin: 'Accedi',
+                heroTitle: '📊 IMC Professionale',
+                heroSub: 'Valuta la tua salute con precisione e stile',
+                benefitsTitle: '💡 Benefici del Peso Adeguato',
+                p1: '✨ Mantenere un peso sano è essenziale per una migliore qualità della vita. Quando l\'Indice di Massa Corporea (IMC) è adeguato, il tuo corpo funziona meglio e il rischio di malattie diminuisce.',
+                p2: '🎯 Piccoli cambiamenti nello stile di vita portano grandi benefici: più energia, salute mentale, prevenzione delle malattie e molto altro. Prenditi cura di te con affetto!',
+                calcTitle: '📊 Calcolatore IMC',
+                calcSub: 'Scopri il tuo indice in modo rapido e preciso',
+                labelAltura: '📏 Altezza (m)',
+                labelPeso: '⚖️ Peso (kg)',
+                btnCalcular: '📊 Calcola IMC',
+                imcPlaceholder: '--',
+                classifPlaceholder: 'In attesa...',
+                msgPlaceholder: '💭 Compila i dati e clicca su calcola',
+                historico: '📋 Storico:',
+                footerMsg: '◆ Impegno per la tua salute ◆',
+                footerLove: '📊 IMC Professionale · Tutti i diritti riservati',
+                chatTitle: '🤖 Assistente IMC',
+                chatGreeting: '👋 Ciao! Sono il tuo assistente sanitario. Chiedi su IMC, alimentazione, esercizio e benessere!',
+                chatPlaceholder: 'Digita la tua domanda...',
+                chatSend: 'Invia',
+                sug1: '📊 Cos\'è l\'IMC?',
+                sug2: '🧮 Come calcolare il mio IMC?',
+                sug3: '🎯 Qual è l\'IMC ideale?',
+                sug4: '⚠️ Cosa fare se sono in sovrappeso?',
+                c1: 'Magrezza Grave',
+                c1msg: 'Cerca aiuto medico immediatamente',
+                c2: 'Magrezza Moderata',
+                c2msg: 'Consulta un nutrizionista',
+                c3: 'Magrezza Lieve',
+                c3msg: 'Valuta la tua alimentazione con un professionista',
+                c4: 'Peso Normale',
+                c4msg: 'Congratulazioni! Mantieni le buone abitudini',
+                c5: 'Sovrappeso',
+                c5msg: 'Considera di aumentare l\'attività fisica',
+                c6: 'Obesità Grado I',
+                c6msg: 'Seguito medico e nutrizionale consigliato',
+                c7: 'Obesità Grado II',
+                c7msg: 'Il follow-up professionale è essenziale',
+                c8: 'Obesità Grado III',
+                c8msg: 'Cerca aiuto medico specializzato',
+                error: 'Dati non validi',
+                errorMsg: 'Inserisci valori validi',
+                saudacao_oi: 'Ciao! Come posso aiutarti oggi? 😊',
+                saudacao_ola: 'Ciao! Come posso aiutarti oggi? 😊',
+                saudacao_tchau: 'Arrivederci! Prenditi cura di te! 😊',
+                saudacao_bomdia: 'Buongiorno! 🌞 Come posso aiutare?',
+                saudacao_boatarde: 'Buon pomeriggio! 🌤️ Come posso aiutare?',
+                saudacao_boanoite: 'Buona sera! 🌙 Come posso aiutare?',
+                saudacao_comoesta: 'Sto bene, grazie per aver chiesto! 😊 E tu?',
+                saudacao_tudobem: 'Tutto bene! Come posso aiutarti oggi? 😊',
+                saudacao_obrigado: 'Prego! 😊 Sono qui per aiutare!',
+                saudacao_valeu: 'Prego! 😊',
+                q1: 'Cos\'è l\'IMC?',
+                a1: 'IMC significa Indice di Massa Corporea. È una misura per valutare se una persona ha un peso adeguato, inferiore o superiore all\'ideale. Si calcola dividendo il peso per l\'altezza al quadrato.',
+                q2: 'Come calcolare il mio IMC?',
+                a2: 'Per calcolare il tuo IMC, dividi il tuo peso (in kg) per la tua altezza (in metri) al quadrato. Esempio: 70kg ÷ (1,75m × 1,75m) = 22,86.',
+                q3: 'Qual è l\'IMC ideale?',
+                a3: 'L\'IMC ideale è tra 18,5 e 24,9. Sotto 18,5 è sottopeso. Tra 25 e 29,9 è sovrappeso. Sopra 30 è obesità.',
+                q4: 'Cosa fare se sono in sovrappeso?',
+                a4: 'Raccomandazioni: 1) Consultare un medico 2) Dieta equilibrata 3) Esercizio 4) Dormire bene 5) Evitare cibi trasformati.',
+                q5: 'Quali sono i benefici di un peso sano?',
+                a5: 'Più energia, cuore sano, sonno migliore, alta autostima, meno malattie croniche e migliore salute mentale.',
+                q6: 'Come perdere peso in modo sano?',
+                a6: '1) Deficit calorico moderato 2) Dieta ricca di proteine e fibre 3) Esercizio 4) Bere acqua 5) Dormire 7-8 ore 6) Evitare zuccheri.',
+                q7: 'Perché l\'alimentazione è importante?',
+                a7: 'L\'alimentazione fornisce energia, nutrienti e vitamine. Previene malattie, rafforza l\'immunità e migliora l\'umore.',
+                q8: 'Cos\'è l\'obesità?',
+                a8: 'L\'obesità è l\'accumulo eccessivo di grasso corporeo, con IMC ≥ 30. È un fattore di rischio per diabete, ipertensione e problemi cardiaci.',
+                q9: 'Come mantenere il peso ideale?',
+                a9: '1) Dieta equilibrata 2) Esercizio 3) Controllo delle porzioni 4) Idratazione 5) Sonno di qualità 6) Gestione dello stress.',
+                q10: 'Quali esercizi fare?',
+                a10: 'Camminata, corsa, nuoto, ciclismo, pesi, yoga, pilates, danza e sport. Scegli qualcosa che ti piace e fallo regolarmente.'
+            },
+            de: {
+                navLogo: '📊 BMIPro',
+                navInicio: 'Start',
+                navSobre: 'Über uns',
+                navLogin: 'Anmelden',
+                heroTitle: '📊 BMI Professionell',
+                heroSub: 'Bewerten Sie Ihre Gesundheit mit Präzision und Stil',
+                benefitsTitle: '💡 Vorteile des Richtigen Gewichts',
+                p1: '✨ Ein gesundes Gewicht zu halten ist für eine bessere Lebensqualität unerlässlich. Wenn der Body-Mass-Index (BMI) angemessen ist, funktioniert Ihr Körper besser und das Krankheitsrisiko nimmt ab.',
+                p2: '🎯 Kleine Veränderungen im Lebensstil bringen große Vorteile: mehr Energie, psychische Gesundheit, Krankheitsvorbeugung und vieles mehr. Kümmern Sie sich liebevoll um sich!',
+                calcTitle: '📊 BMI-Rechner',
+                calcSub: 'Entdecken Sie Ihren Index schnell und präzise',
+                labelAltura: '📏 Größe (m)',
+                labelPeso: '⚖️ Gewicht (kg)',
+                btnCalcular: '📊 BMI berechnen',
+                imcPlaceholder: '--',
+                classifPlaceholder: 'Warten...',
+                msgPlaceholder: '💭 Füllen Sie die Daten aus und klicken Sie auf berechnen',
+                historico: '📋 Verlauf:',
+                footerMsg: '◆ Engagement für Ihre Gesundheit ◆',
+                footerLove: '📊 BMI Professionell · Alle Rechte vorbehalten',
+                chatTitle: '🤖 BMI-Assistent',
+                chatGreeting: '👋 Hallo! Ich bin Ihr Gesundheitsassistent. Fragen Sie nach BMI, Ernährung, Bewegung und Wohlbefinden!',
+                chatPlaceholder: 'Geben Sie Ihre Frage ein...',
+                chatSend: 'Senden',
+                sug1: '📊 Was ist BMI?',
+                sug2: '🧮 Wie berechne ich meinen BMI?',
+                sug3: '🎯 Was ist der ideale BMI?',
+                sug4: '⚠️ Was tun bei Übergewicht?',
+                c1: 'Schweres Untergewicht',
+                c1msg: 'Suchen Sie sofort ärztlichen Rat',
+                c2: 'Mäßiges Untergewicht',
+                c2msg: 'Konsultieren Sie einen Ernährungsberater',
+                c3: 'Leichtes Untergewicht',
+                c3msg: 'Bewerten Sie Ihre Ernährung mit einem Fachmann',
+                c4: 'Normalgewicht',
+                c4msg: 'Herzlichen Glückwunsch! Behalten Sie gesunde Gewohnheiten bei',
+                c5: 'Übergewicht',
+                c5msg: 'Erwägen Sie, die körperliche Aktivität zu steigern',
+                c6: 'Adipositas Grad I',
+                c6msg: 'Ärztliche und ernährungsbezogene Nachsorge empfohlen',
+                c7: 'Adipositas Grad II',
+                c7msg: 'Professionelle Nachsorge ist unerlässlich',
+                c8: 'Adipositas Grad III',
+                c8msg: 'Suchen Sie spezialisierte medizinische Hilfe',
+                error: 'Ungültige Daten',
+                errorMsg: 'Geben Sie gültige Werte ein',
+                saudacao_oi: 'Hallo! Wie kann ich Ihnen heute helfen? 😊',
+                saudacao_ola: 'Hallo! Wie kann ich Ihnen heute helfen? 😊',
+                saudacao_tchau: 'Auf Wiedersehen! Passen Sie auf sich auf! 😊',
+                saudacao_bomdia: 'Guten Morgen! 🌞 Wie kann ich helfen?',
+                saudacao_boatarde: 'Guten Nachmittag! 🌤️ Wie kann ich helfen?',
+                saudacao_boanoite: 'Guten Abend! 🌙 Wie kann ich helfen?',
+                saudacao_comoesta: 'Mir geht es gut, danke der Nachfrage! 😊 Und Ihnen?',
+                saudacao_tudobem: 'Alles gut! Wie kann ich Ihnen heute helfen? 😊',
+                saudacao_obrigado: 'Gern geschehen! 😊 Ich bin hier, um zu helfen!',
+                saudacao_valeu: 'Gern geschehen! 😊',
+                q1: 'Was ist der BMI?',
+                a1: 'BMI steht für Body-Mass-Index. Er dient zur Beurteilung, ob eine Person ein angemessenes Gewicht hat, unter- oder übergewichtig ist. Er wird berechnet, indem das Gewicht durch die Körpergröße im Quadrat geteilt wird.',
+                q2: 'Wie berechne ich meinen BMI?',
+                a2: 'Teilen Sie Ihr Gewicht (in kg) durch Ihre Körpergröße (in Metern) zum Quadrat. Beispiel: 70kg ÷ (1,75m × 1,75m) = 22,86.',
+                q3: 'Was ist der ideale BMI?',
+                a3: 'Der ideale BMI liegt zwischen 18,5 und 24,9. Unter 18,5 ist Untergewicht. Zwischen 25 und 29,9 ist Übergewicht. Über 30 ist Fettleibigkeit.',
+                q4: 'Was tun bei Übergewicht?',
+                a4: 'Empfehlungen: 1) Arzt aufsuchen 2) Ausgewogene Ernährung 3) Bewegung 4) Gut schlafen 5) Verarbeitete Lebensmittel vermeiden.',
+                q5: 'Was sind die Vorteile eines gesunden Gewichts?',
+                a5: 'Mehr Energie, gesundes Herz, besserer Schlaf, hohes Selbstwertgefühl, weniger chronische Krankheiten und bessere psychische Gesundheit.',
+                q6: 'Wie kann man gesund abnehmen?',
+                a6: '1) Mäßiges Kaloriendefizit 2) Protein- und ballaststoffreiche Ernährung 3) Bewegung 4) Wasser trinken 5) 7-8 Stunden schlafen 6) Zucker vermeiden.',
+                q7: 'Warum ist die Ernährung wichtig?',
+                a7: 'Die Ernährung liefert Energie, Nährstoffe und Vitamine. Sie beugt Krankheiten vor, stärkt das Immunsystem und verbessert die Stimmung.',
+                q8: 'Was ist Fettleibigkeit?',
+                a8: 'Fettleibigkeit ist eine übermäßige Ansammlung von Körperfett mit einem BMI ≥ 30. Sie ist ein Risikofaktor für Diabetes, Bluthochdruck und Herzprobleme.',
+                q9: 'Wie kann man das Idealgewicht halten?',
+                a9: '1) Ausgewogene Ernährung 2) Bewegung 3) Portionskontrolle 4) Flüssigkeitszufuhr 5) Qualitätsschlaf 6) Stressbewältigung.',
+                q10: 'Welche Übungen sollte man machen?',
+                a10: 'Gehen, Laufen, Schwimmen, Radfahren, Krafttraining, Yoga, Pilates, Tanzen und Sport. Wählen Sie etwas, das Ihnen Spaß macht, und machen Sie es regelmäßig.'
+            },
+            ja: {
+                navLogo: '📊 BMIPro',
+                navInicio: 'ホーム',
+                navSobre: 'について',
+                navLogin: 'ログイン',
+                heroTitle: '📊 BMI プロフェッショナル',
+                heroSub: '健康を正確かつスタイリッシュに評価する',
+                benefitsTitle: '💡 適正体重のメリット',
+                p1: '✨ 健康的な体重を維持することは、より良い生活の質のために不可欠です。ボディマス指数（BMI）が適切な場合、体の機能が向上し、病気のリスクが減少します。',
+                p2: '🎯 ライフスタイルの小さな変化は大きなメリットをもたらします：より多くのエネルギー、メンタルヘルス、病気の予防など。愛情を込めて自分を大切にしましょう！',
+                calcTitle: '📊 BMI計算機',
+                calcSub: 'あなたの指数を素早く正確に知る',
+                labelAltura: '📏 身長 (m)',
+                labelPeso: '⚖️ 体重 (kg)',
+                btnCalcular: '📊 BMIを計算',
+                imcPlaceholder: '--',
+                classifPlaceholder: '待機中...',
+                msgPlaceholder: '💭 データを入力して計算をクリック',
+                historico: '📋 履歴:',
+                footerMsg: '◆ あなたの健康へのコミットメント ◆',
+                footerLove: '📊 BMI プロフェッショナル · 全著作権所有',
+                chatTitle: '🤖 BMIアシスタント',
+                chatGreeting: '👋 こんにちは！私はあなたの健康アシスタントです。BMI、栄養、運動、ウェルネスについて質問してください！',
+                chatPlaceholder: '質問を入力してください...',
+                chatSend: '送信',
+                sug1: '📊 BMIとは何ですか？',
+                sug2: '🧮 BMIの計算方法は？',
+                sug3: '🎯 理想的なBMIは？',
+                sug4: '⚠️ 過体重の場合はどうすればいいですか？',
+                c1: '重度のやせ',
+                c1msg: 'すぐに医師の指導を求めてください',
+                c2: '中等度のやせ',
+                c2msg: '栄養士に相談してください',
+                c3: '軽度のやせ',
+                c3msg: '専門家と一緒に食事を評価してください',
+                c4: '普通体重',
+                c4msg: 'おめでとうございます！健康的な習慣を維持してください',
+                c5: '過体重',
+                c5msg: '身体活動を増やすことを検討してください',
+                c6: '肥満度I',
+                c6msg: '医学的・栄養学的フォローアップを推奨',
+                c7: '肥満度II',
+                c7msg: '専門的なフォローアップが不可欠です',
+                c8: '肥満度III',
+                c8msg: '専門医の助けを求めてください',
+                error: '無効なデータ',
+                errorMsg: '有効な値を入力してください',
+                saudacao_oi: 'こんにちは！今日はどのようにお手伝いできますか？ 😊',
+                saudacao_ola: 'こんにちは！今日はどのようにお手伝いできますか？ 😊',
+                saudacao_tchau: 'さようなら！お大事に！ 😊',
+                saudacao_bomdia: 'おはようございます！ 🌞 どのようにお手伝いできますか？',
+                saudacao_boatarde: 'こんにちは！ 🌤️ どのようにお手伝いできますか？',
+                saudacao_boanoite: 'こんばんは！ 🌙 どのようにお手伝いできますか？',
+                saudacao_comoesta: '元気です、お気遣いありがとうございます！ 😊 あなたは？',
+                saudacao_tudobem: 'すべて大丈夫です！今日はどのようにお手伝いできますか？ 😊',
+                saudacao_obrigado: 'どういたしまして！ 😊 お手伝いします！',
+                saudacao_valeu: 'どういたしまして！ 😊',
+                q1: 'BMIとは何ですか？',
+                a1: 'BMIはボディマス指数の略で、体重が適切かどうかを評価する指標です。体重を身長の二乗で割って計算します。',
+                q2: 'BMIの計算方法は？',
+                a2: '体重（kg）を身長（m）の二乗で割ります。例：70kg ÷ (1.75m × 1.75m) = 22.86',
+                q3: '理想的なBMIは？',
+                a3: '理想的なBMIは18.5から24.9の間です。18.5未満は低体重、25から29.9は過体重、30以上は肥満です。',
+                q4: '過体重の場合どうすればいいですか？',
+                a4: '推奨事項：1）医師に相談する 2）バランスの取れた食事 3）運動 4）よく眠る 5）加工食品を避ける。',
+                q5: '健康的な体重のメリットは？',
+                a5: 'より多くのエネルギー、健康な心臓、より良い睡眠、高い自尊心、慢性疾患の減少、そしてより良いメンタルヘルス。',
+                q6: '健康的に体重を減らすには？',
+                a6: '1）適度なカロリー不足 2）タンパク質と繊維質の多い食事 3）運動 4）水を飲む 5）7-8時間睡眠 6）砂糖を避ける。',
+                q7: '栄養が重要な理由は？',
+                a7: '栄養はエネルギー、栄養素、ビタミンを供給し、病気を予防し、免疫力を高め、気分を改善します。',
+                q8: '肥満とは何ですか？',
+                a8: '肥満はBMIが30以上の過剰な体脂肪です。糖尿病、高血圧、心臓病のリスク因子です。',
+                q9: '理想的な体重を維持するには？',
+                a9: '1）バランスの取れた食事 2）運動 3）分量の管理 4）水分補給 5）質の高い睡眠 6）ストレス管理。',
+                q10: 'どんな運動をすればいいですか？',
+                a10: 'ウォーキング、ランニング、水泳、サイクリング、筋トレ、ヨガ、ピラティス、ダンス、スポーツ。好きなことを選んで定期的に行いましょう。'
+            }
+        };
+
+        // ============================================================
+        // ELEMENTOS DOM
+        // ============================================================
         const navbar = document.getElementById('navbar');
+        const progressBar = document.getElementById('progressBar');
+        const backToTop = document.getElementById('backToTop');
         const alturaSlider = document.getElementById('alturaSlider');
         const pesoSlider = document.getElementById('pesoSlider');
         const alturaInput = document.getElementById('alturaInput');
@@ -664,23 +1794,71 @@
         const classifDisplay = document.getElementById('classifDisplay');
         const msgDisplay = document.getElementById('msgDisplay');
         const historicoDisplay = document.getElementById('historicoDisplay');
-        const ttsBtn = document.getElementById('ttsBtn');
         const themeBtn = document.getElementById('themeBtn');
         const translateBtn = document.getElementById('translateBtn');
         const translateDropdown = document.getElementById('translateDropdown');
         const footerDate = document.getElementById('footerDate');
+        const footerClock = document.getElementById('footerClock');
+        const footerMsg = document.getElementById('footerMsg');
+        const footerLove = document.getElementById('footerLove');
+        const chatToggle = document.getElementById('chatToggle');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatGreeting = document.getElementById('chatGreeting');
+        const chatTitle = document.getElementById('chatTitle');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatSuggestions = document.getElementById('chatSuggestions');
 
         let historico = [];
         let lastIMC = null;
-        let lastClassif = '';
-        let lastMsg = '';
+        let lastIMCValue = null;
+        let currentLang = 'pt';
 
-        // ===== DATA RODAPÉ =====
+        // ============================================================
+        // RELÓGIO EM TEMPO REAL
+        // ============================================================
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            footerClock.textContent = `⏰ ${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ============================================================
+        // DATA RODAPÉ
+        // ============================================================
         const agora = new Date();
         const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         footerDate.textContent = `${agora.getFullYear()} · ${meses[agora.getMonth()]} ${agora.getDate()}`;
 
-        // ===== SINCRONIZA =====
+        // ============================================================
+        // BARRA DE PROGRESSO + BACK TO TOP
+        // ============================================================
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = progress + '%';
+
+            if (scrollTop > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================================
+        // SINCRONIZA SLIDERS + INPUTS
+        // ============================================================
         function sincronizar() {
             const a = parseFloat(alturaSlider.value);
             const p = parseFloat(pesoSlider.value);
@@ -709,48 +1887,52 @@
             }
         });
 
-        // ===== CLASSIFICAÇÃO =====
-        function classificarIMC(imc) {
-            if (imc < 16) return { class: 'Magreza grave', msg: 'Procure um médico com carinho ❤️', emoji: '🫂' };
-            if (imc < 17) return { class: 'Magreza moderada', msg: 'Que tal um acompanhamento nutricional?', emoji: '🥑' };
-            if (imc < 18.5) return { class: 'Magreza leve', msg: 'Cuide da sua alimentação com afeto', emoji: '🌱' };
-            if (imc < 25) return { class: 'Saudável', msg: 'Você está no caminho! ✨', emoji: '🌟' };
-            if (imc < 30) return { class: 'Sobrepeso', msg: 'Vamos dar um passeio? 🚶', emoji: '🌊' };
-            if (imc < 35) return { class: 'Obesidade grau I', msg: 'Busque apoio, você merece cuidado', emoji: '🤗' };
-            if (imc < 40) return { class: 'Obesidade grau II', msg: 'Hora de dar um passo com carinho', emoji: '🌿' };
-            return { class: 'Obesidade grau III', msg: 'Você é importante, procure ajuda ❤️', emoji: '🫂' };
+        // ============================================================
+        // CLASSIFICAÇÃO
+        // ============================================================
+        function classificarIMC(imc, lang) {
+            const t = translations[lang] || translations.pt;
+            if (imc < 16) return { class: t.c1, msg: t.c1msg, emoji: '⚕️' };
+            if (imc < 17) return { class: t.c2, msg: t.c2msg, emoji: '📋' };
+            if (imc < 18.5) return { class: t.c3, msg: t.c3msg, emoji: '🥗' };
+            if (imc < 25) return { class: t.c4, msg: t.c4msg, emoji: '✅' };
+            if (imc < 30) return { class: t.c5, msg: t.c5msg, emoji: '⚠️' };
+            if (imc < 35) return { class: t.c6, msg: t.c6msg, emoji: '🔴' };
+            if (imc < 40) return { class: t.c7, msg: t.c7msg, emoji: '🔴' };
+            return { class: t.c8, msg: t.c8msg, emoji: '🚨' };
         }
 
-        // ===== CALCULAR =====
+        // ============================================================
+        // CALCULAR
+        // ============================================================
         function calcularIMC() {
             const altura = parseFloat(alturaSlider.value);
             const peso = parseFloat(pesoSlider.value);
+            const t = translations[currentLang] || translations.pt;
 
             if (!altura || !peso || altura <= 0 || peso <= 0) {
                 imcDisplay.textContent = '❌';
-                classifDisplay.textContent = 'Dados inválidos';
-                msgDisplay.textContent = 'Coloque valores positivos, amigo';
+                classifDisplay.textContent = t.error;
+                msgDisplay.textContent = t.errorMsg;
                 return;
             }
 
             const imc = peso / (altura * altura);
             const imcFormatado = imc.toFixed(2);
-            const info = classificarIMC(imc);
+            const info = classificarIMC(imc, currentLang);
 
             lastIMC = imcFormatado;
-            lastClassif = `${info.emoji} ${info.class}`;
-            lastMsg = info.msg;
+            lastIMCValue = imc;
 
             imcDisplay.textContent = `${info.emoji} ${imcFormatado}`;
             classifDisplay.textContent = info.class;
             msgDisplay.textContent = info.msg;
 
-            // histórico
             const registro = `${imcFormatado} — ${info.class}`;
             historico.unshift(registro);
             if (historico.length > 10) historico.pop();
 
-            let html = '📋 histórico: ';
+            let html = (t.historico || '📋 Histórico:') + ' ';
             historico.forEach(item => {
                 html += `<span>${item}</span>`;
             });
@@ -761,91 +1943,9 @@
         alturaInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') calcularIMC(); });
         pesoInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') calcularIMC(); });
 
-        // ===== TTS - LEITURA =====
-        ttsBtn.addEventListener('click', () => {
-            if (!lastIMC) {
-                alert('Calcule seu IMC primeiro! 😊');
-                return;
-            }
-            const texto = `Seu IMC é ${lastIMC}. Classificação: ${lastClassif}. ${lastMsg}`;
-            const utterance = new SpeechSynthesisUtterance(texto);
-            utterance.lang = 'pt-BR';
-            utterance.rate = 0.9;
-            utterance.pitch = 1.1;
-            speechSynthesis.speak(utterance);
-        });
-
-        // ===== TRADUÇÃO =====
-        let currentLang = 'pt';
-
-        function traduzirPagina(lang) {
-            if (lang === 'pt') {
-                // Voltar ao original - recarregar a página
-                location.reload();
-                return;
-            }
-
-            // Usar Google Translate para traduzir a página
-            const script = document.createElement('script');
-            script.src = `https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-            document.head.appendChild(script);
-
-            window.googleTranslateElementInit = function() {
-                new google.translate.TranslateElement({
-                    pageLanguage: 'pt',
-                    includedLanguages: lang,
-                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                    autoDisplay: false
-                }, 'google_translate_element');
-                
-                // Forçar a tradução
-                const select = document.querySelector('.goog-te-combo');
-                if (select) {
-                    select.value = lang;
-                    select.dispatchEvent(new Event('change'));
-                }
-            };
-
-            // Esconder o elemento de tradução do Google
-            const style = document.createElement('style');
-            style.textContent = `
-                .goog-te-banner-frame { display: none !important; }
-                #goog-gt-tt { display: none !important; }
-                .goog-te-gadget { display: none !important; }
-                .goog-tooltip { display: none !important; }
-                body { top: 0px !important; }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // ===== DROPDOWN TRADUÇÃO =====
-        translateBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            translateDropdown.classList.toggle('show');
-        });
-
-        document.querySelectorAll('.translate-dropdown-content button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.dataset.lang;
-                translateDropdown.classList.remove('show');
-                traduzirPagina(lang);
-            });
-        });
-
-        // Fechar dropdown ao clicar fora
-        document.addEventListener('click', () => {
-            translateDropdown.classList.remove('show');
-        });
-
-        // ===== TEMA =====
-        let darkMode = false;
-        themeBtn.addEventListener('click', () => {
-            darkMode = !darkMode;
-            document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
-            themeBtn.textContent = darkMode ? '☀️' : '🌙';
-        });
-
-        // ===== NAVBAR SOME AO ROLAR =====
+        // ============================================================
+        // NAVBAR ESCONDE
+        // ============================================================
         let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
@@ -857,11 +1957,310 @@
             lastScrollY = currentScrollY;
         });
 
-        // ===== INICIAL =====
-        sincronizar();
-    </script>
+        // ============================================================
+        // TEMA
+        // ============================================================
+        let darkMode = false;
+        themeBtn.addEventListener('click', () => {
+            darkMode = !darkMode;
+            document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+            themeBtn.textContent = darkMode ? '☀️' : '🌙';
+        });
 
-    <!-- Elemento oculto para o Google Translate -->
-    <div id="google_translate_element" style="display:none;"></div>
+        // ============================================================
+        // TRADUÇÃO - FUNÇÃO PRINCIPAL
+        // ============================================================
+        function aplicarTraducao(lang) {
+            currentLang = lang;
+            const t = translations[lang] || translations.pt;
+
+            // NAVBAR
+            document.getElementById('navLogo').innerHTML = t.navLogo;
+            document.getElementById('navInicio').textContent = t.navInicio;
+            document.getElementById('navSobre').textContent = t.navSobre;
+            document.getElementById('navLogin').textContent = t.navLogin;
+
+            // HERO
+            document.getElementById('heroTitle').innerHTML = t.heroTitle;
+            document.getElementById('heroSub').textContent = t.heroSub;
+
+            // BENEFITS
+            document.getElementById('benefitsTitle').textContent = t.benefitsTitle;
+            document.getElementById('p1').innerHTML = t.p1;
+            document.getElementById('p2').innerHTML = t.p2;
+
+            // CALCULADORA
+            document.getElementById('calcTitle').textContent = t.calcTitle;
+            document.getElementById('calcSub').textContent = t.calcSub;
+            document.getElementById('labelAltura').innerHTML = t.labelAltura + ' <span id="alturaValor">' + alturaValor.textContent + '</span>';
+            document.getElementById('labelPeso').innerHTML = t.labelPeso + ' <span id="pesoValor">' + pesoValor.textContent + '</span>';
+            document.getElementById('calcularBtn').textContent = t.btnCalcular;
+
+            // RESULTADO
+            if (lastIMCValue !== null) {
+                const info = classificarIMC(lastIMCValue, lang);
+                imcDisplay.textContent = `${info.emoji} ${lastIMC}`;
+                classifDisplay.textContent = info.class;
+                msgDisplay.textContent = info.msg;
+                let html = (t.historico || '📋 Histórico:') + ' ';
+                historico.forEach(item => {
+                    html += `<span>${item}</span>`;
+                });
+                historicoDisplay.innerHTML = html;
+            } else {
+                imcDisplay.textContent = t.imcPlaceholder || '--';
+                classifDisplay.textContent = t.classifPlaceholder || 'Aguardando...';
+                msgDisplay.textContent = t.msgPlaceholder || '💭 Preencha os dados e clique em calcular';
+                historicoDisplay.innerHTML = (t.historico || '📋 Histórico:') + ' ';
+            }
+
+            // FOOTER
+            footerMsg.textContent = t.footerMsg;
+            footerLove.textContent = t.footerLove;
+
+            // CHAT
+            chatTitle.textContent = t.chatTitle;
+            chatGreeting.textContent = t.chatGreeting;
+            chatInput.placeholder = t.chatPlaceholder;
+            chatSend.textContent = t.chatSend;
+
+            // SUGESTÕES DO CHAT (AGRORA TRADUZIDAS!)
+            const sugs = [t.sug1, t.sug2, t.sug3, t.sug4];
+            const suggestionBtns = chatSuggestions.querySelectorAll('button');
+            suggestionBtns.forEach((btn, index) => {
+                if (sugs[index]) {
+                    btn.textContent = sugs[index];
+                    // Extrair a pergunta sem o emoji para o dataset
+                    const cleanQuestion = sugs[index].replace(/[📊🧮🎯⚠️]\s*/, '').trim();
+                    btn.dataset.question = cleanQuestion;
+                }
+            });
+
+            // BOTÃO TRADUÇÃO
+            const flagMap = { pt: '🇵🇹', en: '🇺🇸', es: '🇪🇸', fr: '🇫🇷', it: '🇮🇹', de: '🇩🇪', ja: '🇯🇵' };
+            translateBtn.textContent = flagMap[lang] || '🌐';
+        }
+
+        // ============================================================
+        // DROPDOWN
+        // ============================================================
+        translateBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            translateDropdown.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.translate-dropdown-content button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                translateDropdown.classList.remove('show');
+                aplicarTraducao(lang);
+            });
+        });
+
+        document.addEventListener('click', () => {
+            translateDropdown.classList.remove('show');
+        });
+
+        // ============================================================
+        // ASSISTENTE IA - CHAT BOT (COM SAUDAÇÕES EM TODOS IDIOMAS)
+        // ============================================================
+        chatToggle.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('open');
+        });
+
+        function getAIResponse(question) {
+            const t = translations[currentLang] || translations.pt;
+            const q = question.toLowerCase().trim().replace(/[?¿!¡.]/g, '');
+
+            // ===== SAUDAÇÕES E RESPOSTAS RÁPIDAS (TODOS IDIOMAS) =====
+            const quickResponses = {
+                // Português
+                'obrigado': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
+                'obrigada': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
+                'valeu': t.saudacao_valeu || 'Disponha! 😊',
+                'oi': t.saudacao_oi || 'Olá! Como posso ajudar você hoje? 😊',
+                'olá': t.saudacao_ola || 'Olá! Como posso ajudar você hoje? 😊',
+                'ola': t.saudacao_ola || 'Olá! Como posso ajudar você hoje? 😊',
+                'tchau': t.saudacao_tchau || 'Até logo! Cuide-se! 😊',
+                'bom dia': t.saudacao_bomdia || 'Bom dia! 🌞 Como posso ajudar?',
+                'boa tarde': t.saudacao_boatarde || 'Boa tarde! 🌤️ Como posso ajudar?',
+                'boa noite': t.saudacao_boanoite || 'Boa noite! 🌙 Como posso ajudar?',
+                'como você está': t.saudacao_comoesta || 'Estou bem, obrigado por perguntar! 😊 E você?',
+                'como esta': t.saudacao_comoesta || 'Estou bem, obrigado por perguntar! 😊 E você?',
+                'tudo bem': t.saudacao_tudobem || 'Tudo bem sim! Como posso ajudar você hoje? 😊',
+                'tudo bom': t.saudacao_tudobem || 'Tudo bem sim! Como posso ajudar você hoje? 😊',
+                // Inglês
+                'thanks': 'You\'re welcome! 😊 I\'m here to help!',
+                'thank you': 'You\'re welcome! 😊 I\'m here to help!',
+                'thank': 'You\'re welcome! 😊 I\'m here to help!',
+                'hi': 'Hello! How can I help you today? 😊',
+                'hello': 'Hello! How can I help you today? 😊',
+                'bye': 'Goodbye! Take care! 😊',
+                'good morning': 'Good morning! 🌞 How can I help?',
+                'good afternoon': 'Good afternoon! 🌤️ How can I help?',
+                'good evening': 'Good evening! 🌙 How can I help?',
+                'how are you': 'I\'m fine, thanks for asking! 😊 And you?',
+                // Espanhol
+                'gracias': '¡De nada! 😊 ¡Estoy aquí para ayudar!',
+                'hola': '¡Hola! ¿Cómo puedo ayudarte hoy? 😊',
+                'adios': '¡Hasta luego! ¡Cuídate! 😊',
+                'buenos días': '¡Buenos días! 🌞 ¿Cómo puedo ayudar?',
+                'buenas tardes': '¡Buenas tardes! 🌤️ ¿Cómo puedo ayudar?',
+                'buenas noches': '¡Buenas noches! 🌙 ¿Cómo puedo ayudar?',
+                'cómo estás': '¡Estoy bien, gracias por preguntar! 😊 ¿Y tú?',
+                // Francês
+                'merci': 'De rien! 😊 Je suis là pour aider!',
+                'bonjour': 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                'salut': 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                'au revoir': 'Au revoir! Prenez soin de vous! 😊',
+                // Italiano
+                'grazie': 'Prego! 😊 Sono qui per aiutare!',
+                'ciao': 'Ciao! Come posso aiutarti oggi? 😊',
+                'arrivederci': 'Arrivederci! Prenditi cura di te! 😊',
+                // Alemão
+                'danke': 'Gern geschehen! 😊 Ich bin hier, um zu helfen!',
+                'hallo': 'Hallo! Wie kann ich Ihnen heute helfen? 😊',
+                'tschüss': 'Auf Wiedersehen! Passen Sie auf sich auf! 😊',
+                // Japonês
+                'ありがとう': 'どういたしまして！ 😊 お手伝いします！',
+                'こんにちは': 'こんにちは！今日はどのようにお手伝いできますか？ 😊',
+                'さようなら': 'さようなら！お大事に！ 😊'
+            };
+
+            for (const [key, value] of Object.entries(quickResponses)) {
+                if (q.includes(key) || key.includes(q)) {
+                    return value;
+                }
+            }
+
+            // ===== PERGUNTAS E RESPOSTAS =====
+            const qKeys = Object.keys(t).filter(key => key.startsWith('q'));
+            const aKeys = Object.keys(t).filter(key => key.startsWith('a'));
+
+            for (let i = 0; i < qKeys.length; i++) {
+                const qKey = qKeys[i];
+                const aKey = aKeys[i];
+                if (qKey && aKey) {
+                    const qText = t[qKey].toLowerCase().replace(/[?¿!¡.]/g, '');
+                    if (q === qText || q.includes(qText) || qText.includes(q)) {
+                        return t[aKey];
+                    }
+                }
+            }
+
+            // ===== PALAVRAS-CHAVE =====
+            const keywords = {
+                'imc': ['q1', 'q2', 'q3'],
+                'calcular': ['q2'],
+                'peso': ['q4', 'q5', 'q9'],
+                'perder': ['q6'],
+                'alimentação': ['q7', 'q15'],
+                'obesidade': ['q8'],
+                'exercícios': ['q10'],
+                'diabetes': ['q11'],
+                'coração': ['q12'],
+                'sono': ['q13'],
+                'estresse': ['q14'],
+                'ansiedade': ['q16', 'q17'],
+                'mental': ['q19'],
+                'hipertensão': ['q20']
+            };
+
+            for (const [key, value] of Object.entries(keywords)) {
+                if (q.includes(key)) {
+                    for (const qKey of value) {
+                        const qIndex = parseInt(qKey.replace('q', ''));
+                        const aKey = 'a' + qIndex;
+                        if (t[aKey]) {
+                            return t[aKey];
+                        }
+                    }
+                }
+            }
+
+            // ===== RESPOSTA PADRÃO =====
+            const defaultResponses = {
+                pt: 'Desculpe, não entendi sua pergunta. Posso ajudar com IMC, alimentação, exercícios, doenças, saúde mental e bem-estar. Tente reformular! 😊',
+                en: 'Sorry, I didn\'t understand your question. I can help with BMI, nutrition, exercise, diseases, mental health and wellness. Try rephrasing! 😊',
+                es: 'Lo siento, no entendí tu pregunta. Puedo ayudar con IMC, alimentación, ejercicio, enfermedades, salud mental y bienestar. ¡Intenta reformular! 😊',
+                fr: 'Désolé, je n\'ai pas compris votre question. Je peux aider avec l\'IMC, l\'alimentation, l\'exercice, les maladies, la santé mentale et le bien-être. Essayez de reformuler! 😊',
+                it: 'Scusa, non ho capito la tua domanda. Posso aiutare con IMC, alimentazione, esercizio, malattie, salute mentale e benessere. Prova a riformulare! 😊',
+                de: 'Entschuldigung, ich habe deine Frage nicht verstanden. Ich kann bei BMI, Ernährung, Bewegung, Krankheiten, psychischer Gesundheit und Wohlbefinden helfen. Versuche es umzuformulieren! 😊',
+                ja: '申し訳ありません、質問が理解できませんでした。BMI、栄養、運動、病気、メンタルヘルス、ウェルネスについてお手伝いできます。言い換えてみてください！ 😊'
+            };
+            return defaultResponses[currentLang] || defaultResponses.pt;
+        }
+
+        function addMessage(text, isUser = false) {
+            const div = document.createElement('div');
+            div.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const div = document.createElement('div');
+            div.className = 'chat-message bot';
+            div.id = 'typingIndicator';
+            div.innerHTML = `
+                <span class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function handleChatSend() {
+            const question = chatInput.value.trim();
+            if (!question) return;
+
+            addMessage(question, true);
+            chatInput.value = '';
+
+            addTypingIndicator();
+
+            setTimeout(() => {
+                removeTypingIndicator();
+                const answer = getAIResponse(question);
+                addMessage(answer, false);
+            }, 500 + Math.random() * 500);
+        }
+
+        chatSend.addEventListener('click', handleChatSend);
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleChatSend();
+        });
+
+        chatSuggestions.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) {
+                const question = btn.dataset.question;
+                chatInput.value = question;
+                handleChatSend();
+            }
+        });
+
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        sincronizar();
+        aplicarTraducao('pt');
+
+        // Tempo de leitura fixo em 3 minutos
+        document.getElementById('timeDisplay').textContent = '3';
+    </script>
 </body>
 </html>
