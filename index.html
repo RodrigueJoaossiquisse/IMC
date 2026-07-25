@@ -33,7 +33,7 @@
             flex-direction: column;
             background: var(--bg-body);
             color: var(--text-primary);
-            padding-top: 64px;
+            padding-top: 60px;
             font-weight: 400;
             line-height: 1.6;
             overflow-x: hidden;
@@ -63,6 +63,8 @@
             --footer-bg: rgba(26, 26, 46, 0.95);
             --footer-text: #e8edf2;
             --footer-accent: #4facfe;
+            --menu-bg: rgba(255, 255, 255, 0.95);
+            --overlay-bg: rgba(0, 0, 0, 0.3);
         }
 
         [data-theme="dark"] {
@@ -81,13 +83,15 @@
             --footer-bg: rgba(10, 10, 20, 0.95);
             --footer-text: #e8edf2;
             --footer-accent: #4facfe;
+            --menu-bg: rgba(20, 20, 40, 0.95);
+            --overlay-bg: rgba(0, 0, 0, 0.6);
         }
 
         /* ============================================================
            SCROLLBAR
            ============================================================ */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
         ::-webkit-scrollbar-track {
             background: var(--bg-body);
@@ -113,7 +117,7 @@
         }
 
         /* ============================================================
-           NAVBAR - MOBILE FRIENDLY
+           NAVBAR - MOBILE COM HAMBURGUER
            ============================================================ */
         .navbar {
             position: fixed;
@@ -141,6 +145,12 @@
             opacity: 0;
         }
 
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .nav-logo {
             font-weight: 800;
             font-size: 1.2rem;
@@ -152,9 +162,59 @@
             flex-shrink: 0;
         }
 
-        .nav-links {
+        /* ===== BOTÃO HAMBURGUER ===== */
+        .hamburger {
             display: flex;
-            gap: 12px;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            min-width: 36px;
+            min-height: 36px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hamburger:hover {
+            background: var(--bg-glass-hover);
+        }
+
+        .hamburger:active {
+            transform: scale(0.92);
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: var(--text-secondary);
+            border-radius: 4px;
+            transition: 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        /* ===== NAV LINKS (Desktop) ===== */
+        .nav-links {
+            display: none;
+            gap: 16px;
             list-style: none;
             align-items: center;
         }
@@ -163,7 +223,7 @@
             text-decoration: none;
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             padding: 4px 2px;
             border-bottom: 2px solid transparent;
             transition: 0.3s;
@@ -177,6 +237,7 @@
             border-bottom-color: var(--accent-1);
         }
 
+        /* ===== NAV ACTIONS (Ícones) ===== */
         .nav-actions {
             display: flex;
             gap: 4px;
@@ -200,6 +261,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-icon:hover {
@@ -231,72 +293,191 @@
         }
 
         /* ============================================================
-           DROPDOWN - MOBILE
+           MENU HAMBURGUER - OVERLAY E SIDEBAR
            ============================================================ */
-        .translate-dropdown {
-            position: relative;
-            display: inline-block;
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        .translate-dropdown-content {
-            display: none;
-            position: absolute;
-            right: -8px;
-            top: 44px;
-            background: var(--bg-glass);
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .menu-sidebar {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            max-width: 80vw;
+            height: 100vh;
+            background: var(--menu-bg);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            box-shadow: var(--shadow-glass), var(--shadow-neon);
-            min-width: 150px;
-            padding: 6px 0;
+            border-left: 1px solid var(--border-glass);
             z-index: 1001;
-            overflow: hidden;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: -8px 0 40px rgba(0, 0, 0, 0.1);
         }
 
-        .translate-dropdown-content.show {
-            display: block;
-            animation: dropdownFade 0.25s ease;
+        .menu-sidebar.active {
+            right: 0;
         }
 
-        @keyframes dropdownFade {
-            from {
-                opacity: 0;
-                transform: translateY(-8px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        .menu-header {
+            padding: 0 20px 16px 20px;
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
         }
 
-        .translate-dropdown-content button {
-            display: block;
-            width: 100%;
-            padding: 10px 18px;
-            background: transparent;
-            border: none;
+        .menu-header .menu-title {
+            font-weight: 700;
+            font-size: 1.1rem;
             color: var(--text-primary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-align: left;
-            transition: 0.2s;
-            font-weight: 500;
-            min-height: 44px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .translate-dropdown-content button:active {
-            background: var(--gradient-glass);
+        .menu-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: 0.3s;
+            min-height: 40px;
+            min-width: 40px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .menu-close:active {
+            transform: rotate(90deg);
+            background: var(--bg-glass-hover);
+        }
+
+        .menu-items {
+            flex: 1;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.3s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-item:hover {
+            background: var(--bg-glass-hover);
             color: var(--accent-1);
         }
 
-        .translate-dropdown-content .flag {
-            margin-right: 10px;
+        .menu-item:active {
+            transform: scale(0.96);
+            background: var(--gradient-glass);
+        }
+
+        .menu-item .icon {
+            font-size: 1.3rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        .menu-item .badge {
+            margin-left: auto;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            background: var(--gradient-primary);
+            color: #fff;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: var(--border-glass);
+            margin: 8px 16px;
+        }
+
+        .menu-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-glass);
+            font-size: 0.7rem;
+            color: var(--text-soft);
+            text-align: center;
+            opacity: 0.6;
+            flex-shrink: 0;
         }
 
         /* ============================================================
-           CONTAINER - MOBILE
+           DROPDOWN (dentro do menu)
+           ============================================================ */
+        .menu-language-selector {
+            padding: 0 12px;
+            margin: 4px 0;
+        }
+
+        .menu-language-selector select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a5a7a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .menu-language-selector select:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15);
+        }
+
+        /* ============================================================
+           CONTAINER
            ============================================================ */
         .container {
             flex: 1;
@@ -317,7 +498,7 @@
         }
 
         /* ============================================================
-           HERO - MOBILE
+           HERO
            ============================================================ */
         .hero-text {
             text-align: center;
@@ -352,7 +533,7 @@
         }
 
         /* ============================================================
-           BENEFÍCIOS - MOBILE
+           BENEFÍCIOS
            ============================================================ */
         .benefits-section {
             margin: 12px 0 20px 0;
@@ -412,7 +593,7 @@
         }
 
         /* ============================================================
-           CALCULADORA - MOBILE
+           CALCULADORA
            ============================================================ */
         .calc-title {
             font-size: 1.5rem;
@@ -561,7 +742,7 @@
         }
 
         /* ============================================================
-           RESULTADO - MOBILE
+           RESULTADO
            ============================================================ */
         #resultado {
             margin-top: 20px;
@@ -624,7 +805,7 @@
         }
 
         /* ============================================================
-           BOTÃO VOLTAR AO TOPO - MOBILE
+           BOTÃO VOLTAR AO TOPO
            ============================================================ */
         .back-to-top {
             position: fixed;
@@ -666,7 +847,7 @@
         }
 
         /* ============================================================
-           ASSISTENTE IA - CHAT (MOBILE)
+           CHAT
            ============================================================ */
         .chat-toggle {
             position: fixed;
@@ -930,7 +1111,7 @@
         }
 
         /* ============================================================
-           RODAPÉ - MOBILE
+           RODAPÉ
            ============================================================ */
         footer {
             margin-top: auto;
@@ -1018,11 +1199,40 @@
         }
 
         /* ============================================================
-           RESPONSIVE - EXTRA SMALL
+           RESPONSIVE
            ============================================================ */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .reading-time {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+
+            .nav-links {
+                display: flex;
+            }
+
+            .menu-overlay,
+            .menu-sidebar {
+                display: none !important;
+            }
+        }
+
         @media (max-width: 480px) {
             body {
-                padding-top: 56px;
+                padding-top: 54px;
             }
 
             .navbar {
@@ -1034,13 +1244,9 @@
                 font-size: 1rem;
             }
 
-            .nav-links {
-                gap: 8px;
-            }
-
-            .nav-links a {
-                font-size: 0.6rem;
-                letter-spacing: 0.3px;
+            .hamburger span {
+                width: 20px;
+                height: 2px;
             }
 
             .btn-icon {
@@ -1049,12 +1255,6 @@
                 min-height: 32px;
                 min-width: 32px;
                 border-radius: 8px;
-            }
-
-            .reading-time {
-                font-size: 0.55rem;
-                padding: 2px 8px;
-                height: 26px;
             }
 
             .container {
@@ -1089,11 +1289,6 @@
                 font-size: 0.82rem;
                 line-height: 1.6;
                 margin-bottom: 8px;
-            }
-
-            .benefits-image-wrapper {
-                margin: 10px 0;
-                border-radius: 10px;
             }
 
             .calc-title {
@@ -1250,29 +1445,25 @@
                 font-size: 0.95rem;
             }
 
-            footer .footer-msg {
-                font-size: 0.65rem;
+            .menu-sidebar {
+                width: 260px;
+                max-width: 80vw;
+                right: -260px;
             }
 
-            footer .footer-love {
-                font-size: 0.55rem;
+            .menu-item {
+                padding: 12px 16px;
+                font-size: 0.9rem;
             }
 
-            .translate-dropdown-content {
-                right: -4px;
-                top: 40px;
-                min-width: 130px;
-            }
-
-            .translate-dropdown-content button {
-                padding: 8px 14px;
-                font-size: 0.8rem;
-                min-height: 38px;
+            .menu-item .icon {
+                font-size: 1.1rem;
+                width: 24px;
             }
         }
 
         /* ============================================================
-           TOUCH FEEDBACK - TODOS OS BOTÕES
+           TOUCH FEEDBACK
            ============================================================ */
         button,
         .btn-icon,
@@ -1280,39 +1471,12 @@
         .chat-toggle,
         .back-to-top,
         .chat-suggestions button,
-        .translate-dropdown-content button {
+        .menu-item,
+        .hamburger,
+        .menu-close {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
-        }
-
-        /* ============================================================
-           SCROLL PARA CHAT
-           ============================================================ */
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .chat-messages::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: var(--accent-1);
-            border-radius: 20px;
-        }
-
-        .historico::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .historico::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .historico::-webkit-scrollbar-thumb {
-            background: var(--accent-1);
-            border-radius: 20px;
         }
     </style>
 </head>
@@ -1324,32 +1488,81 @@
     <div class="progress-bar" id="progressBar"></div>
 
     <!-- ============================================================
-    NAVBAR - MOBILE
+    NAVBAR - COM HAMBURGUER
     ============================================================ -->
     <nav class="navbar" id="navbar">
-        <div class="nav-logo" id="navLogo">📊 IMC<span style="-webkit-text-fill-color: transparent;">Pro</span></div>
+        <div class="nav-left">
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-logo" id="navLogo">📊 IMC<span style="-webkit-text-fill-color: transparent;">Pro</span></div>
+        </div>
+
         <ul class="nav-links">
             <li><a id="navInicio">Início</a></li>
             <li><a id="navSobre">Sobre</a></li>
             <li><a id="navLogin">Login</a></li>
         </ul>
+
         <div class="nav-actions">
             <span class="reading-time" id="readingTime">⏱️ <span id="timeDisplay">3</span> min</span>
-            <div class="translate-dropdown">
-                <button class="btn-icon btn-translate" id="translateBtn">🌐</button>
-                <div class="translate-dropdown-content" id="translateDropdown">
-                    <button data-lang="pt"><span class="flag">🇵🇹</span> Português</button>
-                    <button data-lang="en"><span class="flag">🇺🇸</span> English</button>
-                    <button data-lang="es"><span class="flag">🇪🇸</span> Español</button>
-                    <button data-lang="fr"><span class="flag">🇫🇷</span> Français</button>
-                    <button data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
-                    <button data-lang="de"><span class="flag">🇩🇪</span> Deutsch</button>
-                    <button data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
-                </div>
-            </div>
             <button class="btn-icon btn-theme" id="themeBtn">🌙</button>
         </div>
     </nav>
+
+    <!-- ============================================================
+    MENU OVERLAY
+    ============================================================ -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ============================================================
+    MENU SIDEBAR
+    ============================================================ -->
+    <div class="menu-sidebar" id="menuSidebar">
+        <div class="menu-header">
+            <span class="menu-title">📊 Menu</span>
+            <button class="menu-close" id="menuClose">✕</button>
+        </div>
+
+        <div class="menu-items">
+            <button class="menu-item" data-target="inicio">
+                <span class="icon">📊</span> Início
+            </button>
+            <button class="menu-item" data-target="sobre">
+                <span class="icon">💡</span> Sobre
+            </button>
+            <button class="menu-item" data-target="login">
+                <span class="icon">🔐</span> Login
+                <span class="badge">em breve</span>
+            </button>
+
+            <div class="menu-divider"></div>
+
+            <!-- Seletor de idioma dentro do menu -->
+            <div class="menu-language-selector">
+                <select id="menuLanguageSelect">
+                    <option value="pt">🇵🇹 Português</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                </select>
+            </div>
+
+            <button class="menu-item" id="menuThemeBtn">
+                <span class="icon" id="menuThemeIcon">🌙</span>
+                <span id="menuThemeText">Tema Escuro</span>
+            </button>
+        </div>
+
+        <div class="menu-footer">
+            IMC Pro v2.0 · Rodrigues Siquisse
+        </div>
+    </div>
 
     <!-- ============================================================
     CONTEÚDO
@@ -1378,10 +1591,7 @@
                     </p>
 
                     <div class="benefits-image-wrapper">
-                        <img src="https://github.com/RodrigueJoaossiquisse/IMC/raw/main/Gemini_Generated_Image_n7tmqfn7tmqfn7tm.jpg"
-                        alt="Saúde e bem-estar"
-                        loading="lazy"
-                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22400%22%3E%3Crect fill=%22%232d2d44%22 width=%22800%22 height=%22400%22/%3E%3Ctext x=%22400%22 y=%22200%22 text-anchor=%22middle%22 fill=%22%23ffffff%22 font-family=%22system-ui%22 font-size=%2230%22%3E🌸 Saúde%3C/text%3E%3C/svg%3E'" />
+                        <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/IMC/main/Gemini_Generated_Image_n7tmqfn7tmqfn7tm.jpg" />
                     </div>
 
                     <p id="p2">
@@ -1422,12 +1632,12 @@
     </div>
 
     <!-- ============================================================
-    BOTÃO VOLTAR AO TOPO - MOBILE
+    BOTÃO VOLTAR AO TOPO
     ============================================================ -->
     <button class="back-to-top" id="backToTop" title="Voltar ao topo">⬆</button>
 
     <!-- ============================================================
-    ASSISTENTE IA - CHAT (MOBILE)
+    ASSISTENTE IA - CHAT
     ============================================================ -->
     <button class="chat-toggle" id="chatToggle" title="Assistente IA">🤖</button>
 
@@ -1454,7 +1664,7 @@
     </div>
 
     <!-- ============================================================
-    RODAPÉ - COM RELÓGIO
+    RODAPÉ
     ============================================================ -->
     <footer id="sobre">
         <div>
@@ -1469,7 +1679,7 @@
 
     <script>
         // ============================================================
-        // DICIONÁRIO COMPLETO - TODOS OS IDIOMAS
+        // DICIONÁRIO COMPLETO
         // ============================================================
         const translations = {
             pt: {
@@ -1497,12 +1707,16 @@
                 chatGreeting: '👋 Olá! Sou seu assistente de saúde. Pergunte sobre IMC, alimentação, exercícios e bem-estar!',
                 chatPlaceholder: 'Digite sua pergunta...',
                 chatSend: 'Enviar',
-                // Sugestões do chat
                 sug1: '📊 O que é IMC?',
                 sug2: '🧮 Como calcular meu IMC?',
                 sug3: '🎯 Qual o IMC ideal?',
                 sug4: '⚠️ O que fazer se estou acima do peso?',
-                // Classificações
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Início',
+                menuAbout: '💡 Sobre',
+                menuLogin: '🔐 Login',
+                menuTheme: 'Tema Escuro',
+                menuLanguage: 'Idioma',
                 c1: 'Magreza Grave',
                 c1msg: 'Procure orientação médica imediatamente',
                 c2: 'Magreza Moderada',
@@ -1521,7 +1735,6 @@
                 c8msg: 'Procure ajuda médica especializada',
                 error: 'Dados inválidos',
                 errorMsg: 'Insira valores válidos',
-                // Saudações
                 saudacao_oi: 'Olá! Como posso ajudar você hoje? 😊',
                 saudacao_ola: 'Olá! Como posso ajudar você hoje? 😊',
                 saudacao_tchau: 'Até logo! Cuide-se! 😊',
@@ -1532,7 +1745,6 @@
                 saudacao_tudobem: 'Tudo bem sim! Como posso ajudar você hoje? 😊',
                 saudacao_obrigado: 'Por nada! 😊 Estou aqui para ajudar!',
                 saudacao_valeu: 'Disponha! 😊',
-                // Perguntas e respostas
                 q1: 'O que é IMC?',
                 a1: 'IMC significa Índice de Massa Corporal. É uma medida usada para avaliar se uma pessoa está com peso adequado, abaixo ou acima do ideal. É calculado dividindo o peso pela altura ao quadrado.',
                 q2: 'Como calcular meu IMC?',
@@ -1583,6 +1795,12 @@
                 sug2: '🧮 How to calculate my BMI?',
                 sug3: '🎯 What is the ideal BMI?',
                 sug4: '⚠️ What if I am overweight?',
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Home',
+                menuAbout: '💡 About',
+                menuLogin: '🔐 Login',
+                menuTheme: 'Dark Theme',
+                menuLanguage: 'Language',
                 c1: 'Severe Thinness',
                 c1msg: 'Seek medical guidance immediately',
                 c2: 'Moderate Thinness',
@@ -1661,6 +1879,12 @@
                 sug2: '🧮 ¿Cómo calcular mi IMC?',
                 sug3: '🎯 ¿Cuál es el IMC ideal?',
                 sug4: '⚠️ ¿Qué hacer si tengo sobrepeso?',
+                menuTitle: '📊 Menú',
+                menuHome: '📊 Inicio',
+                menuAbout: '💡 Sobre',
+                menuLogin: '🔐 Iniciar sesión',
+                menuTheme: 'Tema Oscuro',
+                menuLanguage: 'Idioma',
                 c1: 'Delgadez Severa',
                 c1msg: 'Busca orientación médica inmediatamente',
                 c2: 'Delgadez Moderada',
@@ -1739,6 +1963,12 @@
                 sug2: '🧮 Comment calculer mon IMC?',
                 sug3: '🎯 Quel est l\'IMC idéal?',
                 sug4: '⚠️ Que faire si je suis en surpoids?',
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Accueil',
+                menuAbout: '💡 À propos',
+                menuLogin: '🔐 Connexion',
+                menuTheme: 'Thème Sombre',
+                menuLanguage: 'Langue',
                 c1: 'Maigreur Sévère',
                 c1msg: 'Consultez un médecin immédiatement',
                 c2: 'Maigreur Modérée',
@@ -1817,6 +2047,12 @@
                 sug2: '🧮 Come calcolare il mio IMC?',
                 sug3: '🎯 Qual è l\'IMC ideale?',
                 sug4: '⚠️ Cosa fare se sono in sovrappeso?',
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Home',
+                menuAbout: '💡 Chi siamo',
+                menuLogin: '🔐 Accedi',
+                menuTheme: 'Tema Scuro',
+                menuLanguage: 'Lingua',
                 c1: 'Magrezza Grave',
                 c1msg: 'Cerca aiuto medico immediatamente',
                 c2: 'Magrezza Moderata',
@@ -1895,6 +2131,12 @@
                 sug2: '🧮 Wie berechne ich meinen BMI?',
                 sug3: '🎯 Was ist der ideale BMI?',
                 sug4: '⚠️ Was tun bei Übergewicht?',
+                menuTitle: '📊 Menü',
+                menuHome: '📊 Start',
+                menuAbout: '💡 Über uns',
+                menuLogin: '🔐 Anmelden',
+                menuTheme: 'Dunkles Thema',
+                menuLanguage: 'Sprache',
                 c1: 'Schweres Untergewicht',
                 c1msg: 'Suchen Sie sofort ärztlichen Rat',
                 c2: 'Mäßiges Untergewicht',
@@ -1973,6 +2215,12 @@
                 sug2: '🧮 BMIの計算方法は？',
                 sug3: '🎯 理想的なBMIは？',
                 sug4: '⚠️ 過体重の場合はどうすればいいですか？',
+                menuTitle: '📊 メニュー',
+                menuHome: '📊 ホーム',
+                menuAbout: '💡 について',
+                menuLogin: '🔐 ログイン',
+                menuTheme: 'ダークテーマ',
+                menuLanguage: '言語',
                 c1: '重度のやせ',
                 c1msg: 'すぐに医師の指導を求めてください',
                 c2: '中等度のやせ',
@@ -2030,6 +2278,15 @@
         const navbar = document.getElementById('navbar');
         const progressBar = document.getElementById('progressBar');
         const backToTop = document.getElementById('backToTop');
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuSidebar = document.getElementById('menuSidebar');
+        const menuClose = document.getElementById('menuClose');
+        const menuThemeBtn = document.getElementById('menuThemeBtn');
+        const menuThemeIcon = document.getElementById('menuThemeIcon');
+        const menuThemeText = document.getElementById('menuThemeText');
+        const menuLanguageSelect = document.getElementById('menuLanguageSelect');
+
         const alturaSlider = document.getElementById('alturaSlider');
         const pesoSlider = document.getElementById('pesoSlider');
         const alturaInput = document.getElementById('alturaInput');
@@ -2062,9 +2319,105 @@
         let lastIMC = null;
         let lastIMCValue = null;
         let currentLang = 'pt';
+        let darkMode = false;
 
         // ============================================================
-        // RELÓGIO EM TEMPO REAL
+        // MENU HAMBURGUER
+        // ============================================================
+        function toggleMenu() {
+            const isOpen = menuSidebar.classList.contains('active');
+            if (isOpen) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        }
+
+        function openMenu() {
+            menuSidebar.classList.add('active');
+            menuOverlay.classList.add('active');
+            hamburgerBtn.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            menuSidebar.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            hamburgerBtn.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        hamburgerBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleMenu();
+        });
+
+        menuOverlay.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeMenu();
+        });
+
+        menuClose.addEventListener('click', closeMenu);
+        menuClose.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeMenu();
+        });
+
+        // ============================================================
+        // MENU ITEMS
+        // ============================================================
+        document.querySelectorAll('.menu-item[data-target]').forEach(item => {
+            item.addEventListener('click', () => {
+                const target = item.dataset.target;
+                if (target === 'inicio') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (target === 'sobre') {
+                    document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' });
+                } else if (target === 'login') {
+                    alert('🔐 Área de login em desenvolvimento!');
+                }
+                closeMenu();
+            });
+            item.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const target = item.dataset.target;
+                if (target === 'inicio') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (target === 'sobre') {
+                    document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' });
+                } else if (target === 'login') {
+                    alert('🔐 Área de login em desenvolvimento!');
+                }
+                closeMenu();
+            });
+        });
+
+        // ============================================================
+        // MENU THEME
+        // ============================================================
+        menuThemeBtn.addEventListener('click', () => {
+            toggleTheme();
+            closeMenu();
+        });
+        menuThemeBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleTheme();
+            closeMenu();
+        });
+
+        // ============================================================
+        // MENU LANGUAGE
+        // ============================================================
+        menuLanguageSelect.addEventListener('change', () => {
+            const lang = menuLanguageSelect.value;
+            aplicarTraducao(lang);
+            closeMenu();
+        });
+
+        // ============================================================
+        // RELÓGIO
         // ============================================================
         function updateClock() {
             const now = new Date();
@@ -2217,11 +2570,20 @@
         // ============================================================
         // TEMA
         // ============================================================
-        let darkMode = false;
-        themeBtn.addEventListener('click', () => {
+        function toggleTheme() {
             darkMode = !darkMode;
             document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
-            themeBtn.textContent = darkMode ? '☀️' : '🌙';
+            const themeIcon = darkMode ? '☀️' : '🌙';
+            const themeText = darkMode ? 'Tema Claro' : 'Tema Escuro';
+            themeBtn.textContent = themeIcon;
+            menuThemeIcon.textContent = themeIcon;
+            menuThemeText.textContent = themeText;
+        }
+
+        themeBtn.addEventListener('click', toggleTheme);
+        themeBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleTheme();
         });
 
         // ============================================================
@@ -2231,21 +2593,29 @@
             currentLang = lang;
             const t = translations[lang] || translations.pt;
 
+            // NAVBAR
             document.getElementById('navLogo').innerHTML = t.navLogo;
             document.getElementById('navInicio').textContent = t.navInicio;
             document.getElementById('navSobre').textContent = t.navSobre;
             document.getElementById('navLogin').textContent = t.navLogin;
+
+            // HERO
             document.getElementById('heroTitle').innerHTML = t.heroTitle;
             document.getElementById('heroSub').textContent = t.heroSub;
+
+            // BENEFITS
             document.getElementById('benefitsTitle').textContent = t.benefitsTitle;
             document.getElementById('p1').innerHTML = t.p1;
             document.getElementById('p2').innerHTML = t.p2;
+
+            // CALCULADORA
             document.getElementById('calcTitle').textContent = t.calcTitle;
             document.getElementById('calcSub').textContent = t.calcSub;
             document.getElementById('labelAltura').innerHTML = t.labelAltura + ' <span id="alturaValor">' + alturaValor.textContent + '</span>';
             document.getElementById('labelPeso').innerHTML = t.labelPeso + ' <span id="pesoValor">' + pesoValor.textContent + '</span>';
             document.getElementById('calcularBtn').textContent = t.btnCalcular;
 
+            // RESULTADO
             if (lastIMCValue !== null) {
                 const info = classificarIMC(lastIMCValue, lang);
                 imcDisplay.textContent = `${info.emoji} ${lastIMC}`;
@@ -2263,13 +2633,17 @@
                 historicoDisplay.innerHTML = (t.historico || '📋 Histórico:') + ' ';
             }
 
+            // FOOTER
             footerMsg.textContent = t.footerMsg;
             footerLove.textContent = t.footerLove;
+
+            // CHAT
             chatTitle.textContent = t.chatTitle;
             chatGreeting.textContent = t.chatGreeting;
             chatInput.placeholder = t.chatPlaceholder;
             chatSend.textContent = t.chatSend;
 
+            // SUGESTÕES
             const sugs = [t.sug1, t.sug2, t.sug3, t.sug4];
             const suggestionBtns = chatSuggestions.querySelectorAll('button');
             suggestionBtns.forEach((btn, index) => {
@@ -2280,38 +2654,37 @@
                 }
             });
 
-            const flagMap = { pt: '🇵🇹', en: '🇺🇸', es: '🇪🇸', fr: '🇫🇷', it: '🇮🇹', de: '🇩🇪', ja: '🇯🇵' };
-            translateBtn.textContent = flagMap[lang] || '🌐';
+            // MENU
+            document.querySelector('.menu-title').textContent = t.menuTitle;
+            document.querySelectorAll('.menu-item[data-target="inicio"] .icon').forEach(el => {});
+            document.querySelector('.menu-item[data-target="inicio"]').innerHTML = `<span class="icon">📊</span> ${t.menuHome}`;
+            document.querySelector('.menu-item[data-target="sobre"]').innerHTML = `<span class="icon">💡</span> ${t.menuAbout}`;
+            document.querySelector('.menu-item[data-target="login"]').innerHTML = `<span class="icon">🔐</span> ${t.menuLogin} <span class="badge">em breve</span>`;
+
+            // MENU LANGUAGE SELECT
+            const langNames = {
+                pt: '🇵🇹 Português',
+                en: '🇺🇸 English',
+                es: '🇪🇸 Español',
+                fr: '🇫🇷 Français',
+                it: '🇮🇹 Italiano',
+                de: '🇩🇪 Deutsch',
+                ja: '🇯🇵 日本語'
+            };
+            menuLanguageSelect.value = lang;
+            menuLanguageSelect.options.forEach(opt => {
+                opt.textContent = langNames[opt.value] || opt.value;
+            });
+
+            // MENU THEME
+            const themeText = darkMode ? 'Tema Claro' : 'Tema Escuro';
+            const themeIcon = darkMode ? '☀️' : '🌙';
+            menuThemeIcon.textContent = themeIcon;
+            menuThemeText.textContent = themeText;
         }
 
         // ============================================================
-        // DROPDOWN
-        // ============================================================
-        translateBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            translateDropdown.classList.toggle('show');
-        });
-
-        document.querySelectorAll('.translate-dropdown-content button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.dataset.lang;
-                translateDropdown.classList.remove('show');
-                aplicarTraducao(lang);
-            });
-            btn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                const lang = btn.dataset.lang;
-                translateDropdown.classList.remove('show');
-                aplicarTraducao(lang);
-            });
-        });
-
-        document.addEventListener('click', () => {
-            translateDropdown.classList.remove('show');
-        });
-
-        // ============================================================
-        // ASSISTENTE IA - CHAT
+        // CHAT - ASSISTENTE IA
         // ============================================================
         chatToggle.addEventListener('click', () => {
             chatWindow.classList.toggle('open');
@@ -2335,7 +2708,6 @@
             const t = translations[currentLang] || translations.pt;
             const q = question.toLowerCase().trim().replace(/[?¿!¡.]/g, '');
 
-            // Saudações rápidas
             const quickResponses = {
                 'obrigado': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
                 'obrigada': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
@@ -2388,7 +2760,6 @@
                 }
             }
 
-            // Perguntas e respostas
             const qKeys = Object.keys(t).filter(key => key.startsWith('q'));
             const aKeys = Object.keys(t).filter(key => key.startsWith('a'));
 
@@ -2403,7 +2774,6 @@
                 }
             }
 
-            // Palavras-chave
             const keywords = {
                 'imc': ['q1', 'q2', 'q3'],
                 'calcular': ['q2'],
@@ -2523,8 +2893,6 @@
         // ============================================================
         sincronizar();
         aplicarTraducao('pt');
-
-        // Tempo de leitura fixo em 3 minutos
         document.getElementById('timeDisplay').textContent = '3';
     </script>
 </body>
