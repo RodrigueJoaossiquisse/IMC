@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>📊 IMC Pro · Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            padding-top: 60px;
+            font-weight: 400;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ============================================================
+           CORES
+           ============================================================ */
+        :root {
+            --bg-body: #f0f4f8;
+            --bg-glass: rgba(255, 255, 255, 0.6);
+            --bg-glass-hover: rgba(255, 255, 255, 0.8);
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --bg-input: rgba(255, 255, 255, 0.5);
+            --text-primary: #1a1a2e;
+            --text-secondary: #2d2d44;
+            --text-soft: #5a5a7a;
+            --border-glass: rgba(255, 255, 255, 0.3);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-neon: 0 0 30px rgba(79, 172, 254, 0.15);
+            --accent-1: #4facfe;
+            --accent-2: #00f2fe;
+            --accent-3: #a855f7;
+            --gradient-primary: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #a855f7 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(168, 85, 247, 0.1));
+            --glow-neon: 0 0 30px rgba(79, 172, 254, 0.2);
+            --footer-bg: rgba(26, 26, 46, 0.95);
+            --footer-text: #e8edf2;
+            --footer-accent: #4facfe;
+            --menu-bg: rgba(255, 255, 255, 0.95);
+            --overlay-bg: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0d0d1a;
+            --bg-glass: rgba(20, 20, 40, 0.6);
+            --bg-glass-hover: rgba(30, 30, 50, 0.8);
+            --bg-card: rgba(20, 20, 40, 0.7);
+            --bg-input: rgba(30, 30, 50, 0.5);
+            --text-primary: #e8edf2;
+            --text-secondary: #b0c4db;
+            --text-soft: #8aa0b8;
+            --border-glass: rgba(79, 172, 254, 0.2);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-neon: 0 0 40px rgba(79, 172, 254, 0.1);
+            --glow-neon: 0 0 30px rgba(79, 172, 254, 0.15);
+            --footer-bg: rgba(10, 10, 20, 0.95);
+            --footer-text: #e8edf2;
+            --footer-accent: #4facfe;
+            --menu-bg: rgba(20, 20, 40, 0.95);
+            --overlay-bg: rgba(0, 0, 0, 0.6);
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-3));
+            border-radius: 20px;
+        }
+
+        /* ============================================================
+           BARRA DE PROGRESSO
+           ============================================================ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s ease;
+            box-shadow: var(--glow-neon);
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 0 12px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease;
+            box-shadow: var(--shadow-glass);
+            gap: 4px;
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            min-width: 36px;
+            min-height: 36px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hamburger:hover {
+            background: var(--bg-glass-hover);
+        }
+
+        .hamburger:active {
+            transform: scale(0.92);
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: var(--text-secondary);
+            border-radius: 4px;
+            transition: 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        .nav-links {
+            display: none;
+            gap: 16px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a,
+        .nav-links span {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 4px 2px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-1);
+            border-bottom-color: var(--accent-1);
+        }
+
+        .nav-links span {
+            opacity: 0.6;
+            cursor: default;
+            border-bottom: 2px solid var(--accent-1);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 10px;
+            transition: 0.3s;
+            color: var(--text-secondary);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            min-height: 36px;
+            min-width: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-icon:hover {
+            background: var(--bg-glass-hover);
+            color: var(--accent-1);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-neon);
+            border-color: var(--accent-1);
+        }
+
+        .btn-icon:active {
+            transform: scale(0.92);
+        }
+
+        .reading-time {
+            font-size: 0.6rem;
+            color: var(--text-soft);
+            padding: 2px 10px;
+            background: var(--bg-glass);
+            border-radius: 16px;
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+            white-space: nowrap;
+            height: 30px;
+        }
+
+        /* ============================================================
+           MENU HAMBURGUER
+           ============================================================ */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .menu-sidebar {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            max-width: 80vw;
+            height: 100vh;
+            background: var(--menu-bg);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid var(--border-glass);
+            z-index: 1001;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: -8px 0 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-sidebar.active {
+            right: 0;
+        }
+
+        .menu-header {
+            padding: 0 20px 16px 20px;
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .menu-header .menu-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: 0.3s;
+            min-height: 40px;
+            min-width: 40px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .menu-close:active {
+            transform: rotate(90deg);
+            background: var(--bg-glass-hover);
+        }
+
+        .menu-items {
+            flex: 1;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.3s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-item:hover {
+            background: var(--bg-glass-hover);
+            color: var(--accent-1);
+        }
+
+        .menu-item:active {
+            transform: scale(0.96);
+            background: var(--gradient-glass);
+        }
+
+        .menu-item .icon {
+            font-size: 1.3rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        .menu-item .badge {
+            margin-left: auto;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            background: var(--gradient-primary);
+            color: #fff;
+        }
+
+        .menu-item.disabled {
+            opacity: 0.6;
+            cursor: default;
+            background: var(--gradient-glass);
+        }
+
+        .menu-item.disabled:hover {
+            background: var(--gradient-glass);
+            color: var(--text-secondary);
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: var(--border-glass);
+            margin: 8px 16px;
+        }
+
+        .menu-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-glass);
+            font-size: 0.7rem;
+            color: var(--text-soft);
+            text-align: center;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        .menu-language-selector {
+            padding: 0 12px;
+            margin: 4px 0;
+        }
+
+        .menu-language-selector select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a5a7a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        /* ============================================================
+           CONTAINER LOGIN
+           ============================================================ */
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 16px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 28px;
+            padding: 36px 28px;
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
+            width: 100%;
+            animation: fadeUp 0.6s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-header .login-icon {
+            font-size: 3rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .login-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .login-header p {
+            color: var(--text-soft);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .login-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-primary);
+            margin: 12px auto 16px;
+            border-radius: 4px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .login-form .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .login-form .input-group label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-form .input-group label .label-icon {
+            font-size: 1.1rem;
+        }
+
+        .login-form .input-group input {
+            background: var(--bg-input);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: 0.3s;
+            font-weight: 500;
+            width: 100%;
+            min-height: 50px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .login-form .input-group input:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), var(--glow-neon);
+            background: var(--bg-glass-hover);
+        }
+
+        .login-form .input-group input::placeholder {
+            color: var(--text-soft);
+            opacity: 0.5;
+        }
+
+        .login-btn {
+            margin-top: 8px;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: var(--shadow-neon), var(--glow-neon);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            min-height: 54px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.6s;
+        }
+
+        .login-btn:active::before {
+            left: 100%;
+        }
+
+        .login-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 20px rgba(79, 172, 254, 0.3), var(--glow-neon);
+        }
+
+        .login-message {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-10px);
+            }
+            40% {
+                transform: translateX(10px);
+            }
+            60% {
+                transform: translateX(-6px);
+            }
+            80% {
+                transform: translateX(6px);
+            }
+        }
+
+        .login-message.error {
+            display: flex;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .login-message.success {
+            display: flex;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+
+        .login-message .msg-icon {
+            font-size: 1.3rem;
+        }
+
+        .login-footer-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .login-footer-links a {
+            color: var(--text-soft);
+            font-size: 0.85rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        .login-footer-links a:hover {
+            color: var(--accent-1);
+            background: var(--bg-glass-hover);
+        }
+
+        .login-footer-links a:active {
+            transform: scale(0.95);
+        }
+
+        /* ============================================================
+           BOTÃO VOLTAR AO TOPO
+           ============================================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            left: 16px;
+            z-index: 998;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: var(--shadow-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .back-to-top:active {
+            transform: scale(0.88);
+            background: var(--bg-glass-hover);
+            color: var(--accent-1);
+            box-shadow: var(--shadow-neon), var(--glow-neon);
+        }
+
+        /* ============================================================
+           CHAT
+           ============================================================ */
+        .chat-toggle {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 999;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: #fff;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-neon), var(--glow-neon);
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulseChat 2s ease-in-out infinite;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @keyframes pulseChat {
+            0%,
+            100% {
+                box-shadow: var(--shadow-neon), var(--glow-neon);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(79, 172, 254, 0.4), var(--glow-neon);
+            }
+        }
+
+        .chat-toggle:active {
+            transform: scale(0.88) rotate(-6deg);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 84px;
+            right: 12px;
+            z-index: 998;
+            width: calc(100vw - 24px);
+            max-width: 400px;
+            height: 65vh;
+            max-height: 500px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: chatOpen 0.35s ease;
+        }
+
+        .chat-window.open {
+            display: flex;
+        }
+
+        @keyframes chatOpen {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .chat-header {
+            padding: 14px 16px;
+            background: var(--gradient-primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            min-height: 52px;
+        }
+
+        .chat-header .close-chat {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: 0.3s;
+            padding: 4px 8px;
+            min-height: 40px;
+            min-width: 40px;
+        }
+
+        .chat-header .close-chat:active {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 12px 14px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .chat-message {
+            max-width: 88%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            animation: msgFade 0.3s ease;
+            word-wrap: break-word;
+        }
+
+        @keyframes msgFade {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-message.bot {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.user {
+            background: var(--gradient-primary);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .chat-message .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-soft);
+            animation: typing 1.4s ease-in-out infinite;
+        }
+
+        .chat-message .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .chat-message .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+
+        .chat-input-area {
+            padding: 10px 12px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+            background: var(--bg-glass);
+            flex-wrap: wrap;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+            min-height: 46px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15);
+        }
+
+        .chat-input-area button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            min-height: 46px;
+            min-width: 70px;
+            font-size: 0.9rem;
+        }
+
+        .chat-input-area button:active {
+            transform: scale(0.94);
+        }
+
+        .chat-suggestions {
+            padding: 6px 12px 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            flex-shrink: 0;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .chat-suggestions button {
+            padding: 6px 12px;
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+            min-height: 34px;
+            -webkit-tap-highlight-color: transparent;
+            white-space: nowrap;
+        }
+
+        .chat-suggestions button:active {
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            box-shadow: var(--shadow-neon);
+            transform: scale(0.95);
+        }
+
+        /* ============================================================
+           RODAPÉ
+           ============================================================ */
+        footer {
+            margin-top: auto;
+            background: var(--footer-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 2px solid rgba(79, 172, 254, 0.15);
+            padding: 20px 16px;
+            text-align: center;
+            color: var(--footer-text);
+            font-size: 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            animation: shimmerFooter 4s ease-in-out infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmerFooter {
+            0%,
+            100% {
+                background-position: -200% 0;
+            }
+            50% {
+                background-position: 200% 0;
+            }
+        }
+
+        footer .footer-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        footer .footer-divider {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--footer-text);
+            opacity: 0.3;
+        }
+
+        footer .footer-date {
+            color: var(--footer-text);
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        footer .footer-clock {
+            display: block;
+            margin-top: 4px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--footer-accent);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 1.5px;
+        }
+
+        footer .footer-msg {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.75rem;
+            opacity: 0.5;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        footer .footer-love {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.65rem;
+            opacity: 0.3;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .reading-time {
+                display: none;
+            }
+
+            .container {
+                padding: 12px 12px;
+                max-width: 100%;
+            }
+
+            .login-card {
+                padding: 28px 20px;
+                border-radius: 24px;
+            }
+
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .login-header .login-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+
+            .nav-links {
+                display: flex;
+            }
+
+            .menu-overlay,
+            .menu-sidebar {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 54px;
+            }
+
+            .navbar {
+                height: 54px;
+                padding: 0 8px;
+            }
+
+            .nav-logo {
+                font-size: 1rem;
+            }
+
+            .hamburger span {
+                width: 20px;
+                height: 2px;
+            }
+
+            .btn-icon {
+                font-size: 0.85rem;
+                padding: 4px 6px;
+                min-height: 32px;
+                min-width: 32px;
+                border-radius: 8px;
+            }
+
+            .container {
+                padding: 8px 8px;
+            }
+
+            .login-card {
+                padding: 24px 16px;
+                border-radius: 20px;
+            }
+
+            .login-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .login-header .login-icon {
+                font-size: 2.2rem;
+            }
+
+            .login-header p {
+                font-size: 0.8rem;
+            }
+
+            .login-form .input-group input {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+                min-height: 44px;
+                border-radius: 12px;
+            }
+
+            .login-btn {
+                padding: 14px;
+                font-size: 0.95rem;
+                min-height: 48px;
+                border-radius: 12px;
+            }
+
+            .login-message {
+                font-size: 0.82rem;
+                padding: 10px 14px;
+            }
+
+            .login-footer-links a {
+                font-size: 0.75rem;
+            }
+
+            .chat-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+                bottom: 12px;
+                right: 12px;
+            }
+
+            .chat-window {
+                right: 8px;
+                bottom: 72px;
+                width: calc(100vw - 16px);
+                height: 58vh;
+                max-height: 420px;
+                border-radius: 16px;
+            }
+
+            .chat-header {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+                min-height: 44px;
+            }
+
+            .chat-messages {
+                padding: 10px 12px;
+                gap: 6px;
+            }
+
+            .chat-message {
+                font-size: 0.82rem;
+                padding: 8px 12px;
+                border-radius: 12px;
+                max-width: 92%;
+            }
+
+            .chat-input-area {
+                padding: 8px 10px;
+                gap: 6px;
+            }
+
+            .chat-input-area input {
+                padding: 10px 12px;
+                font-size: 0.82rem;
+                min-height: 40px;
+                border-radius: 10px;
+            }
+
+            .chat-input-area button {
+                padding: 10px 14px;
+                min-height: 40px;
+                min-width: 60px;
+                font-size: 0.82rem;
+                border-radius: 10px;
+            }
+
+            .chat-suggestions {
+                padding: 4px 10px 8px;
+                gap: 4px;
+            }
+
+            .chat-suggestions button {
+                font-size: 0.65rem;
+                padding: 4px 10px;
+                min-height: 30px;
+                border-radius: 14px;
+            }
+
+            .back-to-top {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+                bottom: 72px;
+                left: 12px;
+            }
+
+            footer {
+                padding: 16px 12px;
+                font-size: 0.7rem;
+            }
+
+            footer .footer-name {
+                font-size: 0.95rem;
+            }
+
+            footer .footer-clock {
+                font-size: 0.95rem;
+            }
+
+            .menu-sidebar {
+                width: 260px;
+                max-width: 80vw;
+                right: -260px;
+            }
+
+            .menu-item {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
+            .menu-item .icon {
+                font-size: 1.1rem;
+                width: 24px;
+            }
+        }
+
+        /* ============================================================
+           TOUCH FEEDBACK
+           ============================================================ */
+        button,
+        .btn-icon,
+        .btn-calcular,
+        .chat-toggle,
+        .back-to-top,
+        .chat-suggestions button,
+        .menu-item,
+        .hamburger,
+        .menu-close {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    BARRA DE PROGRESSO
+    ============================================================ -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-left">
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-logo" id="navLogo">📊 IMC<span style="-webkit-text-fill-color: transparent;">Pro</span></div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" id="navInicio">Início</a></li>
+            <li><a href="saude.html" id="navSaude">Cuidar da Saúde</a></li>
+            <li><span id="navLogin" style="cursor:default;opacity:0.6;border-bottom:2px solid var(--accent-1);">Login</span></li>
+        </ul>
+
+        <div class="nav-actions">
+            <span class="reading-time" id="readingTime">⏱️ <span id="timeDisplay">3</span> min</span>
+            <button class="btn-icon btn-theme" id="themeBtn">🌙</button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+    MENU OVERLAY
+    ============================================================ -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ============================================================
+    MENU SIDEBAR
+    ============================================================ -->
+    <div class="menu-sidebar" id="menuSidebar">
+        <div class="menu-header">
+            <span class="menu-title">📊 Menu</span>
+            <button class="menu-close" id="menuClose">✕</button>
+        </div>
+
+        <div class="menu-items">
+            <a href="index.html" class="menu-item">
+                <span class="icon">📊</span> Início
+            </a>
+            <a href="saude.html" class="menu-item">
+                <span class="icon">💡</span> Cuidar da Saúde
+            </a>
+            <span class="menu-item disabled">
+                <span class="icon">🔐</span> Login
+                <span class="badge">ativo</span>
+            </span>
+
+            <div class="menu-divider"></div>
+
+            <div class="menu-language-selector">
+                <select id="menuLanguageSelect">
+                    <option value="pt">🇵🇹 Português</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                </select>
+            </div>
+
+            <button class="menu-item" id="menuThemeBtn">
+                <span class="icon" id="menuThemeIcon">🌙</span>
+                <span id="menuThemeText">Tema Escuro</span>
+            </button>
+        </div>
+
+        <div class="menu-footer">
+            IMC Pro v2.0 · Rodrigues Siquisse
+        </div>
+    </div>
+
+    <!-- ============================================================
+    CONTEÚDO - TELA DE LOGIN FAKE
+    ============================================================ -->
+    <div class="container" id="loginPage">
+        <div class="login-card">
+            <div class="login-header">
+                <span class="login-icon">🔐</span>
+                <h1 id="loginTitle">Bem-vindo de volta</h1>
+                <p id="loginSub">Faça login para continuar</p>
+                <div class="login-divider"></div>
+            </div>
+
+            <form class="login-form" id="loginForm" autocomplete="off">
+                <div class="input-group">
+                    <label>
+                        <span class="label-icon">👤</span>
+                        <span id="labelUser">Usuário ou Email</span>
+                    </label>
+                    <input type="text" id="loginUser" placeholder="Digite seu usuário..." />
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <span class="label-icon">🔒</span>
+                        <span id="labelPass">Senha</span>
+                    </label>
+                    <input type="password" id="loginPass" placeholder="Digite sua senha..." />
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">🚀 Entrar</button>
+
+                <div class="login-message" id="loginMessage">
+                    <span class="msg-icon">❌</span>
+                    <span id="msgText">Login ou senha incorretos!</span>
+                </div>
+            </form>
+
+            <div class="login-footer-links">
+                <a id="backToHome">← Voltar à calculadora</a>
+                <a id="forgotPass" style="opacity:0.5;">Esqueceu a senha?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    BOTÃO VOLTAR AO TOPO
+    ============================================================ -->
+    <button class="back-to-top" id="backToTop" title="Voltar ao topo">⬆</button>
+
+    <!-- ============================================================
+    ASSISTENTE IA - CHAT
+    ============================================================ -->
+    <button class="chat-toggle" id="chatToggle" title="Assistente IA">🤖</button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span id="chatTitle">🤖 Assistente IMC</span>
+            <button class="close-chat" id="closeChat">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot" id="chatGreeting">
+                👋 Olá! Sou seu assistente de saúde. Pergunte sobre IMC, alimentação, exercícios e bem-estar!
+            </div>
+        </div>
+        <div class="chat-suggestions" id="chatSuggestions">
+            <button data-question="O que é IMC?">📊 O que é IMC?</button>
+            <button data-question="Como calcular meu IMC?">🧮 Como calcular?</button>
+            <button data-question="Qual o IMC ideal?">🎯 IMC ideal</button>
+            <button data-question="O que fazer se estou acima do peso?">⚠️ Sobrepeso</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Digite sua pergunta..." />
+            <button id="chatSend">Enviar</button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    RODAPÉ
+    ============================================================ -->
+    <footer id="sobre">
+        <div>
+            <span class="footer-name">Rodrigues Siquisse</span>
+            <span class="footer-divider">◆</span>
+            <span class="footer-date" id="footerDate"></span>
+        </div>
+        <div class="footer-clock" id="footerClock">⏰ 00:00:00</div>
+        <div class="footer-msg" id="footerMsg">◆ Compromisso com sua saúde ◆</div>
+        <div class="footer-love" id="footerLove">📊 IMC Profissional · Todos os direitos reservados</div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // DICIONÁRIO COMPLETO
+        // ============================================================
+        const translations = {
+            pt: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Início',
+                navSaude: 'Cuidar da Saúde',
+                navLogin: 'Login',
+                loginTitle: 'Bem-vindo de volta',
+                loginSub: 'Faça login para continuar',
+                labelUser: 'Usuário ou Email',
+                labelPass: 'Senha',
+                loginBtn: '🚀 Entrar',
+                backHome: '← Voltar à calculadora',
+                forgotPass: 'Esqueceu a senha?',
+                msgError: '❌ Login ou senha incorretos!',
+                msgSuccess: '✅ Login realizado com sucesso! (fake)',
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Início',
+                menuAbout: '💡 Cuidar da Saúde',
+                menuLogin: '🔐 Login',
+                menuTheme: 'Tema Escuro',
+                menuLanguage: 'Idioma',
+                chatTitle: '🤖 Assistente IMC',
+                chatGreeting: '👋 Olá! Sou seu assistente de saúde. Pergunte sobre IMC, alimentação, exercícios e bem-estar!',
+                chatPlaceholder: 'Digite sua pergunta...',
+                chatSend: 'Enviar',
+                sug1: '📊 O que é IMC?',
+                sug2: '🧮 Como calcular meu IMC?',
+                sug3: '🎯 Qual o IMC ideal?',
+                sug4: '⚠️ O que fazer se estou acima do peso?',
+                footerMsg: '◆ Compromisso com sua saúde ◆',
+                footerLove: '📊 IMC Profissional · Todos os direitos reservados',
+                saudacao_oi: 'Olá! Como posso ajudar você hoje? 😊',
+                saudacao_ola: 'Olá! Como posso ajudar você hoje? 😊',
+                saudacao_tchau: 'Até logo! Cuide-se! 😊',
+                saudacao_obrigado: 'Por nada! 😊 Estou aqui para ajudar!'
+            },
+            en: {
+                navLogo: '📊 BMIPro',
+                navInicio: 'Home',
+                navSaude: 'Health Care',
+                navLogin: 'Login',
+                loginTitle: 'Welcome back',
+                loginSub: 'Log in to continue',
+                labelUser: 'Username or Email',
+                labelPass: 'Password',
+                loginBtn: '🚀 Login',
+                backHome: '← Back to calculator',
+                forgotPass: 'Forgot password?',
+                msgError: '❌ Invalid username or password!',
+                msgSuccess: '✅ Login successful! (fake)',
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Home',
+                menuAbout: '💡 Health Care',
+                menuLogin: '🔐 Login',
+                menuTheme: 'Dark Theme',
+                menuLanguage: 'Language',
+                chatTitle: '🤖 BMI Assistant',
+                chatGreeting: '👋 Hello! I\'m your health assistant. Ask about BMI, nutrition, exercise and wellness!',
+                chatPlaceholder: 'Type your question...',
+                chatSend: 'Send',
+                sug1: '📊 What is BMI?',
+                sug2: '🧮 How to calculate my BMI?',
+                sug3: '🎯 What is the ideal BMI?',
+                sug4: '⚠️ What if I am overweight?',
+                footerMsg: '◆ Commitment to your health ◆',
+                footerLove: '📊 BMI Professional · All rights reserved',
+                saudacao_oi: 'Hello! How can I help you today? 😊',
+                saudacao_ola: 'Hello! How can I help you today? 😊',
+                saudacao_tchau: 'Goodbye! Take care! 😊',
+                saudacao_obrigado: 'You\'re welcome! 😊 I\'m here to help!'
+            },
+            es: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Inicio',
+                navSaude: 'Cuidar la Salud',
+                navLogin: 'Iniciar sesión',
+                loginTitle: 'Bienvenido de vuelta',
+                loginSub: 'Inicia sesión para continuar',
+                labelUser: 'Usuario o Email',
+                labelPass: 'Contraseña',
+                loginBtn: '🚀 Iniciar sesión',
+                backHome: '← Volver a la calculadora',
+                forgotPass: '¿Olvidaste tu contraseña?',
+                msgError: '❌ ¡Usuario o contraseña incorrectos!',
+                msgSuccess: '✅ ¡Inicio de sesión exitoso! (fake)',
+                menuTitle: '📊 Menú',
+                menuHome: '📊 Inicio',
+                menuAbout: '💡 Cuidar la Salud',
+                menuLogin: '🔐 Iniciar sesión',
+                menuTheme: 'Tema Oscuro',
+                menuLanguage: 'Idioma',
+                chatTitle: '🤖 Asistente IMC',
+                chatGreeting: '👋 ¡Hola! Soy tu asistente de salud. ¡Pregunta sobre IMC, alimentación, ejercicio y bienestar!',
+                chatPlaceholder: 'Escribe tu pregunta...',
+                chatSend: 'Enviar',
+                sug1: '📊 ¿Qué es el IMC?',
+                sug2: '🧮 ¿Cómo calcular mi IMC?',
+                sug3: '🎯 ¿Cuál es el IMC ideal?',
+                sug4: '⚠️ ¿Qué hacer si tengo sobrepeso?',
+                footerMsg: '◆ Compromiso con tu salud ◆',
+                footerLove: '📊 IMC Profesional · Todos los derechos reservados',
+                saudacao_oi: '¡Hola! ¿Cómo puedo ayudarte hoy? 😊',
+                saudacao_ola: '¡Hola! ¿Cómo puedo ayudarte hoy? 😊',
+                saudacao_tchau: '¡Hasta luego! ¡Cuídate! 😊',
+                saudacao_obrigado: '¡De nada! 😊 ¡Estoy aquí para ayudar!'
+            },
+            fr: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Accueil',
+                navSaude: 'Soins de Santé',
+                navLogin: 'Connexion',
+                loginTitle: 'Bon retour',
+                loginSub: 'Connectez-vous pour continuer',
+                labelUser: 'Nom d\'utilisateur ou Email',
+                labelPass: 'Mot de passe',
+                loginBtn: '🚀 Se connecter',
+                backHome: '← Retour à la calculatrice',
+                forgotPass: 'Mot de passe oublié?',
+                msgError: '❌ Nom d\'utilisateur ou mot de passe incorrect!',
+                msgSuccess: '✅ Connexion réussie! (fake)',
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Accueil',
+                menuAbout: '💡 Soins de Santé',
+                menuLogin: '🔐 Connexion',
+                menuTheme: 'Thème Sombre',
+                menuLanguage: 'Langue',
+                chatTitle: '🤖 Assistant IMC',
+                chatGreeting: '👋 Bonjour! Je suis votre assistant santé. Demandez sur l\'IMC, l\'alimentation, l\'exercice et le bien-être!',
+                chatPlaceholder: 'Tapez votre question...',
+                chatSend: 'Envoyer',
+                sug1: '📊 Qu\'est-ce que l\'IMC?',
+                sug2: '🧮 Comment calculer mon IMC?',
+                sug3: '🎯 Quel est l\'IMC idéal?',
+                sug4: '⚠️ Que faire si je suis en surpoids?',
+                footerMsg: '◆ Engagement pour votre santé ◆',
+                footerLove: '📊 IMC Professionnel · Tous droits réservés',
+                saudacao_oi: 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                saudacao_ola: 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                saudacao_tchau: 'Au revoir! Prenez soin de vous! 😊',
+                saudacao_obrigado: 'De rien! 😊 Je suis là pour aider!'
+            },
+            it: {
+                navLogo: '📊 IMCPro',
+                navInicio: 'Home',
+                navSaude: 'Cura della Salute',
+                navLogin: 'Accedi',
+                loginTitle: 'Bentornato',
+                loginSub: 'Accedi per continuare',
+                labelUser: 'Nome utente o Email',
+                labelPass: 'Password',
+                loginBtn: '🚀 Accedi',
+                backHome: '← Torna alla calcolatrice',
+                forgotPass: 'Password dimenticata?',
+                msgError: '❌ Nome utente o password errati!',
+                msgSuccess: '✅ Accesso riuscito! (fake)',
+                menuTitle: '📊 Menu',
+                menuHome: '📊 Home',
+                menuAbout: '💡 Cura della Salute',
+                menuLogin: '🔐 Accedi',
+                menuTheme: 'Tema Scuro',
+                menuLanguage: 'Lingua',
+                chatTitle: '🤖 Assistente IMC',
+                chatGreeting: '👋 Ciao! Sono il tuo assistente sanitario. Chiedi su IMC, alimentazione, esercizio e benessere!',
+                chatPlaceholder: 'Digita la tua domanda...',
+                chatSend: 'Invia',
+                sug1: '📊 Cos\'è l\'IMC?',
+                sug2: '🧮 Come calcolare il mio IMC?',
+                sug3: '🎯 Qual è l\'IMC ideale?',
+                sug4: '⚠️ Cosa fare se sono in sovrappeso?',
+                footerMsg: '◆ Impegno per la tua salute ◆',
+                footerLove: '📊 IMC Professionale · Tutti i diritti riservati',
+                saudacao_oi: 'Ciao! Come posso aiutarti oggi? 😊',
+                saudacao_ola: 'Ciao! Come posso aiutarti oggi? 😊',
+                saudacao_tchau: 'Arrivederci! Prenditi cura di te! 😊',
+                saudacao_obrigado: 'Prego! 😊 Sono qui per aiutare!'
+            },
+            de: {
+                navLogo: '📊 BMIPro',
+                navInicio: 'Start',
+                navSaude: 'Gesundheitspflege',
+                navLogin: 'Anmelden',
+                loginTitle: 'Willkommen zurück',
+                loginSub: 'Melden Sie sich an, um fortzufahren',
+                labelUser: 'Benutzername oder E-Mail',
+                labelPass: 'Passwort',
+                loginBtn: '🚀 Anmelden',
+                backHome: '← Zurück zum Rechner',
+                forgotPass: 'Passwort vergessen?',
+                msgError: '❌ Benutzername oder Passwort falsch!',
+                msgSuccess: '✅ Anmeldung erfolgreich! (fake)',
+                menuTitle: '📊 Menü',
+                menuHome: '📊 Start',
+                menuAbout: '💡 Gesundheitspflege',
+                menuLogin: '🔐 Anmelden',
+                menuTheme: 'Dunkles Thema',
+                menuLanguage: 'Sprache',
+                chatTitle: '🤖 BMI-Assistent',
+                chatGreeting: '👋 Hallo! Ich bin Ihr Gesundheitsassistent. Fragen Sie nach BMI, Ernährung, Bewegung und Wohlbefinden!',
+                chatPlaceholder: 'Geben Sie Ihre Frage ein...',
+                chatSend: 'Senden',
+                sug1: '📊 Was ist BMI?',
+                sug2: '🧮 Wie berechne ich meinen BMI?',
+                sug3: '🎯 Was ist der ideale BMI?',
+                sug4: '⚠️ Was tun bei Übergewicht?',
+                footerMsg: '◆ Engagement für Ihre Gesundheit ◆',
+                footerLove: '📊 BMI Professionell · Alle Rechte vorbehalten',
+                saudacao_oi: 'Hallo! Wie kann ich Ihnen heute helfen? 😊',
+                saudacao_ola: 'Hallo! Wie kann ich Ihnen heute helfen? 😊',
+                saudacao_tchau: 'Auf Wiedersehen! Passen Sie auf sich auf! 😊',
+                saudacao_obrigado: 'Gern geschehen! 😊 Ich bin hier, um zu helfen!'
+            },
+            ja: {
+                navLogo: '📊 BMIPro',
+                navInicio: 'ホーム',
+                navSaude: 'ヘルスケア',
+                navLogin: 'ログイン',
+                loginTitle: 'おかえりなさい',
+                loginSub: '続行するにはログインしてください',
+                labelUser: 'ユーザー名またはメール',
+                labelPass: 'パスワード',
+                loginBtn: '🚀 ログイン',
+                backHome: '← 計算機に戻る',
+                forgotPass: 'パスワードを忘れましたか？',
+                msgError: '❌ ユーザー名またはパスワードが間違っています！',
+                msgSuccess: '✅ ログイン成功！（フェイク）',
+                menuTitle: '📊 メニュー',
+                menuHome: '📊 ホーム',
+                menuAbout: '💡 ヘルスケア',
+                menuLogin: '🔐 ログイン',
+                menuTheme: 'ダークテーマ',
+                menuLanguage: '言語',
+                chatTitle: '🤖 BMIアシスタント',
+                chatGreeting: '👋 こんにちは！私はあなたの健康アシスタントです。BMI、栄養、運動、ウェルネスについて質問してください！',
+                chatPlaceholder: '質問を入力してください...',
+                chatSend: '送信',
+                sug1: '📊 BMIとは何ですか？',
+                sug2: '🧮 BMIの計算方法は？',
+                sug3: '🎯 理想的なBMIは？',
+                sug4: '⚠️ 過体重の場合はどうすればいいですか？',
+                footerMsg: '◆ あなたの健康へのコミットメント ◆',
+                footerLove: '📊 BMI プロフェッショナル · 全著作権所有',
+                saudacao_oi: 'こんにちは！今日はどのようにお手伝いできますか？ 😊',
+                saudacao_ola: 'こんにちは！今日はどのようにお手伝いできますか？ 😊',
+                saudacao_tchau: 'さようなら！お大事に！ 😊',
+                saudacao_obrigado: 'どういたしまして！ 😊 お手伝いします！'
+            }
+        };
+
+        // ============================================================
+        // ELEMENTOS DOM
+        // ============================================================
+        const navbar = document.getElementById('navbar');
+        const progressBar = document.getElementById('progressBar');
+        const backToTop = document.getElementById('backToTop');
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuSidebar = document.getElementById('menuSidebar');
+        const menuClose = document.getElementById('menuClose');
+        const menuThemeBtn = document.getElementById('menuThemeBtn');
+        const menuThemeIcon = document.getElementById('menuThemeIcon');
+        const menuThemeText = document.getElementById('menuThemeText');
+        const menuLanguageSelect = document.getElementById('menuLanguageSelect');
+        const themeBtn = document.getElementById('themeBtn');
+        const footerDate = document.getElementById('footerDate');
+        const footerClock = document.getElementById('footerClock');
+        const footerMsg = document.getElementById('footerMsg');
+        const footerLove = document.getElementById('footerLove');
+        const chatToggle = document.getElementById('chatToggle');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatGreeting = document.getElementById('chatGreeting');
+        const chatTitle = document.getElementById('chatTitle');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatSuggestions = document.getElementById('chatSuggestions');
+
+        // Login elements
+        const loginForm = document.getElementById('loginForm');
+        const loginUser = document.getElementById('loginUser');
+        const loginPass = document.getElementById('loginPass');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginMessage = document.getElementById('loginMessage');
+        const msgText = document.getElementById('msgText');
+        const backToHome = document.getElementById('backToHome');
+        const forgotPass = document.getElementById('forgotPass');
+
+        let currentLang = 'pt';
+        let darkMode = false;
+
+        // ============================================================
+        // RELÓGIO
+        // ============================================================
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            footerClock.textContent = `⏰ ${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ============================================================
+        // DATA RODAPÉ
+        // ============================================================
+        const agora = new Date();
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        footerDate.textContent = `${agora.getFullYear()} · ${meses[agora.getMonth()]} ${agora.getDate()}`;
+
+        // ============================================================
+        // BARRA DE PROGRESSO + BACK TO TOP
+        // ============================================================
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = progress + '%';
+
+            if (scrollTop > 200) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        backToTop.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================================
+        // MENU HAMBURGUER
+        // ============================================================
+        function toggleMenu() {
+            const isOpen = menuSidebar.classList.contains('active');
+            if (isOpen) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        }
+
+        function openMenu() {
+            menuSidebar.classList.add('active');
+            menuOverlay.classList.add('active');
+            hamburgerBtn.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            menuSidebar.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            hamburgerBtn.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        hamburgerBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleMenu();
+        });
+
+        menuOverlay.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeMenu();
+        });
+
+        menuClose.addEventListener('click', closeMenu);
+        menuClose.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeMenu();
+        });
+
+        // ============================================================
+        // MENU THEME
+        // ============================================================
+        menuThemeBtn.addEventListener('click', () => {
+            toggleTheme();
+            closeMenu();
+        });
+        menuThemeBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleTheme();
+            closeMenu();
+        });
+
+        // ============================================================
+        // MENU LANGUAGE
+        // ============================================================
+        menuLanguageSelect.addEventListener('change', () => {
+            const lang = menuLanguageSelect.value;
+            aplicarTraducao(lang);
+            closeMenu();
+        });
+
+        // ============================================================
+        // TEMA
+        // ============================================================
+        function toggleTheme() {
+            darkMode = !darkMode;
+            document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+            const themeIcon = darkMode ? '☀️' : '🌙';
+            const themeText = darkMode ? 'Tema Claro' : 'Tema Escuro';
+            themeBtn.textContent = themeIcon;
+            menuThemeIcon.textContent = themeIcon;
+            menuThemeText.textContent = themeText;
+        }
+
+        themeBtn.addEventListener('click', toggleTheme);
+        themeBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleTheme();
+        });
+
+        // ============================================================
+        // NAVBAR ESCONDE
+        // ============================================================
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 60) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScrollY = currentScrollY;
+        });
+
+        // ============================================================
+        // TRADUÇÃO
+        // ============================================================
+        function aplicarTraducao(lang) {
+            currentLang = lang;
+            const t = translations[lang] || translations.pt;
+
+            // NAVBAR
+            document.getElementById('navLogo').innerHTML = t.navLogo;
+            document.getElementById('navInicio').textContent = t.navInicio;
+            document.getElementById('navSaude').textContent = t.navSaude;
+            document.getElementById('navLogin').textContent = t.navLogin;
+
+            // LOGIN
+            document.getElementById('loginTitle').textContent = t.loginTitle;
+            document.getElementById('loginSub').textContent = t.loginSub;
+            document.getElementById('labelUser').textContent = t.labelUser;
+            document.getElementById('labelPass').textContent = t.labelPass;
+            document.getElementById('loginBtn').textContent = t.loginBtn;
+            backToHome.textContent = t.backHome;
+            forgotPass.textContent = t.forgotPass;
+
+            // Se a mensagem estiver visível, traduzir
+            if (loginMessage.classList.contains('error')) {
+                msgText.textContent = t.msgError;
+            } else if (loginMessage.classList.contains('success')) {
+                msgText.textContent = t.msgSuccess;
+            }
+
+            // FOOTER
+            footerMsg.textContent = t.footerMsg;
+            footerLove.textContent = t.footerLove;
+
+            // CHAT
+            chatTitle.textContent = t.chatTitle;
+            chatGreeting.textContent = t.chatGreeting;
+            chatInput.placeholder = t.chatPlaceholder;
+            chatSend.textContent = t.chatSend;
+
+            // SUGESTÕES
+            const sugs = [t.sug1, t.sug2, t.sug3, t.sug4];
+            const suggestionBtns = chatSuggestions.querySelectorAll('button');
+            suggestionBtns.forEach((btn, index) => {
+                if (sugs[index]) {
+                    btn.textContent = sugs[index];
+                    const cleanQuestion = sugs[index].replace(/[📊🧮🎯⚠️]\s*/, '').trim();
+                    btn.dataset.question = cleanQuestion;
+                }
+            });
+
+            // MENU
+            document.querySelector('.menu-title').textContent = t.menuTitle;
+            const menuItems = document.querySelectorAll('.menu-items .menu-item');
+            if (menuItems.length >= 3) {
+                menuItems[0].innerHTML = `<span class="icon">📊</span> ${t.menuHome}`;
+                menuItems[1].innerHTML = `<span class="icon">💡</span> ${t.menuAbout}`;
+                menuItems[2].innerHTML = `<span class="icon">🔐</span> ${t.menuLogin} <span class="badge">ativo</span>`;
+            }
+
+            // MENU LANGUAGE SELECT
+            const langNames = {
+                pt: '🇵🇹 Português',
+                en: '🇺🇸 English',
+                es: '🇪🇸 Español',
+                fr: '🇫🇷 Français',
+                it: '🇮🇹 Italiano',
+                de: '🇩🇪 Deutsch',
+                ja: '🇯🇵 日本語'
+            };
+            menuLanguageSelect.value = lang;
+            menuLanguageSelect.options.forEach(opt => {
+                opt.textContent = langNames[opt.value] || opt.value;
+            });
+
+            // MENU THEME
+            const themeText = darkMode ? 'Tema Claro' : 'Tema Escuro';
+            const themeIcon = darkMode ? '☀️' : '🌙';
+            menuThemeIcon.textContent = themeIcon;
+            menuThemeText.textContent = themeText;
+        }
+
+        // ============================================================
+        // LOGIN FAKE
+        // ============================================================
+        function handleLogin(e) {
+            e.preventDefault();
+
+            const user = loginUser.value.trim();
+            const pass = loginPass.value.trim();
+
+            const t = translations[currentLang] || translations.pt;
+
+            // Mostrar mensagem de erro SEMPRE (login fake)
+            loginMessage.className = 'login-message error';
+            msgText.textContent = t.msgError;
+
+            // Animação de shake
+            loginMessage.style.animation = 'none';
+            setTimeout(() => {
+                loginMessage.style.animation = 'shake 0.5s ease';
+            }, 10);
+
+            // Limpar campos
+            loginUser.value = '';
+            loginPass.value = '';
+
+            // Focar no campo de usuário
+            setTimeout(() => {
+                loginUser.focus();
+            }, 100);
+
+            // Se quiser um "sucesso" fake (opcional)
+            // Descomente para testar:
+            // if (user === 'admin' && pass === 'admin') {
+            //     loginMessage.className = 'login-message success';
+            //     msgText.textContent = t.msgSuccess;
+            // }
+        }
+
+        loginForm.addEventListener('submit', handleLogin);
+
+        loginBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            handleLogin(e);
+        });
+
+        // ============================================================
+        // VOLTAR PARA CALCULADORA
+        // ============================================================
+        backToHome.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        backToHome.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            window.location.href = 'index.html';
+        });
+
+        // ============================================================
+        // ESQUECEU A SENHA (fake)
+        // ============================================================
+        forgotPass.addEventListener('click', () => {
+            const t = translations[currentLang] || translations.pt;
+            alert('🔐 Recuperação de senha em desenvolvimento! (fake)');
+        });
+
+        forgotPass.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            const t = translations[currentLang] || translations.pt;
+            alert('🔐 Recuperação de senha em desenvolvimento! (fake)');
+        });
+
+        // ============================================================
+        // CHAT - ASSISTENTE IA
+        // ============================================================
+        chatToggle.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+        });
+
+        chatToggle.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            chatWindow.classList.toggle('open');
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('open');
+        });
+
+        closeChat.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            chatWindow.classList.remove('open');
+        });
+
+        function getAIResponse(question) {
+            const t = translations[currentLang] || translations.pt;
+            const q = question.toLowerCase().trim().replace(/[?¿!¡.]/g, '');
+
+            const quickResponses = {
+                'obrigado': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
+                'obrigada': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
+                'valeu': t.saudacao_obrigado || 'Disponha! 😊',
+                'oi': t.saudacao_oi || 'Olá! Como posso ajudar você hoje? 😊',
+                'olá': t.saudacao_ola || 'Olá! Como posso ajudar você hoje? 😊',
+                'ola': t.saudacao_ola || 'Olá! Como posso ajudar você hoje? 😊',
+                'tchau': t.saudacao_tchau || 'Até logo! Cuide-se! 😊',
+                'thanks': 'You\'re welcome! 😊 I\'m here to help!',
+                'thank you': 'You\'re welcome! 😊 I\'m here to help!',
+                'hi': 'Hello! How can I help you today? 😊',
+                'hello': 'Hello! How can I help you today? 😊',
+                'bye': 'Goodbye! Take care! 😊',
+                'gracias': '¡De nada! 😊 ¡Estoy aquí para ayudar!',
+                'hola': '¡Hola! ¿Cómo puedo ayudarte hoy? 😊',
+                'adios': '¡Hasta luego! ¡Cuídate! 😊',
+                'merci': 'De rien! 😊 Je suis là pour aider!',
+                'bonjour': 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                'salut': 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
+                'au revoir': 'Au revoir! Prenez soin de vous! 😊',
+                'grazie': 'Prego! 😊 Sono qui per aiutare!',
+                'ciao': 'Ciao! Come posso aiutarti oggi? 😊',
+                'arrivederci': 'Arrivederci! Prenditi cura di te! 😊',
+                'danke': 'Gern geschehen! 😊 Ich bin hier, um zu helfen!',
+                'hallo': 'Hallo! Wie kann ich Ihnen heute helfen? 😊',
+                'tschüss': 'Auf Wiedersehen! Passen Sie auf sich auf! 😊',
+                'ありがとう': 'どういたしまして！ 😊 お手伝いします！',
+                'こんにちは': 'こんにちは！今日はどのようにお手伝いできますか？ 😊',
+                'さようなら': 'さようなら！お大事に！ 😊'
+            };
+
+            for (const [key, value] of Object.entries(quickResponses)) {
+                if (q.includes(key) || key.includes(q)) {
+                    return value;
+                }
+            }
+
+            // Perguntas sobre IMC (básico)
+            if (q.includes('imc') || q.includes('índice') || q.includes('massa')) {
+                if (q.includes('o que') || q.includes('significa')) {
+                    return 'IMC significa Índice de Massa Corporal. É uma medida usada para avaliar se uma pessoa está com peso adequado, abaixo ou acima do ideal. É calculado dividindo o peso pela altura ao quadrado.';
+                }
+                if (q.includes('calcular') || q.includes('como')) {
+                    return 'Para calcular seu IMC, divida seu peso (em kg) pela sua altura (em metros) elevada ao quadrado. Exemplo: 70kg ÷ (1,75m × 1,75m) = 22,86.';
+                }
+                if (q.includes('ideal') || q.includes('normal')) {
+                    return 'O IMC ideal está entre 18,5 e 24,9. Abaixo de 18,5 é considerado baixo peso. Entre 25 e 29,9 é sobrepeso. Acima de 30 é obesidade.';
+                }
+                if (q.includes('sobrepeso') || q.includes('acima')) {
+                    return 'Se você está acima do peso, recomenda-se: 1) Consultar um médico 2) Adotar uma alimentação equilibrada 3) Praticar exercícios 4) Dormir bem 5) Evitar processados.';
+                }
+            }
+
+            if (q.includes('benefício') || q.includes('vantagem')) {
+                return 'Os benefícios do peso saudável incluem: maior disposição, coração saudável, melhor sono, autoestima elevada, menos doenças crônicas, mais energia e melhor saúde mental.';
+            }
+
+            if (q.includes('alimentação') || q.includes('comida') || q.includes('dieta')) {
+                return 'Uma alimentação equilibrada inclui: proteínas magras, carboidratos complexos, gorduras saudáveis, frutas, verduras, legumes, fibras e água. Evite excesso de açúcar, sal e gorduras saturadas.';
+            }
+
+            if (q.includes('exercício') || q.includes('atividade')) {
+                return 'Os melhores exercícios para saúde incluem: caminhada, corrida, natação, ciclismo, musculação, yoga, pilates, dança e esportes. O importante é escolher algo que você goste e fazer regularmente.';
+            }
+
+            const defaultResponses = {
+                pt: 'Desculpe, não entendi sua pergunta. Posso ajudar com IMC, alimentação, exercícios, doenças, saúde mental e bem-estar. Tente reformular! 😊',
+                en: 'Sorry, I didn\'t understand your question. I can help with BMI, nutrition, exercise, diseases, mental health and wellness. Try rephrasing! 😊',
+                es: 'Lo siento, no entendí tu pregunta. Puedo ayudar con IMC, alimentación, ejercicio, enfermedades, salud mental y bienestar. ¡Intenta reformular! 😊',
+                fr: 'Désolé, je n\'ai pas compris votre question. Je peux aider avec l\'IMC, l\'alimentation, l\'exercice, les maladies, la santé mentale et le bien-être. Essayez de reformuler! 😊',
+                it: 'Scusa, non ho capito la tua domanda. Posso aiutare con IMC, alimentazione, esercizio, malattie, salute mentale e benessere. Prova a riformulare! 😊',
+                de: 'Entschuldigung, ich habe deine Frage nicht verstanden. Ich kann bei BMI, Ernährung, Bewegung, Krankheiten, psychischer Gesundheit und Wohlbefinden helfen. Versuche es umzuformulieren! 😊',
+                ja: '申し訳ありません、質問が理解できませんでした。BMI、栄養、運動、病気、メンタルヘルス、ウェルネスについてお手伝いできます。言い換えてみてください！ 😊'
+            };
+            return defaultResponses[currentLang] || defaultResponses.pt;
+        }
+
+        function addMessage(text, isUser = false) {
+            const div = document.createElement('div');
+            div.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const div = document.createElement('div');
+            div.className = 'chat-message bot';
+            div.id = 'typingIndicator';
+            div.innerHTML = `
+                <span class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function handleChatSend() {
+            const question = chatInput.value.trim();
+            if (!question) return;
+
+            addMessage(question, true);
+            chatInput.value = '';
+
+            addTypingIndicator();
+
+            setTimeout(() => {
+                removeTypingIndicator();
+                const answer = getAIResponse(question);
+                addMessage(answer, false);
+            }, 500 + Math.random() * 500);
+        }
+
+        chatSend.addEventListener('click', handleChatSend);
+        chatSend.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            handleChatSend();
+        });
+
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleChatSend();
+        });
+
+        chatSuggestions.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) {
+                const question = btn.dataset.question;
+                chatInput.value = question;
+                handleChatSend();
+            }
+        });
+
+        chatSuggestions.addEventListener('touchend', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) {
+                e.preventDefault();
+                const question = btn.dataset.question;
+                chatInput.value = question;
+                handleChatSend();
+            }
+        });
+
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        aplicarTraducao('pt');
+        document.getElementById('timeDisplay').textContent = '3';
+    </script>
+</body>
+</html>

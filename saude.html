@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>🧘 Cuide da Sua Saúde</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            padding-top: 72px;
+            font-weight: 400;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ============================================================
+           CORES - SUAVES E ACOLHEDORAS
+           ============================================================ */
+        :root {
+            --bg-body: #f5f0eb;
+            --bg-glass: rgba(255, 248, 245, 0.7);
+            --bg-glass-hover: rgba(255, 248, 245, 0.9);
+            --bg-card: rgba(255, 252, 250, 0.8);
+            --bg-input: rgba(255, 248, 245, 0.5);
+            --text-primary: #2d1b1b;
+            --text-secondary: #5a3e3e;
+            --text-soft: #8a6a6a;
+            --border-glass: rgba(200, 180, 170, 0.3);
+            --shadow-glass: 0 8px 32px rgba(100, 60, 60, 0.08);
+            --shadow-neon: 0 0 30px rgba(100, 80, 70, 0.1);
+            --accent-1: #7a9e7e;
+            --accent-2: #a8c4a0;
+            --accent-3: #6a8a6e;
+            --gradient-primary: linear-gradient(135deg, #7a9e7e 0%, #a8c4a0 50%, #6a8a6e 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(122, 158, 126, 0.1), rgba(168, 196, 160, 0.1));
+            --glow-neon: 0 0 30px rgba(122, 158, 126, 0.15);
+            --footer-bg: rgba(45, 27, 27, 0.95);
+            --footer-text: #f0e0e0;
+            --footer-accent: #a8c4a0;
+            --menu-bg: rgba(255, 248, 245, 0.95);
+            --overlay-bg: rgba(0, 0, 0, 0.3);
+            --card-hover: rgba(122, 158, 126, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #1a1518;
+            --bg-glass: rgba(30, 25, 28, 0.7);
+            --bg-glass-hover: rgba(40, 35, 38, 0.9);
+            --bg-card: rgba(40, 35, 38, 0.8);
+            --bg-input: rgba(50, 45, 48, 0.5);
+            --text-primary: #f0e8e5;
+            --text-secondary: #d4c0b8;
+            --text-soft: #b09088;
+            --border-glass: rgba(80, 70, 68, 0.3);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-neon: 0 0 30px rgba(122, 158, 126, 0.05);
+            --accent-1: #8ab88e;
+            --accent-2: #a8c4a0;
+            --accent-3: #6a8a6e;
+            --gradient-primary: linear-gradient(135deg, #8ab88e 0%, #a8c4a0 50%, #6a8a6e 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(138, 184, 142, 0.1), rgba(168, 196, 160, 0.1));
+            --glow-neon: 0 0 30px rgba(138, 184, 142, 0.1);
+            --footer-bg: rgba(10, 8, 10, 0.95);
+            --footer-text: #e8d4d4;
+            --footer-accent: #8ab88e;
+            --menu-bg: rgba(30, 25, 28, 0.95);
+            --overlay-bg: rgba(0, 0, 0, 0.6);
+            --card-hover: rgba(138, 184, 142, 0.05);
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-3));
+            border-radius: 20px;
+        }
+
+        /* ============================================================
+           NAVBAR - COM HAMBURGUER
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 0 12px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease;
+            box-shadow: var(--shadow-glass);
+            gap: 4px;
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+        }
+
+        /* ===== BOTÃO HAMBURGUER ===== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            min-width: 36px;
+            min-height: 36px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hamburger:hover {
+            background: var(--bg-glass-hover);
+        }
+
+        .hamburger:active {
+            transform: scale(0.92);
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2.5px;
+            background: var(--text-secondary);
+            border-radius: 4px;
+            transition: 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        /* ===== NAV LINKS (Desktop) ===== */
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 4px 2px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-1);
+            border-bottom-color: var(--accent-1);
+        }
+
+        /* ===== NAV ACTIONS (Ícones) ===== */
+        .nav-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 10px;
+            transition: 0.3s;
+            color: var(--text-secondary);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            min-height: 36px;
+            min-width: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-icon:hover {
+            background: var(--bg-glass-hover);
+            color: var(--accent-1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-neon);
+            border-color: var(--accent-1);
+        }
+
+        .btn-icon:active {
+            transform: scale(0.92);
+        }
+
+        .btn-translate {
+            font-size: 1.1rem;
+        }
+
+        /* ============================================================
+           MENU OVERLAY (para hamburguer)
+           ============================================================ */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .menu-sidebar {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            max-width: 80vw;
+            height: 100vh;
+            background: var(--menu-bg);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-left: 1px solid var(--border-glass);
+            z-index: 1001;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: -8px 0 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-sidebar.active {
+            right: 0;
+        }
+
+        .menu-header {
+            padding: 0 20px 16px 20px;
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .menu-header .menu-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .menu-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: 0.3s;
+            min-height: 40px;
+            min-width: 40px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .menu-close:active {
+            transform: rotate(90deg);
+            background: var(--bg-glass-hover);
+        }
+
+        .menu-items {
+            flex: 1;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.3s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-item:hover {
+            background: var(--bg-glass-hover);
+            color: var(--accent-1);
+        }
+
+        .menu-item:active {
+            transform: scale(0.96);
+            background: var(--gradient-glass);
+        }
+
+        .menu-item .icon {
+            font-size: 1.3rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: var(--border-glass);
+            margin: 8px 16px;
+        }
+
+        .menu-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-glass);
+            font-size: 0.7rem;
+            color: var(--text-soft);
+            text-align: center;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        /* ============================================================
+           CONTAINER
+           ============================================================ */
+        .container {
+            flex: 1;
+            max-width: 900px;
+            margin: 16px auto 40px;
+            padding: 0 16px;
+            width: 100%;
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero-section {
+            text-align: center;
+            padding: 20px 0 30px 0;
+        }
+
+        .hero-section h1 {
+            font-size: 2.4rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-section .subtitle {
+            color: var(--text-soft);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+        }
+
+        .hero-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--gradient-primary);
+            margin: 14px auto 0;
+            border-radius: 4px;
+        }
+
+        /* ============================================================
+           DICAS - CARDS
+           ============================================================ */
+        .dicas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dica-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border-radius: 20px;
+            padding: 20px 18px 18px;
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dica-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glass), 0 8px 40px rgba(122, 158, 126, 0.08);
+            background: var(--bg-glass-hover);
+        }
+
+        .dica-card:active {
+            transform: scale(0.97);
+        }
+
+        .dica-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dica-header .dica-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .dica-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .dica-card p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .dica-card .dica-image {
+            border-radius: 14px;
+            overflow: hidden;
+            margin-top: 4px;
+            border: 2px solid var(--border-glass);
+            box-shadow: var(--shadow-glass);
+            transition: 0.4s;
+            background: var(--bg-input);
+            position: relative;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dica-card .dica-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: 0.4s;
+        }
+
+        .dica-card .dica-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .dica-card .dica-image .image-placeholder {
+            color: var(--text-soft);
+            font-size: 0.75rem;
+            opacity: 0.5;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* ============================================================
+           RODAPÉ
+           ============================================================ */
+        footer {
+            margin-top: auto;
+            background: var(--footer-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 2px solid rgba(168, 196, 160, 0.15);
+            padding: 24px 20px;
+            text-align: center;
+            color: var(--footer-text);
+            font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            animation: shimmerFooter 4s ease-in-out infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmerFooter {
+            0%,
+            100% {
+                background-position: -200% 0;
+            }
+            50% {
+                background-position: 200% 0;
+            }
+        }
+
+        footer .footer-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        footer .footer-divider {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--footer-text);
+            opacity: 0.3;
+        }
+
+        footer .footer-date {
+            color: var(--footer-text);
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        footer .footer-msg {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        footer .footer-love {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.7rem;
+            opacity: 0.3;
+            letter-spacing: 1.5px;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .dicas-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .navbar {
+                padding: 0 12px;
+                height: 58px;
+            }
+
+            .nav-logo {
+                font-size: 1.1rem;
+            }
+
+            .btn-icon {
+                font-size: 0.9rem;
+                padding: 4px 8px;
+                min-height: 32px;
+                min-width: 32px;
+            }
+
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-section .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .dica-card {
+                padding: 16px 14px;
+                border-radius: 16px;
+            }
+
+            .dica-header h3 {
+                font-size: 0.9rem;
+            }
+
+            .dica-card p {
+                font-size: 0.82rem;
+            }
+
+            .dica-header .dica-icon {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 12px;
+                margin: 10px auto 30px;
+            }
+
+            .menu-sidebar {
+                width: 260px;
+                max-width: 80vw;
+                right: -260px;
+            }
+
+            .menu-item {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
+            .menu-item .icon {
+                font-size: 1.1rem;
+                width: 24px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+
+            .nav-links {
+                display: flex;
+            }
+
+            .menu-overlay,
+            .menu-sidebar {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 54px;
+            }
+
+            .navbar {
+                height: 54px;
+                padding: 0 8px;
+            }
+
+            .nav-logo {
+                font-size: 1rem;
+            }
+
+            .hamburger span {
+                width: 20px;
+                height: 2px;
+            }
+
+            .btn-icon {
+                font-size: 0.8rem;
+                padding: 4px 6px;
+                min-height: 28px;
+                min-width: 28px;
+                border-radius: 8px;
+            }
+
+            .hero-section h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-section .subtitle {
+                font-size: 0.75rem;
+            }
+
+            .hero-divider {
+                width: 50px;
+                margin-top: 10px;
+            }
+
+            .dica-card {
+                padding: 14px 12px;
+                border-radius: 14px;
+            }
+
+            .dica-card .dica-image {
+                border-radius: 10px;
+                aspect-ratio: 16/10;
+            }
+
+            .dica-header h3 {
+                font-size: 0.82rem;
+            }
+
+            .dica-card p {
+                font-size: 0.78rem;
+                line-height: 1.5;
+            }
+
+            .dica-header .dica-icon {
+                font-size: 1.3rem;
+            }
+
+            footer {
+                padding: 16px 12px;
+                font-size: 0.7rem;
+            }
+
+            footer .footer-name {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ============================================================
+           TOUCH FEEDBACK
+           ============================================================ */
+        button,
+        .btn-icon,
+        .dica-card,
+        .menu-item,
+        .hamburger,
+        .menu-close {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* ============================================================
+           ANIMAÇÃO DE ENTRADA
+           ============================================================ */
+        .dica-card {
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .dica-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+        .dica-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .dica-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+        .dica-card:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+        .dica-card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+        .dica-card:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+        .dica-card:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    NAVBAR - COM HAMBURGUER
+    ============================================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-left">
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-logo" id="navLogo">🧘 Saúde</div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" id="navInicio">Início</a></li>
+            <li><a href="login.html" id="navLogin">Login</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button class="btn-icon btn-translate" id="translateBtn" title="Traduzir">🇵🇹</button>
+            <button class="btn-icon btn-theme" id="themeBtn">🌙</button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+    MENU OVERLAY
+    ============================================================ -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ============================================================
+    MENU SIDEBAR
+    ============================================================ -->
+    <div class="menu-sidebar" id="menuSidebar">
+        <div class="menu-header">
+            <span class="menu-title">🧘 Menu</span>
+            <button class="menu-close" id="menuClose">✕</button>
+        </div>
+
+        <div class="menu-items">
+            <a href="index.html" class="menu-item">
+                <span class="icon">🏠</span> Início
+            </a>
+            <a href="login.html" class="menu-item">
+                <span class="icon">🔐</span> Login
+            </a>
+
+            <div class="menu-divider"></div>
+
+            <button class="menu-item" id="menuThemeBtn">
+                <span class="icon" id="menuThemeIcon">🌙</span>
+                <span id="menuThemeText">Tema Escuro</span>
+            </button>
+        </div>
+
+        <div class="menu-footer">
+            IMC Pro · Rodrigues Siquisse
+        </div>
+    </div>
+
+    <!-- ============================================================
+    CONTEÚDO
+    ============================================================ -->
+    <div class="container" id="inicio">
+        <!-- HERO -->
+        <div class="hero-section">
+            <h1 id="heroTitle">🧘 Cuide da Sua Saúde</h1>
+            <div class="subtitle" id="heroSub">7 dicas essenciais para uma vida mais saudável</div>
+            <div class="hero-divider"></div>
+        </div>
+
+        <!-- DICAS -->
+        <div class="dicas-grid" id="dicasGrid">
+            <!-- Dica 1 - Alimentação -->
+            <div class="dica-card" data-dica="1">
+                <div class="dica-header">
+                    <span class="dica-icon">🥗</span>
+                    <h3 id="dica1Title">Alimentação Equilibrada</h3>
+                </div>
+                <p id="dica1Text">Consuma frutas, legumes, cereais integrais, proteínas magras e reduza o consumo de alimentos ricos em açúcar, sal e gorduras.</p>
+                <div class="dica-image">
+                    <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-da-Calculadora/main/comida.jfif"
+                    alt="Alimentação equilibrada"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<span class=\'image-placeholder\'>🍽️ Imagem não disponível</span>'" />
+                </div>
+            </div>
+
+            <!-- Dica 2 - Exercícios -->
+            <div class="dica-card" data-dica="2">
+                <div class="dica-header">
+                    <span class="dica-icon">🏃</span>
+                    <h3 id="dica2Title">Atividade Física</h3>
+                </div>
+                <p id="dica2Text">Realize exercícios físicos com frequência, como caminhadas, corrida, ciclismo ou outras atividades que promovam o bem-estar.</p>
+                <div class="dica-image">
+                    <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-da-Calculadora/main/exercicios.jfif"
+                    alt="Atividade física"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<span class=\'image-placeholder\'>🏋️ Imagem não disponível</span>'" />
+                </div>
+            </div>
+
+            <!-- Dica 3 - Sono -->
+            <div class="dica-card" data-dica="3">
+                <div class="dica-header">
+                    <span class="dica-icon">😴</span>
+                    <h3 id="dica3Title">Durma o Suficiente</h3>
+                </div>
+                <p id="dica3Text">Procure dormir entre 7 e 9 horas por noite para permitir que o organismo recupere as energias e funcione adequadamente.</p>
+                <div class="dica-image">
+                    <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-da-Calculadora/main/dormir.jfif"
+                    alt="Dormir bem"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<span class=\'image-placeholder\'>🛌 Imagem não disponível</span>'" />
+                </div>
+            </div>
+
+            <!-- Dica 4 - Hidratação -->
+            <div class="dica-card" data-dica="4">
+                <div class="dica-header">
+                    <span class="dica-icon">💧</span>
+                    <h3 id="dica4Title">Mantenha-se Hidratado</h3>
+                </div>
+                <p id="dica4Text">Beba água ao longo do dia para manter o corpo hidratado e favorecer o bom funcionamento dos órgãos.</p>
+                <div class="dica-image">
+                    <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-da-Calculadora/main/agua.jfif"
+                    alt="Hidratação"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<span class=\'image-placeholder\'>💦 Imagem não disponível</span>'" />
+                </div>
+            </div>
+
+            <!-- Dica 5 - Saúde Mental -->
+            <div class="dica-card" data-dica="5">
+                <div class="dica-header">
+                    <span class="dica-icon">🧠</span>
+                    <h3 id="dica5Title">Cuide da Saúde Mental</h3>
+                </div>
+                <p id="dica5Text">Reserve tempo para descansar, relaxar, conviver com familiares e amigos e praticar atividades que proporcionem felicidade.</p>
+                <div class="dica-image">
+                    <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-da-Calculadora/main/saude%20mental.jfif"
+                    alt="Saúde mental"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<span class=\'image-placeholder\'>🧘 Imagem não disponível</span>'" />
+                </div>
+            </div>
+
+            <!-- Dica 6 - Higiene -->
+            <div class="dica-card" data-dica="6">
+                <div class="dica-header">
+                    <span class="dica-icon">🧼</span>
+                    <h3 id="dica6Title">Boa Higiene Pessoal</h3>
+                </div>
+                <p id="dica6Text">Lave as mãos regularmente, escove os dentes após as refeições e adote hábitos de higiene que ajudem a prevenir doenças.</p>
+                <div class="dica-image">
+                    <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-da-Calculadora/main/higene%20pessoal.jfif"
+                    alt="Higiene pessoal"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<span class=\'image-placeholder\'>🧴 Imagem não disponível</span>'" />
+                </div>
+            </div>
+
+            <!-- Dica 7 - Consultas -->
+            <div class="dica-card" data-dica="7">
+                <div class="dica-header">
+                    <span class="dica-icon">🩺</span>
+                    <h3 id="dica7Title">Consultas Médicas</h3>
+                </div>
+                <p id="dica7Text">Faça exames de rotina e consulte profissionais de saúde regularmente para prevenir e detetar doenças precocemente.</p>
+                <div class="dica-image">
+                    <img src="https://raw.githubusercontent.com/RodrigueJoaossiquisse/Imagens-da-Calculadora/main/consultas.jfif"
+                    alt="Consultas médicas"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<span class=\'image-placeholder\'>🏥 Imagem não disponível</span>'" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    RODAPÉ
+    ============================================================ -->
+    <footer id="sobre">
+        <div>
+            <span class="footer-name">Rodrigues Siquisse</span>
+            <span class="footer-divider">◆</span>
+            <span class="footer-date" id="footerDate"></span>
+        </div>
+        <div class="footer-msg" id="footerMsg">◆ Compromisso com sua saúde ◆</div>
+        <div class="footer-love" id="footerLove">🧘 Cuide de si · Todos os direitos reservados</div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // TRADUÇÕES - PORTUGUÊS E INGLÊS
+        // ============================================================
+        const translations = {
+            pt: {
+                navLogo: '🧘 Saúde',
+                navInicio: 'Início',
+                navLogin: 'Login',
+                heroTitle: '🧘 Cuide da Sua Saúde',
+                heroSub: '7 dicas essenciais para uma vida mais saudável',
+                dica1Title: 'Alimentação Equilibrada',
+                dica1Text: 'Consuma frutas, legumes, cereais integrais, proteínas magras e reduza o consumo de alimentos ricos em açúcar, sal e gorduras.',
+                dica2Title: 'Atividade Física',
+                dica2Text: 'Realize exercícios físicos com frequência, como caminhadas, corrida, ciclismo ou outras atividades que promovam o bem-estar.',
+                dica3Title: 'Durma o Suficiente',
+                dica3Text: 'Procure dormir entre 7 e 9 horas por noite para permitir que o organismo recupere as energias e funcione adequadamente.',
+                dica4Title: 'Mantenha-se Hidratado',
+                dica4Text: 'Beba água ao longo do dia para manter o corpo hidratado e favorecer o bom funcionamento dos órgãos.',
+                dica5Title: 'Cuide da Saúde Mental',
+                dica5Text: 'Reserve tempo para descansar, relaxar, conviver com familiares e amigos e praticar atividades que proporcionem felicidade.',
+                dica6Title: 'Boa Higiene Pessoal',
+                dica6Text: 'Lave as mãos regularmente, escove os dentes após as refeições e adote hábitos de higiene que ajudem a prevenir doenças.',
+                dica7Title: 'Consultas Médicas',
+                dica7Text: 'Faça exames de rotina e consulte profissionais de saúde regularmente para prevenir e detetar doenças precocemente.',
+                footerMsg: '◆ Compromisso com sua saúde ◆',
+                footerLove: '🧘 Cuide de si · Todos os direitos reservados',
+                menuTitle: '🧘 Menu',
+                menuHome: '🏠 Início',
+                menuLogin: '🔐 Login',
+                menuTheme: 'Tema Escuro'
+            },
+            en: {
+                navLogo: '🧘 Health',
+                navInicio: 'Home',
+                navLogin: 'Login',
+                heroTitle: '🧘 Take Care of Your Health',
+                heroSub: '7 essential tips for a healthier life',
+                dica1Title: 'Balanced Diet',
+                dica1Text: 'Eat fruits, vegetables, whole grains, lean proteins and reduce the consumption of foods rich in sugar, salt and fats.',
+                dica2Title: 'Physical Activity',
+                dica2Text: 'Exercise regularly, such as walking, running, cycling or other activities that promote well-being.',
+                dica3Title: 'Get Enough Sleep',
+                dica3Text: 'Aim to sleep between 7 and 9 hours per night to allow your body to recover energy and function properly.',
+                dica4Title: 'Stay Hydrated',
+                dica4Text: 'Drink water throughout the day to keep your body hydrated and support the proper functioning of your organs.',
+                dica5Title: 'Take Care of Mental Health',
+                dica5Text: 'Make time to rest, relax, spend time with family and friends, and do activities that bring you happiness.',
+                dica6Title: 'Good Personal Hygiene',
+                dica6Text: 'Wash your hands regularly, brush your teeth after meals and adopt hygiene habits that help prevent diseases.',
+                dica7Title: 'Medical Check-ups',
+                dica7Text: 'Have regular check-ups and consult health professionals regularly to prevent and detect diseases early.',
+                footerMsg: '◆ Commitment to your health ◆',
+                footerLove: '🧘 Take care of yourself · All rights reserved',
+                menuTitle: '🧘 Menu',
+                menuHome: '🏠 Home',
+                menuLogin: '🔐 Login',
+                menuTheme: 'Dark Theme'
+            }
+        };
+
+        // ============================================================
+        // ELEMENTOS DOM
+        // ============================================================
+        const navbar = document.getElementById('navbar');
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuSidebar = document.getElementById('menuSidebar');
+        const menuClose = document.getElementById('menuClose');
+        const menuThemeBtn = document.getElementById('menuThemeBtn');
+        const menuThemeIcon = document.getElementById('menuThemeIcon');
+        const menuThemeText = document.getElementById('menuThemeText');
+        const themeBtn = document.getElementById('themeBtn');
+        const translateBtn = document.getElementById('translateBtn');
+        const footerDate = document.getElementById('footerDate');
+
+        let currentLang = 'pt';
+        let darkMode = false;
+
+        // ============================================================
+        // DATA RODAPÉ
+        // ============================================================
+        const agora = new Date();
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        footerDate.textContent = `${agora.getFullYear()} · ${meses[agora.getMonth()]} ${agora.getDate()}`;
+
+        // ============================================================
+        // MENU HAMBURGUER
+        // ============================================================
+        function toggleMenu() {
+            const isOpen = menuSidebar.classList.contains('active');
+            if (isOpen) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        }
+
+        function openMenu() {
+            menuSidebar.classList.add('active');
+            menuOverlay.classList.add('active');
+            hamburgerBtn.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            menuSidebar.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            hamburgerBtn.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        hamburgerBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleMenu();
+        });
+
+        menuOverlay.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeMenu();
+        });
+
+        menuClose.addEventListener('click', closeMenu);
+        menuClose.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeMenu();
+        });
+
+        // ============================================================
+        // MENU THEME
+        // ============================================================
+        menuThemeBtn.addEventListener('click', () => {
+            toggleTheme();
+            closeMenu();
+        });
+        menuThemeBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleTheme();
+            closeMenu();
+        });
+
+        // ============================================================
+        // TEMA
+        // ============================================================
+        function toggleTheme() {
+            darkMode = !darkMode;
+            document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+            const themeIcon = darkMode ? '☀️' : '🌙';
+            const themeText = darkMode ? 'Tema Claro' : 'Tema Escuro';
+            themeBtn.textContent = themeIcon;
+            menuThemeIcon.textContent = themeIcon;
+            menuThemeText.textContent = themeText;
+        }
+
+        themeBtn.addEventListener('click', toggleTheme);
+        themeBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            toggleTheme();
+        });
+
+        // ============================================================
+        // TRADUÇÃO
+        // ============================================================
+        function aplicarTraducao(lang) {
+            currentLang = lang;
+            const t = translations[lang] || translations.pt;
+
+            // NAVBAR
+            document.getElementById('navLogo').textContent = t.navLogo;
+            document.getElementById('navInicio').textContent = t.navInicio;
+            document.getElementById('navLogin').textContent = t.navLogin;
+
+            // HERO
+            document.getElementById('heroTitle').textContent = t.heroTitle;
+            document.getElementById('heroSub').textContent = t.heroSub;
+
+            // DICAS
+            document.getElementById('dica1Title').textContent = t.dica1Title;
+            document.getElementById('dica1Text').textContent = t.dica1Text;
+            document.getElementById('dica2Title').textContent = t.dica2Title;
+            document.getElementById('dica2Text').textContent = t.dica2Text;
+            document.getElementById('dica3Title').textContent = t.dica3Title;
+            document.getElementById('dica3Text').textContent = t.dica3Text;
+            document.getElementById('dica4Title').textContent = t.dica4Title;
+            document.getElementById('dica4Text').textContent = t.dica4Text;
+            document.getElementById('dica5Title').textContent = t.dica5Title;
+            document.getElementById('dica5Text').textContent = t.dica5Text;
+            document.getElementById('dica6Title').textContent = t.dica6Title;
+            document.getElementById('dica6Text').textContent = t.dica6Text;
+            document.getElementById('dica7Title').textContent = t.dica7Title;
+            document.getElementById('dica7Text').textContent = t.dica7Text;
+
+            // FOOTER
+            document.getElementById('footerMsg').textContent = t.footerMsg;
+            document.getElementById('footerLove').textContent = t.footerLove;
+
+            // MENU
+            document.querySelector('.menu-title').textContent = t.menuTitle;
+            document.querySelectorAll('.menu-item')[0].innerHTML = `<span class="icon">🏠</span> ${t.menuHome}`;
+            document.querySelectorAll('.menu-item')[1].innerHTML = `<span class="icon">🔐</span> ${t.menuLogin}`;
+
+            // BOTÃO TRADUÇÃO
+            translateBtn.textContent = lang === 'pt' ? '🇵🇹' : '🇺🇸';
+        }
+
+        // ============================================================
+        // BOTÃO TRADUÇÃO - ALTERNAR ENTRE PT E EN
+        // ============================================================
+        translateBtn.addEventListener('click', () => {
+            const nextLang = currentLang === 'pt' ? 'en' : 'pt';
+            aplicarTraducao(nextLang);
+        });
+
+        translateBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            const nextLang = currentLang === 'pt' ? 'en' : 'pt';
+            aplicarTraducao(nextLang);
+        });
+
+        // ============================================================
+        // NAVBAR ESCONDE AO ROLAR
+        // ============================================================
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 60) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScrollY = currentScrollY;
+        });
+
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        aplicarTraducao('pt');
+    </script>
+</body>
+</html>

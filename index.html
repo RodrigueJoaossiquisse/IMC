@@ -7,6 +7,314 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
         /* ============================================================
+           ANIMAÇÃO DE CARREGAMENTO
+           ============================================================ */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 99999;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            overflow: hidden;
+        }
+
+        .splash-screen.hide {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+
+        .splash-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .splash-particles span {
+            position: absolute;
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            animation: floatParticle 15s infinite linear;
+        }
+
+        .splash-particles span:nth-child(1) {
+            left: 10%;
+            animation-duration: 18s;
+            animation-delay: 0s;
+            width: 8px;
+            height: 8px;
+            background: rgba(79, 172, 254, 0.2);
+        }
+        .splash-particles span:nth-child(2) {
+            left: 25%;
+            animation-duration: 14s;
+            animation-delay: 2s;
+            width: 4px;
+            height: 4px;
+            background: rgba(168, 85, 247, 0.2);
+        }
+        .splash-particles span:nth-child(3) {
+            left: 40%;
+            animation-duration: 20s;
+            animation-delay: 4s;
+            width: 10px;
+            height: 10px;
+            background: rgba(0, 242, 254, 0.15);
+        }
+        .splash-particles span:nth-child(4) {
+            left: 55%;
+            animation-duration: 16s;
+            animation-delay: 1s;
+            width: 5px;
+            height: 5px;
+            background: rgba(79, 172, 254, 0.25);
+        }
+        .splash-particles span:nth-child(5) {
+            left: 70%;
+            animation-duration: 22s;
+            animation-delay: 3s;
+            width: 7px;
+            height: 7px;
+            background: rgba(168, 85, 247, 0.2);
+        }
+        .splash-particles span:nth-child(6) {
+            left: 85%;
+            animation-duration: 19s;
+            animation-delay: 5s;
+            width: 9px;
+            height: 9px;
+            background: rgba(0, 242, 254, 0.2);
+        }
+        .splash-particles span:nth-child(7) {
+            left: 15%;
+            animation-duration: 17s;
+            animation-delay: 6s;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .splash-particles span:nth-child(8) {
+            left: 50%;
+            animation-duration: 21s;
+            animation-delay: 2s;
+            width: 11px;
+            height: 11px;
+            background: rgba(79, 172, 254, 0.1);
+        }
+        .splash-particles span:nth-child(9) {
+            left: 75%;
+            animation-duration: 15s;
+            animation-delay: 4s;
+            width: 4px;
+            height: 4px;
+            background: rgba(168, 85, 247, 0.25);
+        }
+        .splash-particles span:nth-child(10) {
+            left: 90%;
+            animation-duration: 23s;
+            animation-delay: 1s;
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 242, 254, 0.15);
+        }
+        .splash-particles span:nth-child(11) {
+            left: 5%;
+            animation-duration: 16s;
+            animation-delay: 7s;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .splash-particles span:nth-child(12) {
+            left: 60%;
+            animation-duration: 20s;
+            animation-delay: 3s;
+            width: 7px;
+            height: 7px;
+            background: rgba(79, 172, 254, 0.18);
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .splash-logo {
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoPulse 2s ease-in-out infinite;
+            text-shadow: 0 0 60px rgba(79, 172, 254, 0.3);
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .splash-logo span {
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes logoPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% {
+                transform: scale(1.05);
+                filter: brightness(1.2);
+            }
+        }
+
+        .splash-sub {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: fadeInUp 1.5s ease both;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .splash-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .splash-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe, #a855f7);
+            border-radius: 10px;
+            animation: progressFill 2s ease-in-out forwards;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+        }
+
+        @keyframes progressFill {
+            0% {
+                width: 0%;
+            }
+            20% {
+                width: 15%;
+            }
+            40% {
+                width: 35%;
+            }
+            60% {
+                width: 60%;
+            }
+            80% {
+                width: 85%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        .splash-percent {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .splash-ring {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: ringSpin 20s linear infinite;
+            pointer-events: none;
+        }
+
+        .splash-ring:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            border-color: rgba(79, 172, 254, 0.08);
+            animation-duration: 25s;
+        }
+
+        .splash-ring:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            border-color: rgba(168, 85, 247, 0.06);
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .splash-ring:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            border-color: rgba(0, 242, 254, 0.1);
+            animation-duration: 15s;
+        }
+
+        @keyframes ringSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ============================================================
            RESET & BASE
            ============================================================ */
         * {
@@ -37,6 +345,18 @@
             font-weight: 400;
             line-height: 1.6;
             overflow-x: hidden;
+            opacity: 0;
+            animation: bodyFadeIn 0.6s ease forwards;
+            animation-delay: 2.2s;
+        }
+
+        @keyframes bodyFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         /* ============================================================
@@ -117,7 +437,7 @@
         }
 
         /* ============================================================
-           NAVBAR - MOBILE COM HAMBURGUER
+           NAVBAR
            ============================================================ */
         .navbar {
             position: fixed;
@@ -162,7 +482,6 @@
             flex-shrink: 0;
         }
 
-        /* ===== BOTÃO HAMBURGUER ===== */
         .hamburger {
             display: flex;
             flex-direction: column;
@@ -211,7 +530,6 @@
             transform: translateY(-7.5px) rotate(-45deg);
         }
 
-        /* ===== NAV LINKS (Desktop) ===== */
         .nav-links {
             display: none;
             gap: 16px;
@@ -219,7 +537,8 @@
             align-items: center;
         }
 
-        .nav-links a {
+        .nav-links a,
+        .nav-links span {
             text-decoration: none;
             color: var(--text-secondary);
             font-weight: 600;
@@ -237,7 +556,11 @@
             border-bottom-color: var(--accent-1);
         }
 
-        /* ===== NAV ACTIONS (Ícones) ===== */
+        .nav-links span {
+            opacity: 0.6;
+            cursor: default;
+        }
+
         .nav-actions {
             display: flex;
             gap: 4px;
@@ -292,8 +615,76 @@
             height: 30px;
         }
 
+        .btn-translate {
+            font-size: 1.1rem;
+        }
+
         /* ============================================================
-           MENU HAMBURGUER - OVERLAY E SIDEBAR
+           DROPDOWN DE TRADUÇÃO
+           ============================================================ */
+        .translate-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .translate-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 42px;
+            background: var(--bg-card);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            box-shadow: var(--shadow-glass), var(--shadow-neon);
+            min-width: 160px;
+            padding: 8px 0;
+            z-index: 1001;
+            overflow: hidden;
+        }
+
+        .translate-dropdown-content.show {
+            display: block;
+            animation: dropdownFade 0.25s ease;
+        }
+
+        @keyframes dropdownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .translate-dropdown-content button {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .translate-dropdown-content button:hover {
+            background: var(--gradient-glass);
+            color: var(--accent-1);
+        }
+
+        .translate-dropdown-content .flag {
+            margin-right: 10px;
+        }
+
+        /* ============================================================
+           MENU HAMBURGUER
            ============================================================ */
         .menu-overlay {
             position: fixed;
@@ -429,6 +820,16 @@
             color: #fff;
         }
 
+        .menu-item.disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        .menu-item.disabled:hover {
+            background: none;
+            color: var(--text-secondary);
+        }
+
         .menu-divider {
             height: 1px;
             background: var(--border-glass);
@@ -445,9 +846,6 @@
             flex-shrink: 0;
         }
 
-        /* ============================================================
-           DROPDOWN (dentro do menu)
-           ============================================================ */
         .menu-language-selector {
             padding: 0 12px;
             margin: 4px 0;
@@ -477,7 +875,7 @@
         }
 
         /* ============================================================
-           CONTAINER
+           CONTEÚDO PRINCIPAL
            ============================================================ */
         .container {
             flex: 1;
@@ -497,9 +895,6 @@
             box-shadow: var(--shadow-glass), var(--shadow-neon);
         }
 
-        /* ============================================================
-           HERO
-           ============================================================ */
         .hero-text {
             text-align: center;
             padding: 4px 0 2px 0;
@@ -532,9 +927,6 @@
             border-radius: 4px;
         }
 
-        /* ============================================================
-           BENEFÍCIOS
-           ============================================================ */
         .benefits-section {
             margin: 12px 0 20px 0;
         }
@@ -592,9 +984,6 @@
             display: block;
         }
 
-        /* ============================================================
-           CALCULADORA
-           ============================================================ */
         .calc-title {
             font-size: 1.5rem;
             font-weight: 800;
@@ -741,9 +1130,6 @@
             box-shadow: 0 4px 20px rgba(79, 172, 254, 0.3), var(--glow-neon);
         }
 
-        /* ============================================================
-           RESULTADO
-           ============================================================ */
         #resultado {
             margin-top: 20px;
             background: var(--bg-glass);
@@ -804,9 +1190,6 @@
             font-weight: 500;
         }
 
-        /* ============================================================
-           BOTÃO VOLTAR AO TOPO
-           ============================================================ */
         .back-to-top {
             position: fixed;
             bottom: 80px;
@@ -846,9 +1229,6 @@
             box-shadow: var(--shadow-neon), var(--glow-neon);
         }
 
-        /* ============================================================
-           CHAT
-           ============================================================ */
         .chat-toggle {
             position: fixed;
             bottom: 16px;
@@ -1110,9 +1490,6 @@
             transform: scale(0.95);
         }
 
-        /* ============================================================
-           RODAPÉ
-           ============================================================ */
         footer {
             margin-top: auto;
             background: var(--footer-bg);
@@ -1460,6 +1837,39 @@
                 font-size: 1.1rem;
                 width: 24px;
             }
+
+            .splash-logo {
+                font-size: 3rem;
+            }
+
+            .splash-sub {
+                font-size: 0.8rem;
+                letter-spacing: 3px;
+            }
+
+            .splash-progress {
+                width: 150px;
+            }
+
+            .splash-ring:nth-child(1) {
+                width: 200px;
+                height: 200px;
+            }
+
+            .splash-ring:nth-child(2) {
+                width: 280px;
+                height: 280px;
+            }
+
+            .splash-ring:nth-child(3) {
+                width: 140px;
+                height: 140px;
+            }
+
+            .translate-dropdown-content {
+                right: -4px;
+                min-width: 140px;
+            }
         }
 
         /* ============================================================
@@ -1478,9 +1888,50 @@
             -webkit-user-select: none;
             user-select: none;
         }
+
+        /* ============================================================
+           ANIMAÇÃO DE ENTRADA DOS CARDS
+           ============================================================ */
+        .card {
+            animation: cardFadeUp 0.6s ease both;
+            animation-delay: 2.4s;
+        }
+
+        @keyframes cardFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- ============================================================
+    SPLASH SCREEN
+    ============================================================ -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-particles">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span>
+        </div>
+        <div class="splash-ring"></div>
+        <div class="splash-ring"></div>
+        <div class="splash-ring"></div>
+        <div class="splash-content">
+            <div class="splash-logo">📊 IMC<span>Pro</span></div>
+            <div class="splash-sub">Sua saúde em primeiro lugar</div>
+            <div class="splash-progress">
+                <div class="splash-progress-bar"></div>
+            </div>
+            <div class="splash-percent">CARREGANDO...</div>
+        </div>
+    </div>
 
     <!-- ============================================================
     BARRA DE PROGRESSO
@@ -1488,7 +1939,7 @@
     <div class="progress-bar" id="progressBar"></div>
 
     <!-- ============================================================
-    NAVBAR - COM HAMBURGUER
+    NAVBAR
     ============================================================ -->
     <nav class="navbar" id="navbar">
         <div class="nav-left">
@@ -1501,13 +1952,26 @@
         </div>
 
         <ul class="nav-links">
-            <li><a id="navInicio">Início</a></li>
-            <li><a id="navSobre">Sobre</a></li>
-            <li><a id="navLogin">Login</a></li>
+            <li><span id="navInicio" style="cursor:default;opacity:0.6;">Início</span></li>
+            <li><a href="saude.html" id="navSaude">Cuidar da Saúde</a></li>
+            <li><a href="login.html" id="navLogin">Login</a></li>
         </ul>
 
         <div class="nav-actions">
             <span class="reading-time" id="readingTime">⏱️ <span id="timeDisplay">3</span> min</span>
+            <!-- DROPDOWN DE TRADUÇÃO -->
+            <div class="translate-dropdown">
+                <button class="btn-icon btn-translate" id="translateBtn" title="Traduzir">🌐</button>
+                <div class="translate-dropdown-content" id="translateDropdown">
+                    <button data-lang="pt"><span class="flag">🇵🇹</span> Português</button>
+                    <button data-lang="en"><span class="flag">🇺🇸</span> English</button>
+                    <button data-lang="es"><span class="flag">🇪🇸</span> Español</button>
+                    <button data-lang="fr"><span class="flag">🇫🇷</span> Français</button>
+                    <button data-lang="it"><span class="flag">🇮🇹</span> Italiano</button>
+                    <button data-lang="de"><span class="flag">🇩🇪</span> Deutsch</button>
+                    <button data-lang="ja"><span class="flag">🇯🇵</span> 日本語</button>
+                </div>
+            </div>
             <button class="btn-icon btn-theme" id="themeBtn">🌙</button>
         </div>
     </nav>
@@ -1527,16 +1991,15 @@
         </div>
 
         <div class="menu-items">
-            <button class="menu-item" data-target="inicio">
+            <span class="menu-item disabled">
                 <span class="icon">📊</span> Início
-            </button>
-            <button class="menu-item" data-target="sobre">
-                <span class="icon">💡</span> Sobre
-            </button>
-            <button class="menu-item" data-target="login">
+            </span>
+            <a href="saude.html" class="menu-item">
+                <span class="icon">💡</span> Cuidar da Saúde
+            </a>
+            <a href="login.html" class="menu-item">
                 <span class="icon">🔐</span> Login
-                <span class="badge">em breve</span>
-            </button>
+            </a>
 
             <div class="menu-divider"></div>
 
@@ -1565,7 +2028,7 @@
     </div>
 
     <!-- ============================================================
-    CONTEÚDO
+    CONTEÚDO PRINCIPAL
     ============================================================ -->
     <div class="container" id="inicio">
         <div class="card">
@@ -1679,13 +2142,20 @@
 
     <script>
         // ============================================================
+        // SPLASH SCREEN - FADE OUT APÓS 2.5s
+        // ============================================================
+        setTimeout(() => {
+            document.getElementById('splashScreen').classList.add('hide');
+        }, 2500);
+
+        // ============================================================
         // DICIONÁRIO COMPLETO
         // ============================================================
         const translations = {
             pt: {
                 navLogo: '📊 IMCPro',
                 navInicio: 'Início',
-                navSobre: 'Sobre',
+                navSaude: 'Cuidar da Saúde',
                 navLogin: 'Login',
                 heroTitle: '📊 IMC Profissional',
                 heroSub: 'Avalie sua saúde com precisão',
@@ -1713,7 +2183,7 @@
                 sug4: '⚠️ O que fazer se estou acima do peso?',
                 menuTitle: '📊 Menu',
                 menuHome: '📊 Início',
-                menuAbout: '💡 Sobre',
+                menuAbout: '💡 Cuidar da Saúde',
                 menuLogin: '🔐 Login',
                 menuTheme: 'Tema Escuro',
                 menuLanguage: 'Idioma',
@@ -1769,7 +2239,7 @@
             en: {
                 navLogo: '📊 BMIPro',
                 navInicio: 'Home',
-                navSobre: 'About',
+                navSaude: 'Health Care',
                 navLogin: 'Login',
                 heroTitle: '📊 BMI Professional',
                 heroSub: 'Evaluate your health with precision',
@@ -1797,7 +2267,7 @@
                 sug4: '⚠️ What if I am overweight?',
                 menuTitle: '📊 Menu',
                 menuHome: '📊 Home',
-                menuAbout: '💡 About',
+                menuAbout: '💡 Health Care',
                 menuLogin: '🔐 Login',
                 menuTheme: 'Dark Theme',
                 menuLanguage: 'Language',
@@ -1853,7 +2323,7 @@
             es: {
                 navLogo: '📊 IMCPro',
                 navInicio: 'Inicio',
-                navSobre: 'Sobre',
+                navSaude: 'Cuidar la Salud',
                 navLogin: 'Iniciar sesión',
                 heroTitle: '📊 IMC Profesional',
                 heroSub: 'Evalúa tu salud con precisión',
@@ -1881,7 +2351,7 @@
                 sug4: '⚠️ ¿Qué hacer si tengo sobrepeso?',
                 menuTitle: '📊 Menú',
                 menuHome: '📊 Inicio',
-                menuAbout: '💡 Sobre',
+                menuAbout: '💡 Cuidar la Salud',
                 menuLogin: '🔐 Iniciar sesión',
                 menuTheme: 'Tema Oscuro',
                 menuLanguage: 'Idioma',
@@ -1937,7 +2407,7 @@
             fr: {
                 navLogo: '📊 IMCPro',
                 navInicio: 'Accueil',
-                navSobre: 'À propos',
+                navSaude: 'Soins de Santé',
                 navLogin: 'Connexion',
                 heroTitle: '📊 IMC Professionnel',
                 heroSub: 'Évaluez votre santé avec précision',
@@ -1965,7 +2435,7 @@
                 sug4: '⚠️ Que faire si je suis en surpoids?',
                 menuTitle: '📊 Menu',
                 menuHome: '📊 Accueil',
-                menuAbout: '💡 À propos',
+                menuAbout: '💡 Soins de Santé',
                 menuLogin: '🔐 Connexion',
                 menuTheme: 'Thème Sombre',
                 menuLanguage: 'Langue',
@@ -2021,7 +2491,7 @@
             it: {
                 navLogo: '📊 IMCPro',
                 navInicio: 'Home',
-                navSobre: 'Chi siamo',
+                navSaude: 'Cura della Salute',
                 navLogin: 'Accedi',
                 heroTitle: '📊 IMC Professionale',
                 heroSub: 'Valuta la tua salute con precisione',
@@ -2049,7 +2519,7 @@
                 sug4: '⚠️ Cosa fare se sono in sovrappeso?',
                 menuTitle: '📊 Menu',
                 menuHome: '📊 Home',
-                menuAbout: '💡 Chi siamo',
+                menuAbout: '💡 Cura della Salute',
                 menuLogin: '🔐 Accedi',
                 menuTheme: 'Tema Scuro',
                 menuLanguage: 'Lingua',
@@ -2105,7 +2575,7 @@
             de: {
                 navLogo: '📊 BMIPro',
                 navInicio: 'Start',
-                navSobre: 'Über uns',
+                navSaude: 'Gesundheitspflege',
                 navLogin: 'Anmelden',
                 heroTitle: '📊 BMI Professionell',
                 heroSub: 'Bewerten Sie Ihre Gesundheit mit Präzision',
@@ -2133,7 +2603,7 @@
                 sug4: '⚠️ Was tun bei Übergewicht?',
                 menuTitle: '📊 Menü',
                 menuHome: '📊 Start',
-                menuAbout: '💡 Über uns',
+                menuAbout: '💡 Gesundheitspflege',
                 menuLogin: '🔐 Anmelden',
                 menuTheme: 'Dunkles Thema',
                 menuLanguage: 'Sprache',
@@ -2189,7 +2659,7 @@
             ja: {
                 navLogo: '📊 BMIPro',
                 navInicio: 'ホーム',
-                navSobre: 'について',
+                navSaude: 'ヘルスケア',
                 navLogin: 'ログイン',
                 heroTitle: '📊 BMI プロフェッショナル',
                 heroSub: '健康を正確に評価する',
@@ -2217,7 +2687,7 @@
                 sug4: '⚠️ 過体重の場合はどうすればいいですか？',
                 menuTitle: '📊 メニュー',
                 menuHome: '📊 ホーム',
-                menuAbout: '💡 について',
+                menuAbout: '💡 ヘルスケア',
                 menuLogin: '🔐 ログイン',
                 menuTheme: 'ダークテーマ',
                 menuLanguage: '言語',
@@ -2286,6 +2756,8 @@
         const menuThemeIcon = document.getElementById('menuThemeIcon');
         const menuThemeText = document.getElementById('menuThemeText');
         const menuLanguageSelect = document.getElementById('menuLanguageSelect');
+        const translateBtn = document.getElementById('translateBtn');
+        const translateDropdown = document.getElementById('translateDropdown');
 
         const alturaSlider = document.getElementById('alturaSlider');
         const pesoSlider = document.getElementById('pesoSlider');
@@ -2299,8 +2771,6 @@
         const msgDisplay = document.getElementById('msgDisplay');
         const historicoDisplay = document.getElementById('historicoDisplay');
         const themeBtn = document.getElementById('themeBtn');
-        const translateBtn = document.getElementById('translateBtn');
-        const translateDropdown = document.getElementById('translateDropdown');
         const footerDate = document.getElementById('footerDate');
         const footerClock = document.getElementById('footerClock');
         const footerMsg = document.getElementById('footerMsg');
@@ -2320,6 +2790,25 @@
         let lastIMCValue = null;
         let currentLang = 'pt';
         let darkMode = false;
+
+        // ============================================================
+        // DROPDOWN DE TRADUÇÃO - ABRIR/FECHAR
+        // ============================================================
+        translateBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            translateDropdown.classList.toggle('show');
+        });
+
+        translateBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            translateDropdown.classList.toggle('show');
+        });
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', () => {
+            translateDropdown.classList.remove('show');
+        });
 
         // ============================================================
         // MENU HAMBURGUER
@@ -2363,35 +2852,6 @@
         menuClose.addEventListener('touchend', (e) => {
             e.preventDefault();
             closeMenu();
-        });
-
-        // ============================================================
-        // MENU ITEMS
-        // ============================================================
-        document.querySelectorAll('.menu-item[data-target]').forEach(item => {
-            item.addEventListener('click', () => {
-                const target = item.dataset.target;
-                if (target === 'inicio') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else if (target === 'sobre') {
-                    document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' });
-                } else if (target === 'login') {
-                    alert('🔐 Área de login em desenvolvimento!');
-                }
-                closeMenu();
-            });
-            item.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                const target = item.dataset.target;
-                if (target === 'inicio') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else if (target === 'sobre') {
-                    document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' });
-                } else if (target === 'login') {
-                    alert('🔐 Área de login em desenvolvimento!');
-                }
-                closeMenu();
-            });
         });
 
         // ============================================================
@@ -2587,7 +3047,7 @@
         });
 
         // ============================================================
-        // TRADUÇÃO
+        // TRADUÇÃO - FUNÇÃO PRINCIPAL
         // ============================================================
         function aplicarTraducao(lang) {
             currentLang = lang;
@@ -2596,7 +3056,7 @@
             // NAVBAR
             document.getElementById('navLogo').innerHTML = t.navLogo;
             document.getElementById('navInicio').textContent = t.navInicio;
-            document.getElementById('navSobre').textContent = t.navSobre;
+            document.getElementById('navSaude').textContent = t.navSaude;
             document.getElementById('navLogin').textContent = t.navLogin;
 
             // HERO
@@ -2637,13 +3097,13 @@
             footerMsg.textContent = t.footerMsg;
             footerLove.textContent = t.footerLove;
 
-            // CHAT
+            // CHAT - IA TRADUZIDA
             chatTitle.textContent = t.chatTitle;
             chatGreeting.textContent = t.chatGreeting;
             chatInput.placeholder = t.chatPlaceholder;
             chatSend.textContent = t.chatSend;
 
-            // SUGESTÕES
+            // SUGESTÕES DO CHAT TRADUZIDAS
             const sugs = [t.sug1, t.sug2, t.sug3, t.sug4];
             const suggestionBtns = chatSuggestions.querySelectorAll('button');
             suggestionBtns.forEach((btn, index) => {
@@ -2656,10 +3116,12 @@
 
             // MENU
             document.querySelector('.menu-title').textContent = t.menuTitle;
-            document.querySelectorAll('.menu-item[data-target="inicio"] .icon').forEach(el => {});
-            document.querySelector('.menu-item[data-target="inicio"]').innerHTML = `<span class="icon">📊</span> ${t.menuHome}`;
-            document.querySelector('.menu-item[data-target="sobre"]').innerHTML = `<span class="icon">💡</span> ${t.menuAbout}`;
-            document.querySelector('.menu-item[data-target="login"]').innerHTML = `<span class="icon">🔐</span> ${t.menuLogin} <span class="badge">em breve</span>`;
+            const menuItems = document.querySelectorAll('.menu-items .menu-item');
+            if (menuItems.length >= 3) {
+                menuItems[0].innerHTML = `<span class="icon">📊</span> ${t.menuHome}`;
+                menuItems[1].innerHTML = `<span class="icon">💡</span> ${t.menuAbout}`;
+                menuItems[2].innerHTML = `<span class="icon">🔐</span> ${t.menuLogin}`;
+            }
 
             // MENU LANGUAGE SELECT
             const langNames = {
@@ -2681,10 +3143,28 @@
             const themeIcon = darkMode ? '☀️' : '🌙';
             menuThemeIcon.textContent = themeIcon;
             menuThemeText.textContent = themeText;
+
+            // FECHAR DROPDOWN APÓS SELECIONAR
+            translateDropdown.classList.remove('show');
         }
 
         // ============================================================
-        // CHAT - ASSISTENTE IA
+        // BOTÕES DO DROPDOWN DE TRADUÇÃO
+        // ============================================================
+        document.querySelectorAll('.translate-dropdown-content button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                aplicarTraducao(lang);
+            });
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const lang = btn.dataset.lang;
+                aplicarTraducao(lang);
+            });
+        });
+
+        // ============================================================
+        // CHAT - ASSISTENTE IA (TRADUZIDA)
         // ============================================================
         chatToggle.addEventListener('click', () => {
             chatWindow.classList.toggle('open');
@@ -2708,7 +3188,9 @@
             const t = translations[currentLang] || translations.pt;
             const q = question.toLowerCase().trim().replace(/[?¿!¡.]/g, '');
 
+            // ===== SAUDAÇÕES E RESPOSTAS RÁPIDAS (TODOS IDIOMAS) =====
             const quickResponses = {
+                // Português
                 'obrigado': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
                 'obrigada': t.saudacao_obrigado || 'Por nada! 😊 Estou aqui para ajudar!',
                 'valeu': t.saudacao_valeu || 'Disponha! 😊',
@@ -2723,6 +3205,7 @@
                 'como esta': t.saudacao_comoesta || 'Estou bem, obrigado por perguntar! 😊 E você?',
                 'tudo bem': t.saudacao_tudobem || 'Tudo bem sim! Como posso ajudar você hoje? 😊',
                 'tudo bom': t.saudacao_tudobem || 'Tudo bem sim! Como posso ajudar você hoje? 😊',
+                // Inglês
                 'thanks': 'You\'re welcome! 😊 I\'m here to help!',
                 'thank you': 'You\'re welcome! 😊 I\'m here to help!',
                 'hi': 'Hello! How can I help you today? 😊',
@@ -2732,6 +3215,7 @@
                 'good afternoon': 'Good afternoon! 🌤️ How can I help?',
                 'good evening': 'Good evening! 🌙 How can I help?',
                 'how are you': 'I\'m fine, thanks for asking! 😊 And you?',
+                // Espanhol
                 'gracias': '¡De nada! 😊 ¡Estoy aquí para ayudar!',
                 'hola': '¡Hola! ¿Cómo puedo ayudarte hoy? 😊',
                 'adios': '¡Hasta luego! ¡Cuídate! 😊',
@@ -2739,16 +3223,20 @@
                 'buenas tardes': '¡Buenas tardes! 🌤️ ¿Cómo puedo ayudar?',
                 'buenas noches': '¡Buenas noches! 🌙 ¿Cómo puedo ayudar?',
                 'cómo estás': '¡Estoy bien, gracias por preguntar! 😊 ¿Y tú?',
+                // Francês
                 'merci': 'De rien! 😊 Je suis là pour aider!',
                 'bonjour': 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
                 'salut': 'Bonjour! Comment puis-je vous aider aujourd\'hui? 😊',
                 'au revoir': 'Au revoir! Prenez soin de vous! 😊',
+                // Italiano
                 'grazie': 'Prego! 😊 Sono qui per aiutare!',
                 'ciao': 'Ciao! Come posso aiutarti oggi? 😊',
                 'arrivederci': 'Arrivederci! Prenditi cura di te! 😊',
+                // Alemão
                 'danke': 'Gern geschehen! 😊 Ich bin hier, um zu helfen!',
                 'hallo': 'Hallo! Wie kann ich Ihnen heute helfen? 😊',
                 'tschüss': 'Auf Wiedersehen! Passen Sie auf sich auf! 😊',
+                // Japonês
                 'ありがとう': 'どういたしまして！ 😊 お手伝いします！',
                 'こんにちは': 'こんにちは！今日はどのようにお手伝いできますか？ 😊',
                 'さようなら': 'さようなら！お大事に！ 😊'
@@ -2760,6 +3248,7 @@
                 }
             }
 
+            // ===== PERGUNTAS E RESPOSTAS =====
             const qKeys = Object.keys(t).filter(key => key.startsWith('q'));
             const aKeys = Object.keys(t).filter(key => key.startsWith('a'));
 
@@ -2774,6 +3263,7 @@
                 }
             }
 
+            // ===== PALAVRAS-CHAVE =====
             const keywords = {
                 'imc': ['q1', 'q2', 'q3'],
                 'calcular': ['q2'],
@@ -2803,6 +3293,7 @@
                 }
             }
 
+            // ===== RESPOSTA PADRÃO =====
             const defaultResponses = {
                 pt: 'Desculpe, não entendi sua pergunta. Posso ajudar com IMC, alimentação, exercícios, doenças, saúde mental e bem-estar. Tente reformular! 😊',
                 en: 'Sorry, I didn\'t understand your question. I can help with BMI, nutrition, exercise, diseases, mental health and wellness. Try rephrasing! 😊',
